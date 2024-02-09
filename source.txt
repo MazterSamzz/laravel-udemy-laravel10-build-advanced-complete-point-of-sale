@@ -1,1 +1,15 @@
 https://www.udemy.com/course/laravel-build-complete-point-of-sale/
+
+Video
+	Composer : 2.2.7 2022-02-25
+	Laravel  : 9.4.1
+	PHP		 : 8.1.2
+	Node	 : 
+
+
+
+Project
+	Composer : 2.6.6 2023-12-08
+	Laravel  : 10.43.0
+	PHP		 : 8.2.12 
+	Node	 : 20.11.0
