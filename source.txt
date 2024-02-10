@@ -4,7 +4,7 @@ Video
 	Composer : 2.2.7 2022-02-25
 	Laravel  : 9.4.1
 	PHP		 : 8.1.2
-	Node	 : 
+	Node	 : 16.14.0
 
 
 
