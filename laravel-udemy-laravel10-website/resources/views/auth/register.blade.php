@@ -44,31 +44,56 @@
 
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" id="name" type="text" name="name" required="" placeholder="Name">
+                                        <input class="form-control" id="name" type="text" name="name" value="{{ old('name') }}" required="" placeholder="Name" autofocus autocomplete="name">
+                                        @if($errors->has('name'))
+                                            <div class="mt-2 text-danger">
+                                                {{ $errors->first('name') }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" id="username" type="text" name="username" required="" placeholder="Username">
+                                        <input class="form-control" id="username" type="text" name="username" value="{{ old('username') }}" required="" placeholder="Username" autocomplete="username">
+                                        @if($errors->has('username'))
+                                            <div class="mt-2 text-danger">
+                                                {{ $errors->first('username') }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" id="email" type="email" name="email" required="" placeholder="Email">
+                                        <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" required="" placeholder="Email" autocomplete="email">
+                                        @if($errors->has('email'))
+                                            <div class="mt-2 text-danger">
+                                                {{ $errors->first('email') }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" id="password" type="password" name="password" required="" placeholder="Password">
+                                        <input class="form-control" id="password" type="password" name="password" required="" placeholder="Password" autocomplete="new-password" >
+                                        @if($errors->has('password'))
+                                                <div class="mt-2 text-danger">
+                                                    {{ $errors->first('password') }}
+                                                </div>
+                                            @endif
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" required="" placeholder="Password Confirmation">
+                                        <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" required="" placeholder="Password Confirmation" autocomplete="new-password">
+                                        @if($errors->has('password_confirmation'))
+                                            <div class="mt-2 text-danger">
+                                                {{ $errors->first('password_confirmation') }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
     

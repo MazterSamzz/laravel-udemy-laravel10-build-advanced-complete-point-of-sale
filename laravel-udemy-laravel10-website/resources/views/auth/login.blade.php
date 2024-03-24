@@ -44,13 +44,19 @@
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input id="username" name="username" class="form-control" type="text" required="" placeholder="Username">
+                                        <input id="username" name="username" value="{{ old('username') }}" class="form-control" type="text" required="" placeholder="Username" autofocus autocomplete="username">
+                                        @if($errors->has('username'))
+                                            <div class="mt-2 text-danger">
+                                                {{ $errors->first('username') }}
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
-                                        <input id="password" name="password" class="form-control" type="password" required="" placeholder="Password">
+                                        <input id="password" name="password" class="form-control" type="password" required="" placeholder="Password" autocomplete="current-password">
                                     </div>
                                 </div>
     
