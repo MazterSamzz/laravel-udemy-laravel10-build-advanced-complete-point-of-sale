@@ -8,32 +8,32 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Edit Profile Page</h4>
+                            <h4 class="card-title">Home Slide Page</h4>
 
                             <form method="post" action="{{ route('store.profile') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mb-3">
-                                    <label  for="name" class="col-sm-2 col-form-label">Name</label>
+                                    <label  for="title" class="col-sm-2 col-form-label">Title</label>
                                     <div class="col-sm-10">
-                                        <input id="name" name="name" class="form-control" type="text" placeholder="Name" value="{{ $editData->name }}" />
+                                        <input id="title" name="title" class="form-control" type="text" placeholder="Title" value="{{ $homeslide->title }}" />
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
-                                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                    <label for="short_title" class="col-sm-2 col-form-label">Short Title</label>
                                     <div class="col-sm-10">
-                                        <input id="email" name="email" class="form-control" type="text" placeholder="Email" value="{{ $editData->email }}" />
+                                        <input id="short_title" name="short_title" class="form-control" type="text" placeholder="Short Title" value="{{ $homeslide->short_title }}" />
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
-                                    <label for="username" class="col-sm-2 col-form-label">Username</label>
+                                    <label for="video_url" class="col-sm-2 col-form-label">Video Url</label>
                                     <div class="col-sm-10">
-                                        <input id="username" name="username" class="form-control" type="text" placeholder="Username" value="{{ $editData->username }}" />
+                                        <input id="video_url" name="video_url" class="form-control" type="text" placeholder="Video Url" value="{{ $homeslide->video_url }}" />
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
-                                    <label for="profile_image" class="col-sm-2 col-form-label">Profile Image</label>
+                                    <label for="slider_image" class="col-sm-2 col-form-label">Slider Image</label>
                                     <div class="col-sm-10">
-                                        <input id="profile_image" name="profile_image" class="form-control" type="file" placeholder="Profile Image" />
+                                        <input id="slider_image" name="slider_image" class="form-control" type="file" placeholder="Slider Image" />
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
@@ -41,14 +41,14 @@
                                     <div class="col-sm-10">
                                         <img id="showImage" class="rounded avatar-lg"
                                             src=
-                                            "{{ (!empty($editData->profile_image)) ?
-                                            url('upload/admin_images/'.$editData->profile_image) :
+                                            "{{ (!empty($homeslide->home_slide)) ?
+                                            url('upload/homeslide/'.$homeslide->home_slide) :
                                             url('upload/no_image.jpg') }}"
 
                                             alt="Card image cap">
                                     </div>
                                 </div> <!-- end row -->
-                                <input type="submit" value="Update Profile" class="btn btn-info btn-round">
+                                <input type="submit" value="Update Slide" class="btn btn-info btn-round">
                             </form>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#profile_image').change(function (e){
+            $('#slider_image').change(function (e){
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#showImage').attr('src', e.target.result);
