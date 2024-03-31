@@ -67,4 +67,8 @@ class AboutController extends Controller
 
         return view('frontend.about_page', compact('aboutpage'));
     } // end method
+
+    public function AboutMultiImage() {
+        return view('admin.about_page.multi_image');
+    }
 }
