@@ -6,64 +6,9 @@
 <!-- banner-area-end -->
 
 <!-- about-area -->
-<section id="aboutSection" class="about">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <ul class="about__icons__wrap">
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/xd_light.png') }}" alt="XD">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/xd.png') }}" alt="XD">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/skeatch_light.png') }}" alt="Skeatch">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/skeatch.png') }}" alt="Skeatch">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/illustrator_light.png') }}" alt="Illustrator">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/illustrator.png') }}" alt="Illustrator">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/hotjar_light.png') }}" alt="Hotjar">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/hotjar.png') }}" alt="Hotjar">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/invision_light.png') }}" alt="Invision">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/invision.png') }}" alt="Invision">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/photoshop_light.png') }}" alt="Photoshop">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/photoshop.png') }}" alt="Photoshop">
-                    </li>
-                    <li>
-                        <img class="light" src="{{ asset('frontend/assets/img/icons/figma_light.png') }}" alt="Figma">
-                        <img class="dark" src="{{ asset('frontend/assets/img/icons/figma.png') }}" alt="Figma">
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-6">
-                <div class="about__content">
-                    <div class="section__title">
-                        <span class="sub-title">01 - About me</span>
-                        <h2 class="title">I have transform your ideas into remarkable digital products</h2>
-                    </div>
-                    <div class="about__exp">
-                        <div class="about__exp__icon">
-                            <img src="assets/img/icons/about_icon.png" alt="">
-                        </div>
-                        <div class="about__exp__content">
-                            <p>20+ Years Experience In this game, Means <br> Product Designing</p>
-                        </div>
-                    </div>
-                    <p class="desc">I love to work in User Experience & User Interface designing. Because I love to solve the design problem and find easy and better solutions to solve it. I always try my best to make good user interface with the best user experience. I have been working as a UX Designer</p>
-                    <a href="about.html" class="btn">Download my resume</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@include('frontend.home_all.home_about')
 <!-- about-area-end -->
-
+{{-- 
 <!-- services-area -->
 <section class="services">
     <div class="container">
@@ -1032,35 +977,35 @@
 </section>
 <!-- blog-area-end -->
 
-            <!-- contact-area -->
-            <section class="homeContact">
-                <div class="container">
-                    <div class="homeContact__wrap">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="section__title">
-                                    <span class="sub-title">07 - Say hello</span>
-                                    <h2 class="title">Any questions? Feel free <br> to contact</h2>
-                                </div>
-                                <div class="homeContact__content">
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-                                    <h2 class="mail"><a href="mailto:Info@webmail.com">Info@webmail.com</a></h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="homeContact__form">
-                                    <form action="#">
-                                        <input type="text" placeholder="Enter name*">
-                                        <input type="email" placeholder="Enter mail*">
-                                        <input type="number" placeholder="Enter number*">
-                                        <textarea name="message" placeholder="Enter Massage*"></textarea>
-                                        <button type="submit">Send Message</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+<!-- contact-area -->
+<section class="homeContact">
+    <div class="container">
+        <div class="homeContact__wrap">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section__title">
+                        <span class="sub-title">07 - Say hello</span>
+                        <h2 class="title">Any questions? Feel free <br> to contact</h2>
+                    </div>
+                    <div class="homeContact__content">
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                        <h2 class="mail"><a href="mailto:Info@webmail.com">Info@webmail.com</a></h2>
                     </div>
                 </div>
-            </section>
-            <!-- contact-area-end -->
+                <div class="col-lg-6">
+                    <div class="homeContact__form">
+                        <form action="#">
+                            <input type="text" placeholder="Enter name*">
+                            <input type="email" placeholder="Enter mail*">
+                            <input type="number" placeholder="Enter number*">
+                            <textarea name="message" placeholder="Enter Massage*"></textarea>
+                            <button type="submit">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- contact-area-end --> --}}
 @endsection
