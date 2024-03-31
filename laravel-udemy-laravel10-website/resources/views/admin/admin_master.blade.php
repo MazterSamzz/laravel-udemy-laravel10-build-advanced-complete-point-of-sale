@@ -136,6 +136,7 @@
         <!-- App js -->
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script>
             @if(Session::has('message'))                
                 var type = "{{ Session::get('alert-type', 'info') }}"
@@ -155,6 +156,13 @@
                 }
             @endif
         </script>
+        
+        <!--tinymce js-->
+        <script src="{{ asset('backend/assets/libs/tinymce/tinymce.min.js') }}"></script>
+
+        <!-- init js -->
+        <script src="{{ asset('backend/assets/js/pages/form-editor.init.js') }}"></script>
+
     </body>
 
 </html>
