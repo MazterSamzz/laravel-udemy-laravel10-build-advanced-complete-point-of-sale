@@ -170,6 +170,10 @@
         <!-- Datatable init js -->
         <script src="{{  asset('backend/assets/js/pages/datatables.init.js') }}" defer></script>
 
+        <!-- Sweet Alert 2 js -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+        <script src="{{  asset('backend/assets/js/code.js') }}" defer></script>
+
     </body>
 
 </html>
