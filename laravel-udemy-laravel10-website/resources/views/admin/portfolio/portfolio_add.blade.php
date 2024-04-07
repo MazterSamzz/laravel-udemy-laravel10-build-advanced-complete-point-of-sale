@@ -17,12 +17,18 @@
                                     <label  for="portfolio_name" class="col-sm-2 col-form-label">Portfolio Name</label> 
                                     <div class="col-sm-10">
                                         <input id="portfolio_name" name="portfolio_name" class="form-control" type="text" placeholder="Portfolio Name" value="{{ old('portfolio_name') }}" />
+                                        @error('portfolio_name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
                                     <label for="portfolio_title" class="col-sm-2 col-form-label">Portfolio Title</label>
                                     <div class="col-sm-10">
                                         <input id="portfolio_title" name="portfolio_title" class="form-control" type="text" placeholder="Portfolio Title" value="{{ old('portfolio_title') }}" />
+                                        @error('portfolio_title')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
@@ -35,6 +41,9 @@
                                     <label for="portfolio_image" class="col-sm-2 col-form-label">Portfolio Image</label>
                                     <div class="col-sm-10">
                                         <input id="image" name="portfolio_image" class="form-control" type="file" placeholder="Portfolio Image" />
+                                        @error('portfolio_image')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div> <!-- end row -->
                                 <div class="row mb-3">
