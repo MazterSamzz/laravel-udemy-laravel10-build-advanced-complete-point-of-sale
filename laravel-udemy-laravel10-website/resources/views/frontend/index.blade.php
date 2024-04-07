@@ -209,6 +209,7 @@
     </div>
 </section>
 <!-- work-process-area-end -->
+--}}
 
 <!-- portfolio-area -->
 <section class="portfolio">
@@ -819,7 +820,7 @@
     </div>
 </section>
 <!-- portfolio-area-end -->
-
+{{-- 
 <!-- partner-area -->
 <section class="partner">
     <div class="container">
