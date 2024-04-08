@@ -19,7 +19,7 @@ class PortfolioController extends Controller
         return view('admin.portfolio.portfolio_add');
     } // end method
 
-    public function StorePOrtfolio(Request $request) {
+    public function StorePortfolio(Request $request) {
 
         $request->validate([
             'portfolio_name' => 'required',
@@ -55,4 +55,53 @@ class PortfolioController extends Controller
 
         return redirect()->route('all.portfolio')->with($notification);
     } // end method
+
+    public function EditPortfolio($id) {
+        $portfolio = Portfolio::find($id);
+        return view('admin.portfolio.portfolio_edit', compact('portfolio'));
+    }
+
+    public function UpdatePortfolio(Request $request, $id) {
+        $portfolio_id = $id;
+
+        if ($request->file('portfolio_image')) {
+            $image = $request->file('portfolio_image');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+
+            $manager = new ImageManager(new Driver());
+            $img = $manager->read($image);
+            $img = $img->resize(1020, 519)->save('upload/portfolio/' . $name_gen);
+
+            $save_url = 'upload/portfolio/'.$name_gen;
+
+            Portfolio::findOrFail($portfolio_id)->update([
+                'portfolio_name' => $request->portfolio_name,
+                'portfolio_title' => $request->portfolio_title,
+                'portfolio_description' => $request->portfolio_description,
+                'portfolio_image' => $save_url,
+                'updated_at' => now(),
+            ]);
+
+            $notification = array(
+                'message' => 'Portfolio Updated with Image Successfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } else {
+            Portfolio::findOrFail($portfolio_id)->update([
+                'portfolio_name' => $request->portfolio_name,
+                'portfolio_title' => $request->portfolio_title,
+                'portfolio_description' => $request->portfolio_description,
+                'updated_at' => now(),
+            ]);
+
+            $notification = array(
+                'message' => 'Portfolio Updated without Image Successfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } // end else
+    }
 }
