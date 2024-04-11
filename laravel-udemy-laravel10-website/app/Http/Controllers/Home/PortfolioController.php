@@ -53,13 +53,13 @@ class PortfolioController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.portfolio')->with($notification);
+        return to_route('all.portfolio')->with($notification);
     } // end method
 
     public function EditPortfolio($id) {
         $portfolio = Portfolio::find($id);
         return view('admin.portfolio.portfolio_edit', compact('portfolio'));
-    }
+    } // end method
 
     public function UpdatePortfolio(Request $request, $id) {
         $portfolio_id = $id;
@@ -87,7 +87,7 @@ class PortfolioController extends Controller
                 'alert-type' => 'success'
             );
 
-            return redirect()->back()->with($notification);
+            return to_route('all.portfolio')->with($notification);
         } else {
             Portfolio::findOrFail($portfolio_id)->update([
                 'portfolio_name' => $request->portfolio_name,
@@ -101,7 +101,22 @@ class PortfolioController extends Controller
                 'alert-type' => 'success'
             );
 
-            return redirect()->back()->with($notification);
+            return to_route('all.portfolio')->with($notification);
         } // end else
-    }
+    }  // end method
+    
+    public function DeletePortfolio($id) {
+        $portfolio = Portfolio::findOrFail($id);
+        $img = $portfolio->portfolio_image;
+        
+        unlink($img);
+        $portfolio->delete();
+        
+        $notification = array(
+            'message' => 'Portfolio Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return to_route('all.portfolio')->with($notification);
+    }  // end method
 }

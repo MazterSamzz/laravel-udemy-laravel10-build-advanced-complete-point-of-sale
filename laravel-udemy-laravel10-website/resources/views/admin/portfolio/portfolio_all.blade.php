@@ -39,8 +39,15 @@
                                     <td>{{ $item->portfolio_title }}</td>
                                     <td> <img src="{{ asset($item->portfolio_image) }}" alt="" style="width:60px; height:60px;"> </td>
                                     <td>
-                                        <a href="{{ route('edit.portfolio', $item->id) }}" class="btn btn-info sm" title="Edit Data"><i class="fas fa-edit"></i></a>
-                                        <a href="{{ route('delete.portfolio', $item->id) }}" id="delete" class="btn btn-danger sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a>
+                                        <div class="d-flex">
+                                            <a href="{{ route('edit.portfolio', $item->id) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                            {{-- <a href="{{ route('delete.portfolio', $item->id) }}" id="delete" class="btn btn-danger sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a> --}}
+                                            <form action="{{ route('destroy.portfolio', ['id'=> $item->id]) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button id="delete-{{ $item->id }}" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
