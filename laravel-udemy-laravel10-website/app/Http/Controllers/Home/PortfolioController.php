@@ -14,11 +14,11 @@ class PortfolioController extends Controller
     public function AllPortfolio() {
         $portfolio = Portfolio::latest()->get();
         return view('admin.portfolio.portfolio_all', compact('portfolio'));
-    } // end method
+    } // end of AllPortfolio
 
     public function AddPortfolio() {
         return view('admin.portfolio.portfolio_add');
-    } // end method
+    } // end of AddPortfolio
 
     public function StorePortfolio(Request $request) {
 
@@ -64,12 +64,12 @@ class PortfolioController extends Controller
         );
 
         return to_route('all.portfolio')->with($notification);
-    } // end method
+    } // end of Store Portfolio
 
     public function EditPortfolio($id) {
         $portfolio = Portfolio::find($id);
         return view('admin.portfolio.portfolio_edit', compact('portfolio'));
-    } // end method
+    } // end of EditPortfolio
 
     public function UpdatePortfolio(Request $request, $id) {
         
@@ -80,7 +80,6 @@ class PortfolioController extends Controller
             // save old $portfolio->image before it changed
             $oldImage = $portfolio->portfolio_image;
 
-            
             // This function declared at bottom of Portfolio Controller
             // resize image to $width and $height then return the $path/$file as string
             $save_url = $this->saveRezisedImage(
@@ -95,7 +94,6 @@ class PortfolioController extends Controller
             $portfolio->portfolio_image = $save_url;
             $portfolio->save();
 
-            // This function declared at bottom of Portfolio Controller
             // move File to current path/$newSubFolder (Default=bin)
             $this->moveFile($oldImage, 'recycle bin');
 
@@ -135,7 +133,7 @@ class PortfolioController extends Controller
             
             return to_route('all.portfolio')->with($notification);
         } // end else
-    }  // end method
+    }  // end of UpdatePortfolio
     
     public function DeletePortfolio($id) {
         $portfolio = Portfolio::findOrFail($id);
@@ -150,7 +148,7 @@ class PortfolioController extends Controller
         );
 
         return to_route('all.portfolio')->with($notification);
-    }  // end method
+    }  // end of DeletePortfolio
 
     // Save $file to $path and Resize to $width and $height
     protected function saveRezisedImage($file, $path, $width=300, $height=300) {
@@ -166,7 +164,7 @@ class PortfolioController extends Controller
 
         // return image path as string
         return $save_url;
-    }
+    } // end of saveResizedImage
 
     // move $filePath = 'upload/portfolio/nama_file.jpg'
     // to 'upload/portfolio/$newSubFolder/namafile.jpg'
@@ -195,5 +193,5 @@ class PortfolioController extends Controller
         } else {
             return($sourcePath." file not found.");
         }
-    }
+    } // end of moveFile
 }
