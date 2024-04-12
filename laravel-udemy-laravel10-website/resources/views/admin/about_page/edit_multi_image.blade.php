@@ -12,6 +12,7 @@
 
                             <form method="post" action="{{ route('update.multi.image') }}" enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
 
                                 <input type="hidden" name="id" value={{ $multiImage->id }}>
 

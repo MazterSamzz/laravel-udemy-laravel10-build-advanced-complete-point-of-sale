@@ -24,6 +24,12 @@
                                     <div class="col-sm-10">
                                         <img id="showImage" class="rounded avatar-lg"
                                             src="{{url('upload/no_image.jpg') }}" alt="Card image cap">
+                                            @error('multi_image')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                            @error('multi_image.*')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                     </div>
                                 </div> <!-- end row -->
                                 <input type="submit" value="Add Multi Image" class="btn btn-info btn-round">
