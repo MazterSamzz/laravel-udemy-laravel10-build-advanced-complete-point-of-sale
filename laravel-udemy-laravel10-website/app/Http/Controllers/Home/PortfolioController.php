@@ -29,24 +29,29 @@ class PortfolioController extends Controller
             'portfolio_name.required' => 'Portfolio Name is Required',
             'portfolio_title.required' => 'Portfolio Title is Required',
             'portfolio_image.required' => 'Portfolio Image is Required',
+            'portfolio_image.image' => 'Portfolio Image must be an image',
+            'portfolio_image.mimes' => 'Portfolio Image must be a file of type: jpeg, png, jpg, gif',
+            'portfolio_image.max' => 'Portfolio Image must not exceed 2MB',
         ]);
 
-        $image = $request->file('portfolio_image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        // This function declared at Portfolio Controller
+        $save_url = $this->image_intervention($request->file('portfolio_image'));
 
-        $manager = new ImageManager(new Driver());
-        $img = $manager->read($image);
-        $img = $img->resize(1020, 519)->save('upload/portfolio/' . $name_gen);
+        $portfolio = new Portfolio;
 
-        $save_url = 'upload/portfolio/'.$name_gen;
+        $portfolio->portfolio_name = $request->portfolio_name;
+        $portfolio->portfolio_title = $request->portfolio_title;
+        $portfolio->portfolio_description = $request->portfolio_description;
+        $portfolio->portfolio_image = $save_url;
+        $portfolio->save();
 
-        Portfolio::insert([
-            'portfolio_name' => $request->portfolio_name,
-            'portfolio_title' => $request->portfolio_title,
-            'portfolio_description' => $request->portfolio_description,
-            'portfolio_image' => $save_url,
-            'created_at' => now(),
-        ]);
+        // -------- Mass Asignment --------
+        // Portfolio::create([
+        //     'portfolio_name' => $request->portfolio_name,
+        //     'portfolio_title' => $request->portfolio_title,
+        //     'portfolio_description' => $request->portfolio_description,
+        //     'portfolio_image' => $save_url,
+        // ]);
 
         $notification = array(
             'message' => 'Portfolio Inserted Successfully',
@@ -62,25 +67,28 @@ class PortfolioController extends Controller
     } // end method
 
     public function UpdatePortfolio(Request $request, $id) {
-        $portfolio_id = $id;
+        $portfolio = Portfolio::find($id);
 
         if ($request->file('portfolio_image')) {
-            $image = $request->file('portfolio_image');
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            
+            // This function declared at Portfolio Controller
+            $save_url = $this->image_intervention($request->file('portfolio_image'));
 
-            $manager = new ImageManager(new Driver());
-            $img = $manager->read($image);
-            $img = $img->resize(1020, 519)->save('upload/portfolio/' . $name_gen);
+            $portfolio->portfolio_name = $request->portfolio_name;
+            $portfolio->portfolio_title = $request->portfolio_title;
+            $portfolio->portfolio_description = $request->portfolio_description;
+            $portfolio->portfolio_image = $save_url;
+            $portfolio->save();
 
-            $save_url = 'upload/portfolio/'.$name_gen;
-
-            Portfolio::findOrFail($portfolio_id)->update([
-                'portfolio_name' => $request->portfolio_name,
-                'portfolio_title' => $request->portfolio_title,
-                'portfolio_description' => $request->portfolio_description,
-                'portfolio_image' => $save_url,
-                'updated_at' => now(),
-            ]);
+            // -------- Mass Asignment --------
+            // Portfolio::findOrFail($id)->update([
+            //     'portfolio_name' => $request->portfolio_name,
+            //     'portfolio_title' => $request->portfolio_title,
+            //     'portfolio_description' => $request->portfolio_description,
+            //     'portfolio_image' => $save_url,
+            //     'updated_at' => now(),
+            // ]);
+            // -------- End of Mass Asignment --------
 
             $notification = array(
                 'message' => 'Portfolio Updated with Image Successfully',
@@ -89,12 +97,17 @@ class PortfolioController extends Controller
 
             return to_route('all.portfolio')->with($notification);
         } else {
-            Portfolio::findOrFail($portfolio_id)->update([
-                'portfolio_name' => $request->portfolio_name,
-                'portfolio_title' => $request->portfolio_title,
-                'portfolio_description' => $request->portfolio_description,
-                'updated_at' => now(),
-            ]);
+            $portfolio->portfolio_name = $request->portfolio_name;
+            $portfolio->portfolio_title = $request->portfolio_title;
+            $portfolio->portfolio_description = $request->portfolio_description;
+            $portfolio->save();
+
+            // Portfolio::findOrFail($id)->update([
+            //     'portfolio_name' => $request->portfolio_name,
+            //     'portfolio_title' => $request->portfolio_title,
+            //     'portfolio_description' => $request->portfolio_description,
+            //     'updated_at' => now(),
+            // ]);
 
             $notification = array(
                 'message' => 'Portfolio Updated without Image Successfully',
@@ -107,8 +120,8 @@ class PortfolioController extends Controller
     
     public function DeletePortfolio($id) {
         $portfolio = Portfolio::findOrFail($id);
+
         $img = $portfolio->portfolio_image;
-        
         unlink($img);
         $portfolio->delete();
         
@@ -119,4 +132,19 @@ class PortfolioController extends Controller
 
         return to_route('all.portfolio')->with($notification);
     }  // end method
+
+    // Image Intervention Function
+    protected function image_intervention($file) {
+        // create save_url
+        $image = $file;
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        $save_url = 'upload/portfolio/'.$name_gen;
+
+        // Image Intervention and upload image
+        $manager = new ImageManager(new Driver());
+        $img = $manager->read($image);
+        $img = $img->resize(1020, 519)->save($save_url);
+
+        return $save_url;
+    }
 }
