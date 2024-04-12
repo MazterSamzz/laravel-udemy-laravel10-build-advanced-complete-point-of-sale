@@ -80,12 +80,11 @@ class AboutController extends Controller
 
         foreach ($multi_images as $image) {
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $save_url = 'upload/multi/'.$name_gen;
 
             $manager = new ImageManager(new Driver());
             $img = $manager->read($image);
             $img = $img->resize(220, 220)->save('upload/multi/' . $name_gen);
-
-            $save_url = 'upload/multi/'.$name_gen;
 
             MultiImage::insert([
                 'multi_image' => $save_url,
@@ -152,4 +151,5 @@ class AboutController extends Controller
 
         return redirect()->back()->with($notification);
     }
+    
 }

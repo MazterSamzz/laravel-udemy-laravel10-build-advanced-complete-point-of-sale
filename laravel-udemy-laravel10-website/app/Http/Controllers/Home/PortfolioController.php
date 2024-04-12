@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Portfolio;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\GD\Driver;
+use Illuminate\Support\Facades\File;
 
 class PortfolioController extends Controller
 {
@@ -34,8 +35,12 @@ class PortfolioController extends Controller
             'portfolio_image.max' => 'Portfolio Image must not exceed 2MB',
         ]);
 
-        // This function declared at Portfolio Controller
-        $save_url = $this->image_intervention($request->file('portfolio_image'));
+        // this->saveRezisedImage($file, $path, $width, $height)
+        $save_url = $this->saveRezisedImage(
+            $request->file('portfolio_image'),
+            'upload/portfolio/',
+            1020, 519
+        );
 
         $portfolio = new Portfolio;
 
@@ -67,18 +72,32 @@ class PortfolioController extends Controller
     } // end method
 
     public function UpdatePortfolio(Request $request, $id) {
+        
         $portfolio = Portfolio::find($id);
 
         if ($request->file('portfolio_image')) {
+
+            // save old $portfolio->image before it changed
+            $oldImage = $portfolio->portfolio_image;
+
             
-            // This function declared at Portfolio Controller
-            $save_url = $this->image_intervention($request->file('portfolio_image'));
+            // This function declared at bottom of Portfolio Controller
+            // resize image to $width and $height then return the $path/$file as string
+            $save_url = $this->saveRezisedImage(
+                    $request->file('portfolio_image'),
+                    'upload/portfolio/',
+                    1020, 519
+                );
 
             $portfolio->portfolio_name = $request->portfolio_name;
             $portfolio->portfolio_title = $request->portfolio_title;
             $portfolio->portfolio_description = $request->portfolio_description;
             $portfolio->portfolio_image = $save_url;
             $portfolio->save();
+
+            // This function declared at bottom of Portfolio Controller
+            // move File to current path/$newSubFolder (Default=bin)
+            $this->moveFile($oldImage, 'recycle bin');
 
             // -------- Mass Asignment --------
             // Portfolio::findOrFail($id)->update([
@@ -113,7 +132,7 @@ class PortfolioController extends Controller
                 'message' => 'Portfolio Updated without Image Successfully',
                 'alert-type' => 'success'
             );
-
+            
             return to_route('all.portfolio')->with($notification);
         } // end else
     }  // end method
@@ -133,18 +152,48 @@ class PortfolioController extends Controller
         return to_route('all.portfolio')->with($notification);
     }  // end method
 
-    // Image Intervention Function
-    protected function image_intervention($file) {
-        // create save_url
+    // Save $file to $path and Resize to $width and $height
+    protected function saveRezisedImage($file, $path, $width=300, $height=300) {
+        // create save_url (image path as string)
         $image = $file;
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        $save_url = 'upload/portfolio/'.$name_gen;
+        $save_url = $path.$name_gen;
 
-        // Image Intervention and upload image
+        // Image Intervention Resize to $width and $height then upload image
         $manager = new ImageManager(new Driver());
         $img = $manager->read($image);
-        $img = $img->resize(1020, 519)->save($save_url);
+        $img = $img->resize($width, $height)->save($save_url);
 
+        // return image path as string
         return $save_url;
+    }
+
+    // move $filePath = 'upload/portfolio/nama_file.jpg'
+    // to 'upload/portfolio/$newSubFolder/namafile.jpg'
+    public function moveFile($filePath, $newSubFolder='bin')
+    {
+        $imgDir = dirname($filePath); // dirname($filePath) // Output: upload/portfolio
+        $imgName = basename($filePath); // basename($filePath) // Output: nama_file.jpg
+
+        $sourcePath = $filePath;
+        $destinationPath = $imgDir. '/' . $newSubFolder . '/' . $imgName;
+
+        
+
+        // If file exist, Move the file to the new folder
+        if (File::exists($sourcePath)) {
+
+            // Create Folder if the folder not exist
+            if (!File::exists($imgDir.'/'.$newSubFolder)) {
+                File::makeDirectory($imgDir.'/'.$newSubFolder, 0777, true, true);
+            }
+
+            // move file from $sourcePath to $destinationPath
+            File::move($sourcePath, $destinationPath);
+            // dd("File moved successfully from " . $sourcePath . " to: " . $destinationPath);
+
+        } else {
+            return($sourcePath." file not found.");
+        }
     }
 }
