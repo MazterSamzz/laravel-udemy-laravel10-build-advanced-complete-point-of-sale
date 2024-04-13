@@ -150,6 +150,12 @@ class PortfolioController extends Controller
         return to_route('all.portfolio')->with($notification);
     }  // end of DeletePortfolio
 
+    public function PortfolioDetails($id) {
+
+        $portfolio = Portfolio::find($id);
+        return view('frontend.portfolio_details', compact('portfolio'));
+    }
+
     // Save $file to $path and Resize to $width and $height
     protected function saveRezisedImage($file, $path, $width=300, $height=300) {
         // create save_url (image path as string)

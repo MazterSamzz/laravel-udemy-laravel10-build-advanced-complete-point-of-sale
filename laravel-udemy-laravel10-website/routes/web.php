@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Home\HomeSliderController;
 use App\Http\Controllers\Home\AboutController;
 use App\Http\Controllers\Home\PortfolioController;
+use App\Http\Controllers\Home\BlogCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,16 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Portfolio All Route
-    Route::controller(PortfolioController::class)->group( function () {
-        Route::get('/all/portfolio', 'AllPortfolio')->name('all.portfolio');
-        Route::get('/add/portfolio', 'AddPortfolio')->name('add.portfolio');
-        Route::post('/store/portfolio', 'StorePortfolio')->name('store.portfolio');
-        Route::get('/edit/portfolio/{id}', 'EditPortfolio')->name('edit.portfolio');
-        Route::put('/update/portfolio/{id}', 'UpdatePortfolio')->name('update.portfolio');
-        Route::delete('/delete/portfolio/{id}', 'DeletePortfolio')->name('destroy.portfolio');
-    });
 
     // Admin All Controller
     Route::controller(AdminController::class)->group( function () {
@@ -73,6 +64,39 @@ Route::middleware('auth')->group(function () {
         Route::put('/update/multi/image/', 'UpdateMultiImage')->name('update.multi.image');
         Route::delete('/delete/multi/image/{id}', 'DeleteMultiImage')->name('delete.multi.image');
     });
+    
+    // Portfolio All Route
+    Route::controller(PortfolioController::class)->group( function () {
+        Route::get('/all/portfolio', 'AllPortfolio')->name('all.portfolio');
+        Route::get('/add/portfolio', 'AddPortfolio')->name('add.portfolio');
+        Route::post('/store/portfolio', 'StorePortfolio')->name('store.portfolio');
+        Route::get('/edit/portfolio/{id}', 'EditPortfolio')->name('edit.portfolio');
+        Route::put('/update/portfolio/{id}', 'UpdatePortfolio')->name('update.portfolio');
+        Route::delete('/delete/portfolio/{id}', 'DeletePortfolio')->name('destroy.portfolio');
+        Route::get('/portfolio/details/{id}', 'PortfolioDetails')->name('portfolio.details');
+    });
+
+    // // BlogCategory All Route
+    // Route::controller(BlogCategoryController::class)->group( function () {
+    //     Route::get('/blog-categories', 'index')->name('blog-categories.index');
+    //     // Route::put('/blog-categories/{id}', 'update')->name('blog-categories.update');
+    // });
+
+    // Blog Category using resource
+    Route::resources([
+        'blog-categories' => BlogCategoryController::class,
+    ]);
+
+    // bagian dibawah ini Otomatis terbuat
+    // GET /blog-categories (index): blog-categories.index
+    // GET /blog-categories/create (create): blog-categories.create
+    // POST /blog-categories (store): blog-categories.store
+    // GET /blog-categories/{blog_category} (show): blog-categories.show
+    // GET /blog-categories/{blog_category}/edit (edit): blog-categories.edit
+    // PUT/PATCH /blog-categories/{blog_category} (update): blog-categories.update
+    // DELETE /blog-categories/{blog_category} (destroy): blog-categories.destroy
+
+
 });
 
 require __DIR__.'/auth.php';

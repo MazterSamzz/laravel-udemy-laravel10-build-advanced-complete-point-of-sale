@@ -1,4 +1,4 @@
-// // Delete for <a href="xxx" id="delete"> </a>
+// ============ Delete for <a href="xxx" id="delete"> </a> ============
 // $(function () {
 //     $(document).on("click", "#delete", function (e) {
 //         e.preventDefault();
@@ -21,7 +21,7 @@
 //     });
 // });
 
-// Delete for Submit button
+// ============ Delete for Submit button ============
 $(function () {
     $(document).on("click", "[id='delete']", function (e) {
         e.preventDefault();
