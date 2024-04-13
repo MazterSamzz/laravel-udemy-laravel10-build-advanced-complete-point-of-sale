@@ -45,7 +45,7 @@
                                             <form action="{{ route('destroy.portfolio', ['id' => $item->id]) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <button id="delete-{{ $item->id }}" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                                <button id="delete" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt"></i></button>
                                             </form>
                                         </div>
                                     </td>

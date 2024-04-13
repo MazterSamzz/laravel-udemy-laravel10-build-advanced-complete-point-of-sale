@@ -7,6 +7,7 @@ use App\Http\Controllers\Home\HomeSliderController;
 use App\Http\Controllers\Home\AboutController;
 use App\Http\Controllers\Home\PortfolioController;
 use App\Http\Controllers\Home\BlogCategoryController;
+use App\Http\Controllers\Home\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,7 @@ Route::middleware('auth')->group(function () {
     // Blog Category using resource
     Route::resources([
         'blog-categories' => BlogCategoryController::class,
+        'blogs' => BlogController::class,
     ]);
 
     // bagian dibawah ini Otomatis terbuat
