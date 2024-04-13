@@ -61,24 +61,47 @@ class BlogCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(BlogCategory $blog_category)
     {
-        //
+        return view('admin.blog_categories.edit', compact('blog_category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BlogCategory $blog_category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ],
+        [
+            'name.required' => 'Blog Category Name is Required'
+        ]);
+
+        $blog_category->name = $request->name;
+        $blog_category->save();
+
+        $notification = array(
+            'message' => 'Blog category name updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return to_route('blog-categories.index')->with($notification);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(BlogCategory $blog_category)
     {
-        //
+        $blog_category->delete();
+        
+        $notification = array(
+            'message' => 'Blog Category Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return to_route('blog-categories.index')->with($notification);
     }
 }
