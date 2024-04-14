@@ -20,6 +20,10 @@ class Blog extends Model
         'description'
     ];
 
+    public function category() {
+        return $this->belongsTo(BlogCategory::class, 'blog_category_id', 'id');
+    }
+
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()

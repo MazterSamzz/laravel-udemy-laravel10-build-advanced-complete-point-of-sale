@@ -24,7 +24,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        $categories = BlogCategory::orderBy('name', 'asc')->get();
+        $categories = BlogCategory::orderBy('name', 'asc')->with('category')->get();
         return view('admin.blogs.create', compact('categories'));
     }
 
