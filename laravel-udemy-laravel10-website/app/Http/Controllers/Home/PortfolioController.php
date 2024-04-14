@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Portfolio;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\GD\Driver;
-use Illuminate\Support\Facades\File;
+use App\Helpers\ImageIntervention;
 
 class PortfolioController extends Controller
 {
@@ -25,7 +23,7 @@ class PortfolioController extends Controller
         $request->validate([
             'portfolio_name' => 'required',
             'portfolio_title' => 'required',
-            'portfolio_image' => 'required',
+            'portfolio_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ],[
             'portfolio_name.required' => 'Portfolio Name is Required',
             'portfolio_title.required' => 'Portfolio Title is Required',
@@ -36,7 +34,7 @@ class PortfolioController extends Controller
         ]);
 
         // this->saveRezisedImage($file, $path, $width, $height)
-        $save_url = $this->saveRezisedImage(
+        $save_url = ImageIntervention::saveRezisedImage(
             $request->file('portfolio_image'),
             'upload/portfolio/',
             1020, 519
@@ -82,7 +80,7 @@ class PortfolioController extends Controller
 
             // This function declared at bottom of Portfolio Controller
             // resize image to $width and $height then return the $path/$file as string
-            $save_url = $this->saveRezisedImage(
+            $save_url = ImageIntervention::saveRezisedImage(
                     $request->file('portfolio_image'),
                     'upload/portfolio/',
                     1020, 519
@@ -95,7 +93,7 @@ class PortfolioController extends Controller
             $portfolio->save();
 
             // move File to current path/$newSubFolder (Default=bin)
-            $this->moveFile($oldImage, 'recycle bin');
+            ImageIntervention::moveFile($oldImage, 'recycle bin');
 
             // -------- Mass Asignment --------
             // Portfolio::findOrFail($id)->update([
@@ -155,49 +153,4 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::find($id);
         return view('frontend.portfolio_details', compact('portfolio'));
     }
-
-    // Save $file to $path and Resize to $width and $height
-    protected function saveRezisedImage($file, $path, $width=300, $height=300) {
-        // create save_url (image path as string)
-        $image = $file;
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        $save_url = $path.$name_gen;
-
-        // Image Intervention Resize to $width and $height then upload image
-        $manager = new ImageManager(new Driver());
-        $img = $manager->read($image);
-        $img = $img->resize($width, $height)->save($save_url);
-
-        // return image path as string
-        return $save_url;
-    } // end of saveResizedImage
-
-    // move $filePath = 'upload/portfolio/nama_file.jpg'
-    // to 'upload/portfolio/$newSubFolder/namafile.jpg'
-    public function moveFile($filePath, $newSubFolder='bin')
-    {
-        $imgDir = dirname($filePath); // dirname($filePath) // Output: upload/portfolio
-        $imgName = basename($filePath); // basename($filePath) // Output: nama_file.jpg
-
-        $sourcePath = $filePath;
-        $destinationPath = $imgDir. '/' . $newSubFolder . '/' . $imgName;
-
-        
-
-        // If file exist, Move the file to the new folder
-        if (File::exists($sourcePath)) {
-
-            // Create Folder if the folder not exist
-            if (!File::exists($imgDir.'/'.$newSubFolder)) {
-                File::makeDirectory($imgDir.'/'.$newSubFolder, 0777, true, true);
-            }
-
-            // move file from $sourcePath to $destinationPath
-            File::move($sourcePath, $destinationPath);
-            // dd("File moved successfully from " . $sourcePath . " to: " . $destinationPath);
-
-        } else {
-            return($sourcePath." file not found.");
-        }
-    } // end of moveFile
 }

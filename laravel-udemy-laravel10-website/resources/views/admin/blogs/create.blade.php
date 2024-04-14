@@ -16,21 +16,21 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Add Blog Category</h4>
+                            <h4 class="card-title">Add Blog Page</h4>
 
-                            <form method="post" action="{{ route('blog-categories.store') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('blogs.store') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 {{-- Input Blog Category --}}
                                 <div class="row mb-3">
-                                    <label  for="blog_category_name" class="col-sm-2 col-form-label">Blog Category Name</label> 
+                                    <label  for="blog_category_id" class="col-sm-2 col-form-label">Blog Category Name</label> 
                                     <div class="col-sm-10">
                                         {{-- <input id="blog_category_name" name="blog_category_name" class="form-control" type="text" placeholder="Blog Category Name" value="{{ old('blog_category_name') }}" autofocus /> --}}
                                         <select name="blog_category_id" id="blog_category_name" class="form-select" aria-label="Default select example">
                                             <option selected="">Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
                                         </select>
                                         @error('blog_category_name')
                                             <span class="text-danger">{{ $message }}</span>
@@ -48,6 +48,17 @@
                                         @enderror
                                     </div>
                                 </div> <!-- end of Input Title -->
+                                
+                                {{-- Input Tags --}}
+                                <div class="row mb-3">
+                                    <label  for="tags" class="col-sm-2 col-form-label">Blog Tags</label> 
+                                    <div class="col-sm-10">
+                                        <input id="tags" name="tags" class="form-control" type="text" value="{{ old('tags') }}" data-role="tagsinput" />
+                                        @error('tags')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div> <!-- end of Input Tag -->
 
                                 {{-- Input Image --}}
                                 <div class="row mb-3">
@@ -85,16 +96,6 @@
                                     </div>
                                 </div> <!-- end of Input Description -->
 
-                                {{-- Input Tag --}}
-                                <div class="row mb-3">
-                                    <label  for="tags" class="col-sm-2 col-form-label">Blog Tag</label> 
-                                    <div class="col-sm-10">
-                                        <input id="tags" name="tags" class="form-control" type="text" placeholder="Blog Tags" value="{{ old('tags') }}" data-role="tagsinput" />
-                                        @error('tags')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div> <!-- end of Input Tag -->
                                 <input type="submit" value="Insert Blog Category" class="btn btn-info btn-round">
                             </form>
                         </div>
@@ -116,4 +117,5 @@
             });
         });
     </script>
+
 @endsection

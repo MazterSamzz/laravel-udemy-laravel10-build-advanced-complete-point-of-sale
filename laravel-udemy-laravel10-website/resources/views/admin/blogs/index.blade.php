@@ -24,10 +24,10 @@
                             <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Blog Category</th>
-                                <th>Blog Title</th>
-                                <th>Blog Tags</th>
-                                <th>Blog Image</th>
+                                <th>Category</th>
+                                <th>Title</th>
+                                <th>Tags</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -36,10 +36,10 @@
                                 @foreach ($blogs as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $item->blog_category }}</td>
+                                    <td>{{ $item->blog_category_id }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>{{ $item->tags }}</td>
-                                    <td>{{ $item->image }}</td>
+                                    <td><img src="{{ asset($item->image) }}" alt="" style="width:60px; height:60px;"></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('blog-categories.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit"></i></a>

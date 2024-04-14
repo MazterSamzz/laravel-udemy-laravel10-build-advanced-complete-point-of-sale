@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\About;
 use App\Models\MultiImage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\GD\Driver;
+use App\Helpers\ImageIntervention;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\File;
 
 class AboutController extends Controller
 {
@@ -49,7 +47,7 @@ class AboutController extends Controller
             $oldImage = $about->about_image;
 
             // resize image to $width and $height then return the $path/$file as string
-            $save_url = $this->saveRezisedImage(
+            $save_url = ImageIntervention::saveRezisedImage(
                     $request->file('about_image'),
                     'upload/home_about/',
                     220,
@@ -58,7 +56,7 @@ class AboutController extends Controller
             $about->about_image = $save_url;
 
             // move File to current path/$newSubFolder (Default=bin)
-            $this->moveFile($oldImage, 'recycle bin');
+            ImageIntervention::moveFile($oldImage, 'recycle bin');
 
             $notification = array(
                 'message' => 'About Page Updated with Image Successfully',
@@ -111,7 +109,7 @@ class AboutController extends Controller
             $multiImage = new MultiImage;
 
             // resize image to $width and $height then return the $path/$file as string
-            $multiImage->multi_image = $this->saveRezisedImage(
+            $multiImage->multi_image = ImageIntervention::saveRezisedImage(
                 $image,
                 'upload/multi/',
                 220,
@@ -147,7 +145,7 @@ class AboutController extends Controller
             // Save old path
             $oldImage = $multiImage->multi_image;
 
-            $multiImage->multi_image = $this->saveRezisedImage(
+            $multiImage->multi_image = ImageIntervention::saveRezisedImage(
                                             $request->file('multi_image'),
                                             'upload/multi/',
                                             220,
@@ -155,7 +153,7 @@ class AboutController extends Controller
             );
 
             // move File to current path/$newSubFolder (Default=bin)
-            $this->moveFile($oldImage, 'recycle bin');
+            ImageIntervention::moveFile($oldImage, 'recycle bin');
 
             $multiImage->save();
 
@@ -187,49 +185,4 @@ class AboutController extends Controller
 
         return to_route('all.multi.image')->with($notification);
     }
-
-    // Save $file to $path and Resize to $width and $height
-    protected function saveRezisedImage($file, $path, $width=300, $height=300) {
-        // create save_url (image path as string)
-        $image = $file;
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        $save_url = $path.$name_gen;
-
-        // Image Intervention Resize to $width and $height then upload image
-        $manager = new ImageManager(new Driver());
-        $img = $manager->read($image);
-        $img = $img->resize($width, $height)->save($save_url);
-
-        // return image path as string
-        return $save_url;
-    } // end of saveResizedImage
-
-    // move $filePath = 'upload/portfolio/nama_file.jpg'
-    // to 'upload/portfolio/$newSubFolder/namafile.jpg'
-    public function moveFile($filePath, $newSubFolder='bin')
-    {
-        $imgDir = dirname($filePath); // dirname($filePath) // Output: upload/portfolio
-        $imgName = basename($filePath); // basename($filePath) // Output: nama_file.jpg
-
-        $sourcePath = $filePath;
-        $destinationPath = $imgDir. '/' . $newSubFolder . '/' . $imgName;
-
-        
-
-        // If file exist, Move the file to the new folder
-        if (File::exists($sourcePath)) {
-
-            // Create Folder if the folder not exist
-            if (!File::exists($imgDir.'/'.$newSubFolder)) {
-                File::makeDirectory($imgDir.'/'.$newSubFolder, 0777, true, true);
-            }
-
-            // move file from $sourcePath to $destinationPath
-            File::move($sourcePath, $destinationPath);
-            // dd("File moved successfully from " . $sourcePath . " to: " . $destinationPath);
-
-        } else {
-            return($sourcePath." file not found.");
-        }
-    } // end of moveFile
 }
