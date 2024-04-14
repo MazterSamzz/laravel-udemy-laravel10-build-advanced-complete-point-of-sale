@@ -42,7 +42,7 @@
                                     <td><img src="{{ asset($item->image) }}" alt="" style="width:60px; height:60px;"></td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('blogs.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit fa-2xs"></i></a>
+                                            <a href="{{ route('blogs.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit fa-xs"></i></a>
                                             <form action="{{ route('blogs.destroy', ['blog' => $item->slug]) }}" method="post">
                                                 @csrf
                                                 @method('delete')

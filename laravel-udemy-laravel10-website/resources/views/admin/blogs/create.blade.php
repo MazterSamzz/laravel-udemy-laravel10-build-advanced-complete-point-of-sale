@@ -27,12 +27,12 @@
                                     <div class="col-sm-10">
                                         {{-- <input id="blog_category_name" name="blog_category_name" class="form-control" type="text" placeholder="Blog Category Name" value="{{ old('blog_category_name') }}" autofocus /> --}}
                                         <select name="blog_category_id" id="blog_category_name" class="form-select" aria-label="Default select example">
-                                            <option selected="">Open this select menu</option>
+                                            <option selected disabled>Open this select menu</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('blog_category_name')
+                                        @error('blog_category_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>

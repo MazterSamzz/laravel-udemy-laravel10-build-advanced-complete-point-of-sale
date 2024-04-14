@@ -28,7 +28,7 @@
                                     <div class="col-sm-10">
                                         {{-- <input id="blog_category_name" name="blog_category_name" class="form-control" type="text" placeholder="Blog Category Name" value="{{ old('blog_category_name') }}" autofocus /> --}}
                                         <select name="blog_category_id" id="blog_category_name" class="form-select" aria-label="Default select example">
-                                            <option selected="">Open this select menu</option>
+                                            <option selected disabled>Open this select menu</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}" {{ $category->id == $blog->blog_category_id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endforeach
