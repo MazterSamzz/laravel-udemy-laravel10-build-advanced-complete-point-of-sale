@@ -1,5 +1,6 @@
 @extends('admin.admin_master')
 @section('admin')
+
 <div class="page-content">
     <div class="container-fluid">
 
@@ -19,7 +20,6 @@
                     <div class="card-body">
 
                         <h4 class="card-title">Blogs All Data</h4>
-
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
@@ -42,11 +42,11 @@
                                     <td><img src="{{ asset($item->image) }}" alt="" style="width:60px; height:60px;"></td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('blog-categories.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('blog-categories.destroy', ['blog_category' => $item->slug]) }}" method="post">
+                                            <a href="{{ route('blogs.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit fa-2xs"></i></a>
+                                            <form action="{{ route('blogs.destroy', ['blog' => $item->slug]) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <button id="delete" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                                <button id="delete" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt fa-xs"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -61,4 +61,5 @@
         </div> <!-- end row -->        
     </div> <!-- container-fluid -->
 </div><!-- End Page-content -->
+
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BlogCategory extends Model
 {
@@ -14,6 +15,11 @@ class BlogCategory extends Model
 
     protected $fillable = ['blog_category',];
 
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'blog_category_id', 'id');
+    }
+    
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()

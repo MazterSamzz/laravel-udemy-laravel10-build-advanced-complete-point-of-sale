@@ -24,7 +24,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        $categories = BlogCategory::orderBy('name', 'asc')->with('category')->get();
+        $categories = BlogCategory::orderBy('name', 'asc')->get();
         return view('admin.blogs.create', compact('categories'));
     }
 
@@ -40,9 +40,9 @@ class BlogController extends Controller
         ],[
             'blog_category_id.required' => 'Blog category is required',
             'title.required' => 'BLog title is required',
-            'multi_image.image' => 'All Images must be images',
-            'multi_image.mimes' => 'All Images must be a files of type: jpeg, png, jpg, gif',
-            'multi_image.max' => 'All images must not exceed 1MB',
+            'image.image' => 'Image must be image',
+            'image.mimes' => 'Image must be a files of type: jpeg, png, jpg, gif',
+            'image.max' => 'Image must not exceed 1MB',
         ]);
 
         $blog = new Blog;
@@ -50,11 +50,14 @@ class BlogController extends Controller
         $blog->title = $request->title;
         $blog->tags = $request->tags;
         $blog->description = $request->description;
-        $blog->image = ImageIntervention::saveRezisedImage(
-            $request->file('image'),
-            'upload/blog/',
-            430, 327
-        );
+
+        if($request->file('image')){
+            $blog->image = ImageIntervention::saveRezisedImage(
+                $request->file('image'),
+                'upload/blog/',
+                430, 327
+            );
+        }
 
         if($blog->save()) {
             $notification = array(
@@ -67,8 +70,6 @@ class BlogController extends Controller
                 'alert-type' => 'error'
             );
         }
-
-        
 
         return to_route('blogs.index')->with($notification);
 
@@ -87,7 +88,8 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        //
+        $categories = BlogCategory::orderBy('name', 'asc')->get();
+        return view('admin.blogs.edit', compact('blog','categories'));
     }
 
     /**
@@ -95,7 +97,44 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        //
+        $request->validate([
+            'blog_category_id' => 'required',
+            'title' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+        ],[
+            'blog_category_id.required' => 'Blog category is required',
+            'title.required' => 'BLog title is required',
+            'image.image' => 'Image must be image',
+            'image.mimes' => 'Image must be a files of type: jpeg, png, jpg, gif',
+            'image.max' => 'Image must not exceed 1MB',
+        ]);
+
+        $blog->blog_category_id = $request->blog_category_id;
+        $blog->title = $request->title;
+        $blog->tags = $request->tags;
+        $blog->description = $request->description;
+
+        if($request->file('image')){
+            $blog->image = ImageIntervention::saveRezisedImage(
+                $request->file('image'),
+                'upload/blog/',
+                430, 327
+            );
+        }
+
+        if($blog->save()) {
+            $notification = array(
+                'message' => 'Blog updated successfully',
+                'alert-type' => 'success'
+            );
+        } else {
+            $notification = array(
+                'message' => 'Failed to update blog',
+                'alert-type' => 'error'
+            );
+        }
+
+        return to_route('blogs.index')->with($notification);
     }
 
     /**
@@ -103,6 +142,14 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        unlink($blog->image);
+        $blog->delete();
+        
+        $notification = array(
+            'message' => 'Blog Category Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return to_route('blogs.index')->with($notification);
     }
 }
