@@ -80,7 +80,14 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        $blogs = Blog::latest()->limit(5)->get();
+        $categories = BlogCategory::all();
+        
+        foreach ($categories as $category) {
+            $count = Blog::where('blog_category_id', $category->id)->count();
+            $counts[] = [$category->id => $count];
+        }
+        return view('frontend.blog_details', compact('blog', 'blogs', 'categories', 'counts'));
     }
 
     /**
