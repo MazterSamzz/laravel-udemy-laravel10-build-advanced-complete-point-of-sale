@@ -15,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = BLog::latest()->get();
+        $blogs = Blog::latest()->get();
         return view('admin.blogs.index', compact('blogs'));
     }
 
@@ -82,12 +82,11 @@ class BlogController extends Controller
     {
         $blogs = Blog::latest()->limit(5)->get();
         $categories = BlogCategory::all();
-        
-        foreach ($categories as $category) {
-            $count = Blog::where('blog_category_id', $category->id)->count();
-            $counts[] = [$category->id => $count];
-        }
-        return view('frontend.blog_details', compact('blog', 'blogs', 'categories', 'counts'));
+
+        $breadcrumb['title'] = $blog->title;
+        $breadcrumb['item'] = 'BLOG DETAILS';
+
+        return view('frontend.blog_details', compact('blog', 'blogs', 'categories', 'breadcrumb'));
     }
 
     /**
@@ -159,4 +158,15 @@ class BlogController extends Controller
 
         return to_route('blogs.index')->with($notification);
     }
+
+    public function all()
+    {
+        $blogs = Blog::latest()->get();
+        $breadcrumb['title'] = 'All Blogs';
+        $breadcrumb['item'] = '';
+        $categories = BlogCategory::orderBy('name', 'asc')->get();
+
+        return view('frontend.blog.index', compact('blogs', 'breadcrumb', 'categories'));
+    }
+
 }

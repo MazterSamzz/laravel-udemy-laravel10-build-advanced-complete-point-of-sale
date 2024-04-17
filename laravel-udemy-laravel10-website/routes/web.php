@@ -8,6 +8,7 @@ use App\Http\Controllers\Home\AboutController;
 use App\Http\Controllers\Home\PortfolioController;
 use App\Http\Controllers\Home\BlogCategoryController;
 use App\Http\Controllers\Home\BlogController;
+use App\Http\Controllers\Home\FooterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,6 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('admin.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,11 +83,10 @@ Route::middleware('auth')->group(function () {
     // });
 
     // Blog Category using resource
-    Route::resources([
-        'blog-categories' => BlogCategoryController::class,
-        'blogs' => BlogController::class,
-    ]);
-
+    Route::resource('blog-categories', BlogCategoryController::class)->except(['show']);
+    Route::resource('blogs', BlogController::class)->except(['show']);
+    Route::singleton('footer', FooterController::class)->except(['show']);
+    
     // bagian dibawah ini Otomatis terbuat
     // GET /blog-categories (index): blog-categories.index
     // GET /blog-categories/create (create): blog-categories.create
@@ -97,8 +95,17 @@ Route::middleware('auth')->group(function () {
     // GET /blog-categories/{blog_category}/edit (edit): blog-categories.edit
     // PUT/PATCH /blog-categories/{blog_category} (update): blog-categories.update
     // DELETE /blog-categories/{blog_category} (destroy): blog-categories.destroy
-
-
+    
 });
+
+//  Blogs all and show Routes
+Route::get('blogs/all', [BlogController::class, 'all'])->name('blogs.all');
+Route::get('blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+
+// Blog-categories show Route
+Route::get('blog-categories/{blog_category}', [BlogCategoryController::class, 'show'])->name('blog-categories.show');
+
+// Footer Singleton Routes
+Route::get('footer', [BlogController::class, 'show'])->name('footer.show');
 
 require __DIR__.'/auth.php';

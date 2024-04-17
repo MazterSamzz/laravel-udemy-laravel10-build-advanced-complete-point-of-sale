@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BlogCategory;
+use App\Models\Blog;
 
 class BlogCategoryController extends Controller
 {
@@ -53,9 +54,15 @@ class BlogCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BlogCategory $blog_category)
     {
-        //
+        $blogs = Blog::where('blog_category_id', $blog_category->id)->orderBy('id', 'desc')->get();
+        $categories = BlogCategory::orderBy('name', 'asc')->get();
+
+        $breadcrumb['title'] = $blog_category->name;
+        $breadcrumb['item'] = strtoupper($blog_category->name) . ' BLOGS';
+
+        return view('frontend.blog_category_details', compact('blog_category', 'blogs', 'categories', 'breadcrumb'));
     }
 
     /**
