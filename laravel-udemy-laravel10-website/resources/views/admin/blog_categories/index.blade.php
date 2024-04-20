@@ -37,11 +37,8 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('blog-categories.edit', $item->slug) }}" class="btn btn-info sm me-2" title="Edit Data"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('blog-categories.destroy', ['blog_category' => $item->slug]) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button id="delete" class="btn btn-danger sm" title="Delete Data" type="submit"><i class="fas fa-trash-alt"></i></button>
-                                            </form>
+                                            @php ($action = route('blog-categories.destroy', ['blog_category' => $item->slug]))
+                                            @include('admin.parts.form-delete-button')
                                         </div>
                                     </td>
                                 </tr>
