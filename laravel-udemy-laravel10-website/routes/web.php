@@ -9,6 +9,7 @@ use App\Http\Controllers\Home\PortfolioController;
 use App\Http\Controllers\Home\BlogCategoryController;
 use App\Http\Controllers\Home\BlogController;
 use App\Http\Controllers\Home\FooterController;
+use App\Http\Controllers\Home\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('blog-categories', BlogCategoryController::class)->except(['show']);
     Route::resource('blogs', BlogController::class)->except(['show']);
     Route::singleton('footer', FooterController::class)->except(['show']);
+
+    
     
     // bagian dibawah ini Otomatis terbuat
     // GET /blog-categories (index): blog-categories.index
@@ -107,5 +110,10 @@ Route::get('blog-categories/{blog_category}', [BlogCategoryController::class, 's
 
 // Footer Singleton Routes
 Route::get('footer', [BlogController::class, 'show'])->name('footer.show');
+
+// ContactController Routes
+Route::controller(ContactController::class)->group(function() {
+    Route::get('/footer/create', 'create')->name('footer.create');
+});
 
 require __DIR__.'/auth.php';
