@@ -21,12 +21,12 @@
             </div>
             <div class="breadcrumb__wrap__icon">
                 <ul>
-                    <li><img src="assets/img/icons/breadcrumb_icon01.png" alt=""></li>
-                    <li><img src="assets/img/icons/breadcrumb_icon02.png" alt=""></li>
-                    <li><img src="assets/img/icons/breadcrumb_icon03.png" alt=""></li>
-                    <li><img src="assets/img/icons/breadcrumb_icon04.png" alt=""></li>
-                    <li><img src="assets/img/icons/breadcrumb_icon05.png" alt=""></li>
-                    <li><img src="assets/img/icons/breadcrumb_icon06.png" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon01.png') }}" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon02.png') }}" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon03.png') }}" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon04.png') }}" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon05.png') }}" alt=""></li>
+                    <li><img src="{{ asset('frontend/assets/img/icons/breadcrumb_icon06.png') }}" alt=""></li>
                 </ul>
             </div>
         </section>
@@ -42,23 +42,25 @@
         <!-- contact-area -->
         <div class="contact-area">
             <div class="container">
-                <form action="#" class="contact__form">
+                <form method="post" action="{{ route('contacts.store') }}" class="contact__form">
+                    @csrf
+                    @method('post')
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="text" placeholder="Enter your name*">
+                            <input name="name" type="text" placeholder="Enter your name*" value="{{ old('name') }}">
                         </div>
                         <div class="col-md-6">
-                            <input type="email" placeholder="Enter your mail*">
+                            <input name="email" type="email" placeholder="Enter your mail*" value="{{ old('email') }}">
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="Enter your subject*">
+                            <input name="subject" type="text" placeholder="Enter your subject*" value="{{ old('subject') }}">
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="Your Budget*">
+                            <input name="phone" type="text" placeholder="Enter Your Phone*" value="{{ old('phone') }}">
                         </div>
                     </div>
-                    <textarea name="message" id="message" placeholder="Enter your massage*"></textarea>
-                    <button type="submit" class="btn">send massage</button>
+                    <textarea name="message" id="message" placeholder="Enter your massage*" value="{{ old('message') }}"></textarea>
+                    <button type="submit" class="btn">Send Message</button>
                 </form>
             </div>
         </div>
@@ -71,7 +73,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="contact__info">
                             <div class="contact__info__icon">
-                                <img src="assets/img/icons/contact_icon01.png" alt="">
+                                <img src="{{ asset('frontend/assets/img/icons/contact_icon01.png') }}" alt="">
                             </div>
                             <div class="contact__info__content">
                                 <h4 class="title">address line</h4>
@@ -82,7 +84,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="contact__info">
                             <div class="contact__info__icon">
-                                <img src="assets/img/icons/contact_icon02.png" alt="">
+                                <img src="{{ asset('frontend/assets/img/icons/contact_icon02.png') }}" alt="">
                             </div>
                             <div class="contact__info__content">
                                 <h4 class="title">Phone Number</h4>
@@ -94,7 +96,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="contact__info">
                             <div class="contact__info__icon">
-                                <img src="assets/img/icons/contact_icon03.png" alt="">
+                                <img src="{{ asset('frontend/assets/img/icons/contact_icon03.png') }}" alt="">
                             </div>
                             <div class="contact__info__content">
                                 <h4 class="title">Mail Address</h4>
