@@ -9,6 +9,15 @@ use App\Models\Contact;
 class ContactController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $contacts = Contact::latest()->get();
+        return view('admin.contacts.index', compact('contacts'));
+    }
+
+    /**
      * Show the form for creating the resource.
      */
     public function create()
@@ -42,8 +51,31 @@ class ContactController extends Controller
             );
         }
 
-        return to_route(url('/'))->with($notification);
+        return to_route('contacts.create')->with($notification);
 
-    }
+    } // end of store
+
+    /**
+     * Remove the resource from storage.
+     */
+    public function destroy($id)
+    {
+        $contact = Contact::findOrFail($id);
+
+        if($contact->delete()) {
+            $notification = array(
+                'message' => 'Message deleted Successfully',
+                'alert-type' => 'success',
+            );
+        }else {
+            $notification = array(
+                'message' => 'Delete message failed',
+                'alert-type' => 'error',
+            );
+        }
+
+        return to_route('contacts.index')->with($notification);
+
+    } // end of destroy
 
 }

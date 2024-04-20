@@ -41,4 +41,7 @@ $(function () {
             }
         });
     });
+
+    // Menghilangkan atribut disabled dari tombol delete setelah penghapusan
+    $("button#delete").removeAttr("disabled");
 });

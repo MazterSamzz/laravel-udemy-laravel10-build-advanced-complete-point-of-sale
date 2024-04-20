@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="{{  asset('frontend/assets/css/default.css') }}">
         <link rel="stylesheet" href="{{  asset('frontend/assets/css/style.css') }}">
         <link rel="stylesheet" href="{{  asset('frontend/assets/css/responsive.css') }}">
+
     </head>
     <body>
 
@@ -65,5 +66,7 @@
         <script src="{{  asset('frontend/assets/js/wow.min.js') }}"></script>
         <script src="{{  asset('frontend/assets/js/plugins.js') }}"></script>
         <script src="{{  asset('frontend/assets/js/main.js') }}"></script>
+        @yield('js')
     </body>
+    
 </html>

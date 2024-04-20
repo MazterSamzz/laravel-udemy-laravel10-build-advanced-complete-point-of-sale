@@ -115,6 +115,8 @@ Route::get('footer', [BlogController::class, 'show'])->name('footer.show');
 Route::controller(ContactController::class)->group(function() {
     Route::get('/contacts/create', 'create')->name('contacts.create');
     Route::post('/contacts/store', 'store')->name('contacts.store');
+    Route::get('/contacts', 'index')->name('contacts.index');
+    Route::delete('/contacts/{id}', 'destroy')->name('contacts.destroy');
 });
 
 require __DIR__.'/auth.php';

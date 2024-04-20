@@ -83,6 +83,16 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-profile-line"></i>
+                        <span>Contact Message</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('contacts.index') }}">Contact Message</a></li>
+                    </ul>
+                </li>
+
                 <li class="menu-title">Components</li>
             </ul>
         </div>
