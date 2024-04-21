@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/update/portfolio/{id}', 'UpdatePortfolio')->name('update.portfolio');
         Route::delete('/delete/portfolio/{id}', 'DeletePortfolio')->name('destroy.portfolio');
         Route::get('/portfolio/details/{id}', 'PortfolioDetails')->name('portfolio.details');
+        Route::get('/portfolio', 'HomePortfolio')->name('home.portfolio');
     });
 
     // // BlogCategory All Route
