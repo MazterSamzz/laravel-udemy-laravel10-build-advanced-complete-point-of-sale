@@ -1,4 +1,9 @@
 @extends('frontend.main_master')
+
+@section('title')
+    Portfolio | Ivan - Personal Portfolio
+@endsection
+
 @section('main')
     <main>
 

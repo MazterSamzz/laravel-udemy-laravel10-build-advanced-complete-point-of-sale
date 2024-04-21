@@ -1,4 +1,9 @@
 @extends('frontend.main_master')
+
+@section('title')
+    Contact | Ivan - Personal Portfolio
+@endsection
+
 @section('main')
         
         <!-- Toastr Css -->

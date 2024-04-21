@@ -1,5 +1,12 @@
 @extends('frontend.main_master')
+
+@section('title')
+    Home | Ivan - Personal Portfolio
+@endsection
+
 @section('main')
+
+    
 
     <!-- banner-area -->
     @include('frontend.home_all.home_slide')
