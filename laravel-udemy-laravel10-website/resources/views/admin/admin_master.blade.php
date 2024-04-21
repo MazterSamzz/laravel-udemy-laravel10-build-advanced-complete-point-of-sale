@@ -181,7 +181,9 @@
         <!-- Sweet Alert 2 js -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{  asset('backend/assets/js/code.js') }}"></script>
-
+        
+        <!-- Custom validate js -->
+        <script src="{{  asset('backend/assets/js/validate.min.js') }}"></script>
     </body>
 
 </html>
