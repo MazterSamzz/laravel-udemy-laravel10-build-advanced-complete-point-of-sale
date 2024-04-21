@@ -31,12 +31,12 @@ class BlogCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ],
-        [
-            'name.required' => 'Blog Category Name is Required'
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        // ],
+        // [
+        //     'name.required' => 'Blog Category Name is Required'
+        // ]);
 
         $blog_categories = new BlogCategory;
 
