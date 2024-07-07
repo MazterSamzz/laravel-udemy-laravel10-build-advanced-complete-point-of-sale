@@ -25,13 +25,13 @@ class ImageIntervention {
 
     // move $filePath = 'upload/portfolio/nama_file.jpg'
     // to 'upload/portfolio/$newSubFolder/namafile.jpg'
-    public static function moveFile($filePath, $newSubFolder='bin')
+    public static function moveFile($filePath, $bin='recycle bin')
     {
         $imgDir = dirname($filePath); // dirname($filePath) // Output: upload/portfolio
         $imgName = basename($filePath); // basename($filePath) // Output: nama_file.jpg
 
         $sourcePath = $filePath;
-        $destinationPath = $imgDir. '/' . $newSubFolder . '/' . $imgName;
+        $destinationPath = $bin . '/' . $imgDir. '/' . $imgName;
 
         
 
@@ -39,7 +39,7 @@ class ImageIntervention {
         if (File::exists($sourcePath)) {
 
             // Create Folder if the folder not exist
-            self::hasFolder($imgDir.'/'.$newSubFolder);
+            self::hasFolder($bin.'/'.$imgDir);
 
             // move file from $sourcePath to $destinationPath
             File::move($sourcePath, $destinationPath);

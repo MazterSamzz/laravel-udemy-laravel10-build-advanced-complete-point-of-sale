@@ -15,7 +15,7 @@
 
                                 {{-- Input Category Name --}}
                                 <div class="row mb-3">
-                                    <label  for="name" class="col-sm-2 col-form-label">Blog Category Name</label> 
+                                    <label  for="name" class="col-sm-2 col-form-label">Blog Category Name</label>
                                     <div class="form-group col-sm-10">
                                         <input id="name" name="name" class="form-control" type="text" placeholder="Blog Category Name" value="{{ old('name') }}" autofocus />
                                         {{-- @error('name')

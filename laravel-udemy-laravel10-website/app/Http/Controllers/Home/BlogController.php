@@ -161,7 +161,7 @@ class BlogController extends Controller
 
     public function all()
     {
-        $blogs = Blog::latest()->get();
+        $blogs = Blog::latest()->paginate(3);
         $breadcrumb['title'] = 'All Blogs';
         $breadcrumb['item'] = '';
         $categories = BlogCategory::orderBy('name', 'asc')->get();

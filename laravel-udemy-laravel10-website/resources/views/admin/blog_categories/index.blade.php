@@ -29,10 +29,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @php ($i=1)
-                                @foreach ($blog_categories as $item)
+                                @foreach ($blog_categories as $key => $item)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
                                         <div class="d-flex">
