@@ -42,6 +42,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/logout');
+    }
+
+    /**
+     * Display the logout view.
+     */
+    public function logout(): View
+    {
+        return view('auth.logout');
     }
 }
