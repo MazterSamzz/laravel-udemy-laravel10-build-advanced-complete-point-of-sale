@@ -12,8 +12,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Contacts</a></li>
+                                <li class="breadcrumb-item"><a href="">UBold</a></li>
+                                <li class="breadcrumb-item"><a href="">Contacts</a></li>
                                 <li class="breadcrumb-item active">Profile</li>
                             </ol>
                         </div>
@@ -27,11 +27,17 @@
                 <div class="col-lg-4 col-xl-4">
                     <div class="card text-center">
                         <div class="card-body">
-                            <img src="assets/images/users/user-1.jpg" class="rounded-circle avatar-lg img-thumbnail"
-                                alt="profile-image">
-
-                            <h4 class="mb-0">Geneva McKnight</h4>
-                            <p class="text-muted">@webdesigner</p>
+                            <img src="
+                            @empty($user->photo)
+                                {{ asset('images/no_image.jpg') }}
+                            @endempty
+                            @isset($user->photo)
+                                {{ asset('images/' . $user->photo) }}
+                            @endisset
+                            "
+                                class="rounded-circle avatar-lg img-thumbnail">
+                            <h4 class="mb-0">{{ $user->name }}</h4>
+                            <p class="text-muted">{{ $user->email }}</p>
 
                             <button type="button"
                                 class="btn btn-success btn-xs waves-effect mb-2 waves-light">Follow</button>
@@ -39,35 +45,34 @@
                                 class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button>
 
                             <div class="text-start mt-3">
-                                <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ms-2">Geneva
-                                        D. McKnight</span></p>
+                                <p class="text-muted mb-2 font-13"><strong>Username :</strong>
+                                    <span class="ms-2">{{ $user->name }}</span>
+                                </p>
 
-                                <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">(123) 123
-                                        1234</span></p>
+                                <p class="text-muted mb-2 font-13"><strong>Phone :</strong>
+                                    <span class="ms-2">{{ $user->phone }}</span>
+                                </p>
 
-                                <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span
-                                        class="ms-2">user@email.domain</span></p>
-
-                                <p class="text-muted mb-1 font-13"><strong>Location :</strong> <span
-                                        class="ms-2">USA</span></p>
+                                <p class="text-muted mb-2 font-13"><strong>Email :</strong>
+                                    <span class="ms-2">{{ $user->email }}</span>
+                                </p>
                             </div>
 
                             <ul class="social-list list-inline mt-3 mb-0">
                                 <li class="list-inline-item">
-                                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i
+                                    <a href="" class="social-list-item border-primary text-primary"><i
                                             class="mdi mdi-facebook"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
+                                    <a href="" class="social-list-item border-danger text-danger"><i
                                             class="mdi mdi-google"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
+                                    <a href="" class="social-list-item border-info text-info"><i
                                             class="mdi mdi-twitter"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="javascript: void(0);"
-                                        class="social-list-item border-secondary text-secondary"><i
+                                    <a href="" class="social-list-item border-secondary text-secondary"><i
                                             class="mdi mdi-github"></i></a>
                                 </li>
                             </ul>
@@ -85,18 +90,41 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="firstname" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" id="firstname"
-                                                placeholder="Enter first name">
+                                            <label for="name" class="form-label">Username</label>
+                                            <input type="username" class="form-control" id="name"
+                                                placeholder="Enter username" value="{{ $user->name }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="lastname" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" id="lastname"
-                                                placeholder="Enter last name">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email"
+                                                placeholder="Enter email" value="{{ $user->email }}">
                                         </div>
                                     </div> <!-- end col -->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label">Phone</label>
+                                            <input type="tel" class="form-control" id="phone"
+                                                placeholder="Enter Phone" value="{{ $user->phone }}">
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">Admin Profile Image</label>
+                                            <input type="file" id="image" name="image" class="form-control">
+                                        </div>
+                                        <img id="image-preview"
+                                            src="
+                                        @empty($user->photo)
+                                            {{ asset('images/no_image.jpg') }}
+                                        @endempty
+                                        @isset($user->photo)
+                                            {{ asset('images/' . $user->photo) }}
+                                        @endisset
+                                        "
+                                            class="rounded-circle avatar-lg img-thumbnail">
+                                    </div><!-- end col -->
                                 </div> <!-- end row -->
 
                                 <div class="text-end">
@@ -114,4 +142,20 @@
         </div> <!-- container -->
 
     </div> <!-- content -->
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#image-preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            });
+        });
+    </script>
 @endsection
