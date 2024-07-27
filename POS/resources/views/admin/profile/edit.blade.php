@@ -32,7 +32,7 @@
                                 {{ asset('images/no_image.jpg') }}
                             @endempty
                             @isset($user->photo)
-                                {{ asset('images/' . $user->photo) }}
+                                {{ asset('images/photos/' . $user->photo) }}
                             @endisset
                             "
                                 class="rounded-circle avatar-lg img-thumbnail">
@@ -84,35 +84,38 @@
                 <div class="col-lg-8 col-xl-8">
                     <div class="card">
                         <div class="card-body">
-                            <form>
+                            <form method ="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('patch')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i>
                                     Personal Info</h5>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Username</label>
-                                            <input type="username" class="form-control" id="name"
-                                                placeholder="Enter username" value="{{ $user->name }}">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                placeholder="Enter username" value="{{ $user->name }}"
+                                                autocomplete="username" autofocus>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email"
-                                                placeholder="Enter email" value="{{ $user->email }}">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Enter email" value="{{ $user->email }}" autocomplete="email">
                                         </div>
                                     </div> <!-- end col -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Phone</label>
-                                            <input type="tel" class="form-control" id="phone"
-                                                placeholder="Enter Phone" value="{{ $user->phone }}">
+                                            <input type="tel" class="form-control" id="phone" name="phone"
+                                                placeholder="Enter Phone" value="{{ $user->phone }}" autocomplete="phone">
                                         </div>
                                     </div> <!-- end col -->
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="image" class="form-label">Admin Profile Image</label>
-                                            <input type="file" id="image" name="image" class="form-control">
+                                            <input type="file" id="image" name="photo" class="form-control">
                                         </div>
                                         <img id="image-preview"
                                             src="
@@ -120,7 +123,7 @@
                                             {{ asset('images/no_image.jpg') }}
                                         @endempty
                                         @isset($user->photo)
-                                            {{ asset('images/' . $user->photo) }}
+                                            {{ asset('images/photos/' . $user->photo) }}
                                         @endisset
                                         "
                                             class="rounded-circle avatar-lg img-thumbnail">
