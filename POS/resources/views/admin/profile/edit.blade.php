@@ -28,12 +28,12 @@
                     <div class="card text-center">
                         <div class="card-body">
                             <img src="
+                            @isset($user->photo)
+                                {{ asset($user->photo) }}
+                            @endisset
                             @empty($user->photo)
                                 {{ asset('images/no_image.jpg') }}
                             @endempty
-                            @isset($user->photo)
-                                {{ asset('images/photos/' . $user->photo) }}
-                            @endisset
                             "
                                 class="rounded-circle avatar-lg img-thumbnail">
                             <h4 class="mb-0">{{ $user->name }}</h4>
@@ -123,7 +123,7 @@
                                             {{ asset('images/no_image.jpg') }}
                                         @endempty
                                         @isset($user->photo)
-                                            {{ asset('images/photos/' . $user->photo) }}
+                                            {{ asset($user->photo) }}
                                         @endisset
                                         "
                                             class="rounded-circle avatar-lg img-thumbnail">

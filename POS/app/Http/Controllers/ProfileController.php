@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelper;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -34,18 +35,22 @@ class ProfileController extends Controller
         }
 
         if ($request->file('photo')) {
+            // Find User by name and take photo
+            $oldPhoto = User::where('name', $request->user()->name)->first()->photo;
 
-            self::hasFolder(public_path('images/photos'));
-
-            $file = $request->file('photo');
-            $filename = round(microtime(true) * 1000) . $file->getClientOriginalName();
-            $file->move(public_path('images/photos'), $filename);
-            $request->user()['photo'] = $filename;
+            $request->user()->photo = ImageHelper::saveImage($request->file('photo'), 'images/profile-photos');
+            ImageHelper::softDelete($oldPhoto, $request->user()->name);
         }
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+
+        $notification = array(
+            'message' => 'Profile updated successfully!',
+            'alert-type' => 'success',
+        );
+
+        return Redirect::route('profile.edit')->with($notification);
     }
 
     /**
@@ -67,15 +72,5 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
-    }
-
-    /**
-     * Create a folder if it doesn't exist.
-     */
-    private static function hasFolder($path)
-    {
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        }
     }
 }
