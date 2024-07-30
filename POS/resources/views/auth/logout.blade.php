@@ -19,6 +19,9 @@
     <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Head js -->
     <script src="{{ asset('backend/assets/js/head.js') }}"></script>
+    <!-- Toastr css -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
     @php
         $type = app('request')->input('type');
@@ -110,5 +113,9 @@
     <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
 
 </body>
+
+<!-- Toastr js-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+@include('admin.layouts.lib.toastr')
 
 </html>

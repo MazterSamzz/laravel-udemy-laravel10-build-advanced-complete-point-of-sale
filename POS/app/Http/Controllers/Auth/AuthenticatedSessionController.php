@@ -28,7 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $notification = array(
+            'message' => 'Login successfully!',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->intended(route('dashboard', absolute: false))->with($notification);
     }
 
     /**
@@ -42,7 +47,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/logout');
+        $notification = array(
+            'message' => 'Logout successfully!',
+            'alert-type' => 'success',
+        );
+
+        return redirect('/logout')->with($notification);
     }
 
     /**
