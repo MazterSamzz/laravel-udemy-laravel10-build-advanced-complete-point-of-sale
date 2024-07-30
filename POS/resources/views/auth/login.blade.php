@@ -62,15 +62,15 @@
                                 @empty($type)
                                     <div class="mb-3">
                                         <label for="email" class="form-label">{{ __('Email') }}</label>
-                                        <input name="email" class="form-control" type="email" id="email"
-                                            placeholder="Enter your email" value="{{ old('email') }}" required autofocus
-                                            autocomplete="username">
+                                        <input name="email" class="form-control @error('email') is-invalid @enderror"
+                                            type="email" id="email" placeholder="Enter your email"
+                                            value="{{ old('email') }}" required autofocus autocomplete="username">
+                                        @error('email')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                    @error('email')
-                                        <div class="mt-2 text-sm text-red-600">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
                                 @endempty
 
                                 <!-- If $type is set-->
@@ -82,41 +82,43 @@
                                             <input id="name" name="name" class="form-control" type="text"
                                                 placeholder="Enter your name" value="{{ old('name') }}" required
                                                 autofocus autocomplete="username">
+                                            @error('name')
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
-                                        @error('name')
-                                            <div class="mt-2 text-sm text-red-600">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                     @elseif ($type == 'phone')
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">{{ __('Phone') }}</label>
                                             <input id="phone" name="phone" class="form-control" type="text"
                                                 placeholder="Enter your phone" value="{{ old('phone') }}" required
                                                 autofocus autocomplete="phone">
+                                            @error('phone')
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
-                                        @error('phone')
-                                            <div class="mt-2 text-sm text-red-600">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                     @endif
                                 @endisset
 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" name ="password" class="form-control"
+                                        <input type="password" id="password" name ="password"
+                                            class="form-control  @error('password') is-invalid @enderror"
                                             placeholder="Enter your password">
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>
+                                        @error('password')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                    @error('password')
-                                        <div class="mt-2 text-sm text-red-600">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+
                                 </div>
 
                                 <div class="mb-3">
