@@ -108,7 +108,7 @@
                                     <div class="input-group input-group-merge">
                                         <input type="password" id="password" name ="password"
                                             class="form-control  @error('password') is-invalid @enderror"
-                                            placeholder="Enter your password">
+                                            placeholder="Enter your password" autocomplete="current-password">
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>

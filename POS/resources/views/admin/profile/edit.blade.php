@@ -12,9 +12,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="">UBold</a></li>
-                                <li class="breadcrumb-item"><a href="">Contacts</a></li>
-                                <li class="breadcrumb-item active">Profile</li>
+                                <li class="breadcrumb-item active">My Account</li>
                             </ol>
                         </div>
                         <h4 class="page-title">Profile</h4>
