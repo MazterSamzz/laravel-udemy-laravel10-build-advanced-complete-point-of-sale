@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -32,6 +34,7 @@ class AuthenticatedSessionController extends Controller
             'message' => 'Login successfully!',
             'alert-type' => 'success',
         );
+        LogHelper::user($request, 'User login');
 
         return redirect()->intended(route('dashboard', absolute: false))->with($notification);
     }
@@ -47,10 +50,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
+
         $notification = array(
             'message' => 'Logout successfully!',
             'alert-type' => 'success',
         );
+
 
         return redirect('/logout')->with($notification);
     }

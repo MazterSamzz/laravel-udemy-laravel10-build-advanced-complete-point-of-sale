@@ -44,7 +44,6 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-
         $notification = array(
             'message' => 'Profile updated successfully!',
             'alert-type' => 'success',
