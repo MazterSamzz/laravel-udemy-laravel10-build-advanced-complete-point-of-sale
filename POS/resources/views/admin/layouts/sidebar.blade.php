@@ -59,18 +59,18 @@
                 <li class="menu-title mt-2">Apps</li>
 
                 <li>
-                    <a href="#sidebarEcommerce" data-bs-toggle="collapse">
-                        <i class="mdi mdi-cart-outline"></i>
-                        <span> Ecommerce </span>
+                    <a href="#sidebarEmployeeManagement" data-bs-toggle="collapse">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Employee</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEcommerce">
+                    <div class="collapse" id="sidebarEmployeeManagement">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="ecommerce-dashboard.html">Dashboard</a>
+                                <a href="{{ route('employee.index') }}">All Employee</a>
                             </li>
                             <li>
-                                <a href="ecommerce-products.html">Products</a>
+                                <a href="ecommerce-products.html">Add Employee</a>
                             </li>
                         </ul>
                     </div>

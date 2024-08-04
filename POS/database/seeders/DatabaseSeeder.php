@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'root',
             'email' => 'root@local.host',
-            'phone' => '0812345678910'
+            'phone' => '0812345678910',
+            'password' => 'Rahasia1234.'
         ]);
     }
 }
