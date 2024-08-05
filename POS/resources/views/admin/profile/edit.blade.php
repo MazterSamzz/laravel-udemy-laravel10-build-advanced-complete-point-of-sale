@@ -147,16 +147,9 @@
 
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>;
+    <script src="{{ asset('backend/assets/js/imagePreview.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#image-preview').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files[0]);
-            });
-        });
+        imagePreview('#image', '#image-preview');
     </script>
 @endsection

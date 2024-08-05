@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Employee;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -13,9 +14,14 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(): View
     {
         $employees = Employee::latest()->get();
         return view('backend.employee.index', compact('employees'));
+    }
+
+    public function create(): View
+    {
+        return view('backend.employee.create');
     }
 }

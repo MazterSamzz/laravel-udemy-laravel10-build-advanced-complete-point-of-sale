@@ -67,10 +67,10 @@
                     <div class="collapse" id="sidebarEmployeeManagement">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('employee.index') }}">All Employee</a>
+                                <a href="{{ route('employees.index') }}">All Employee</a>
                             </li>
                             <li>
-                                <a href="ecommerce-products.html">Add Employee</a>
+                                <a href="{{ route('employees.create') }}">Add Employee</a>
                             </li>
                         </ul>
                     </div>
@@ -176,3 +176,4 @@
     <!-- Sidebar -left -->
 
 </div>
+f

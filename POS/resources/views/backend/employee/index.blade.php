@@ -24,7 +24,8 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            <a href="/" class="btn btn-primary rounded-pill waves-effect waves-light">Add Employee</a>
+                            <a href="{{ route('employees.create') }}"
+                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Employee</a>
                         </div>
                         <h4 class="page-title">Datatables</h4>
                     </div>
