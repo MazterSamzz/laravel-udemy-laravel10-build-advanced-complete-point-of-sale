@@ -29,7 +29,7 @@ class ImageHelper
     {
         self::hasFolder($destinationFolder);
 
-        $fileName = Str::uuid()->toString() . $file->getClientOriginalExtension();
+        $fileName = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
         $file->move($destinationFolder, $fileName);
 
         return $destinationFolder . '/' . $fileName;
