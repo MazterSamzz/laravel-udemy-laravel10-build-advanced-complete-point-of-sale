@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Illuminate\Support\Str;
 
 class ImageHelper
@@ -21,18 +23,22 @@ class ImageHelper
 
     /**
      *  Save image to $path
-     *  @param mixed $file File uploaded by user, example: $request->file('image')
+     *  @param mixed $image Image file uploaded by user, example: $request->file('image')
      *  @param string $destinationFolder Save image to this Folder, example: 'upload/portfolio'
      *  @return string Return image path, example: 'upload/portfolio/nama_file.jpg'
      */
-    public static function saveImage($file, $destinationFolder = 'images'): string
+    public static function saveImage($image, $destinationFolder = 'images', $width = 300, $height = 300): string
     {
         self::hasFolder($destinationFolder);
 
-        $fileName = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
-        $file->move($destinationFolder, $fileName);
+        $imageName = $destinationFolder . '/' . Str::uuid()->toString() . '.' . $image->getClientOriginalExtension();
 
-        return $destinationFolder . '/' . $fileName;
+        // Image Intervention Resize to $width and $height then upload image
+        $manager = new ImageManager(new Driver());
+        $img = $manager->read($image);
+        $img = $img->resize($width, $height)->save($imageName);
+
+        return $imageName;
     }
 
     /**

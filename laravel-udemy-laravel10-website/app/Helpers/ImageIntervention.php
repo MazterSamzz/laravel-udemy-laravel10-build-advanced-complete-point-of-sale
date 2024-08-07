@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\GD\Driver;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Illuminate\Support\Facades\File;
 
 class ImageIntervention
