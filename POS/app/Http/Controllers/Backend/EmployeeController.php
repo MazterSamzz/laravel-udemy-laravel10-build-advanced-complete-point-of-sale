@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmployeeRequest;
 use App\Models\Backend\Employee;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -23,5 +24,10 @@ class EmployeeController extends Controller
     public function create(): View
     {
         return view('backend.employee.create');
+    }
+
+    public function store(EmployeeRequest $request)
+    {
+        $employee = Employee::create($request->validated());
     }
 }

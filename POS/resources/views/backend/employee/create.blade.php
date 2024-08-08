@@ -26,7 +26,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('employee.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('patch')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>

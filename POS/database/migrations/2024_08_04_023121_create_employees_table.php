@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('experience')->nullable();
             $table->string('image');
-            $table->string('salary')->nullable();
+            $table->unsignedInteger('salary')->nullable();
             $table->string('vacation')->nullable();
-            $table->string('city')->nullable();
+            $table->string('city', 100)->nullable();
             $table->timestamps();
         });
     }
