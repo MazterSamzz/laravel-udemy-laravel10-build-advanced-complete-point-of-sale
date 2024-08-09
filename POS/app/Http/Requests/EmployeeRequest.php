@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeRequest extends FormRequest
 {
@@ -11,7 +13,28 @@ class EmployeeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Prepares the request data for validation by cleaning and converting the salary value.
+     *
+     * If the request contains a 'salary' field, this method removes any commas from the value and converts it to an integer.
+     * The cleaned salary value is then merged back into the request data.
+     *
+     * @return void
+     */
+    public function prepareForValidation()
+    {
+        if ($this->has('salary')) {
+            $salary = $this->input('salary');
+            $salary = str_replace(',', '', $salary); // Menghapus koma
+            $salary = intval($salary);
+
+            $this->merge([
+                'salary' => $salary,
+            ]);
+        }
     }
 
     /**
@@ -23,10 +46,24 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:100'],
-            'email' => ['required', 'email', 'max:200', 'unique'],
+            'email' => ['required', 'email', 'max:200', 'unique:employees,email'],
             'phone' => ['required', 'regex:/^0[1-9][0-9]{7,12}$/'],
-            'address' => ['required', 'max:400'],
-            'salary' => ['required', 'number'],
+            'address' => ['nullable', 'max:255'],
+            'experience' => ['nullable'],
+            'salary' => ['required', 'numeric', 'regex:/^\d*(\,\d{1,2})?$/'],
+            'leave' => ['required', 'min:0'],
+            'city' => ['nullable'],
+            'photo' => ['nullable', 'image'],
         ];
+    }
+
+    public function passedValidation()
+    {
+        dd(ImageHelper::saveImage($this->input('photo'), 'images/employee-photos'));
+        if ($this->input('photo')) {
+            $this->merge([
+                'photo' => ImageHelper::saveImage($this->input('photo'), 'images/employee-photos')
+            ]);
+        }
     }
 }

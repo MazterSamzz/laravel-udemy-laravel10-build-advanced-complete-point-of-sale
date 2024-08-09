@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Backend\Employee;
@@ -28,6 +29,15 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
-        $employee = Employee::create($request->validated());
+
+        dd($request->validated());
+        Employee::create($request->validated());
+
+        $notification = array(
+            'message' => 'Employee created successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('employees.index')->with($notification);
     }
 }

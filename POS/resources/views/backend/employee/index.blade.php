@@ -55,14 +55,20 @@
                                     @foreach ($employees as $key => $employee)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ asset("$employee->photo") }}</td>
+                                            <td>
+                                                @isset($employee->photo)
+                                                    {{ asset($employee->photo) }}
+                                                @else
+                                                    {{ asset('images/no_image.jpg') }}
+                                                @endisset
+                                            </td>
                                             <td>{{ $employee->email }}</td>
                                             <td>{{ $employee->phone }}</td>
                                             <td>{{ $employee->salary }}</td>
                                             <td>
-                                                <a href="{{ route('admin.employee.edit', $employee->id) }}"
+                                                <a href="{{--  --}}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light">Edit</a>
-                                                <a href="{{ route('admin.employee.delete', $employee->id) }}"
+                                                <a href="{{--  --}}"
                                                     class="btn btn-dangerrounded-pill waves-effect waves-light">Delete</a>
                                             </td>
                                         </tr>
