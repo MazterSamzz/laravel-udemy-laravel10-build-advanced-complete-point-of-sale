@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address')->nullable();
             $table->string('experience')->nullable();
-            $table->string('image');
-            $table->string('salary')->nullable();
-            $table->string('vacation')->nullable();
-            $table->string('city')->nullable();
+            $table->string('photo')->nullable();
+            $table->unsignedInteger('salary')->default(0);
+            $table->decimal('leave', 3, 1)->nullable();
+            $table->string('city', 100)->nullable();
             $table->timestamps();
         });
     }

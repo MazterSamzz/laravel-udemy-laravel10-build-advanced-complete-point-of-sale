@@ -11,6 +11,9 @@
     <link href="{{ asset('backend/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css') }}" rel="stylesheet"
         type="text/css" />
     <!-- datatables css end -->
+
+    <!-- modal image css -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/modal-image.css') }}">
 @endsection
 
 @section('admin')
@@ -39,7 +42,7 @@
                         <div class="card-body">
                             <h4 class="header-title">Employee</h4>
 
-                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                            <table id="basic-datatable" class="table dt-responsive table-hover nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -53,17 +56,25 @@
 
                                 <tbody>
                                     @foreach ($employees as $key => $employee)
+                                        @php
+                                            $photo = $employee->photo ?: 'images/no_image.jpg';
+                                        @endphp
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ asset("$employee->photo") }}</td>
-                                            <td>{{ $employee->email }}</td>
-                                            <td>{{ $employee->phone }}</td>
-                                            <td>{{ $employee->salary }}</td>
+                                            <td scope="row">{{ $key + 1 }}</td>
+                                            <td> <img class="avatar-md img-thumbnail modal-img"
+                                                    data-large="{{ asset($photo) }}" src="{{ asset($photo) }}"
+                                                    alt="Photo-Picture">
+                                            </td>
+                                            <td class="align-middle">{{ $employee->email }}</td>
+                                            <td class="align-middle">{{ $employee->phone }}</td>
+                                            <td class="align-middle" name="salary">{{ $employee->salary }}</td>
                                             <td>
-                                                <a href="{{ route('admin.employee.edit', $employee->id) }}"
-                                                    class="btn btn-blue rounded-pill waves-effect waves-light">Edit</a>
-                                                <a href="{{ route('admin.employee.delete', $employee->id) }}"
-                                                    class="btn btn-dangerrounded-pill waves-effect waves-light">Delete</a>
+                                                <a href="{{--  --}}"
+                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-pencil"></span></a>
+                                                <a href="{{--  --}}"
+                                                    class="btn btn-danger rounded-pill waves-effect waves-light"><span
+                                                        class="mdi mdi-delete"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -80,7 +91,13 @@
 
         </div> <!-- container -->
 
-    </div> <!-- content -->
+    </div> <!-- Modal For Large Image -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImg" class="modal-img" src="" alt="Large Image">
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -103,4 +120,13 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+
+    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
+
+    <script type="text/javascript">
+        numberSeparator('salary');
+    </script>
+
+    <!-- Modal Image js-->
+    <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>
 @endsection

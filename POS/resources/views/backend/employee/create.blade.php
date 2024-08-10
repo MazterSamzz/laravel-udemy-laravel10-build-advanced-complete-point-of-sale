@@ -26,9 +26,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('employees.store') }}" enctype="multipart/form-data">
                                 @csrf
-                                @method('patch')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
                                     Add Employee</h5>
 
@@ -80,11 +79,11 @@
                                     <!-- Addresses -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="adresses" class="form-label">Addresses</label>
-                                            <input type="text" class="form-control" id="adresses" name="adresses"
-                                                placeholder="Enter Addresses" value="{{ old('adresses') }}"
-                                                autocomplete="adresses">
-                                            @error('adresses')
+                                            <label for="address" class="form-label">Address</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                placeholder="Enter Address" value="{{ old('address') }}"
+                                                autocomplete="address">
+                                            @error('address')
                                                 <div class="text-danger">
                                                     {{ $message }}
                                                 </div>
@@ -98,7 +97,7 @@
                                             <label for="experience" class="form-label">Experience</label>
                                             <select class="form-select" id="experience" name="experience"
                                                 value="{{ old('experience') }}">
-                                                <option value="">-Experience-</option>
+                                                <option value="" selected disabled>-- Experience --</option>
                                                 @for ($i = 1; $i < 6; $i++)
                                                     <option value="{{ $i }}">{{ $i . ' Year' }}</option>
                                                 @endfor
@@ -126,14 +125,14 @@
                                         </div>
                                     </div> <!-- End of Salary -->
 
-                                    <!-- Vacation -->
+                                    <!-- Leave -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="vacation" class="form-label">Vacation</label>
-                                            <input type="text" class="form-control" id="vacation" name="vacation"
-                                                placeholder="Enter Vacation" value="{{ old('vacation') }}"
-                                                autocomplete="vacation">
-                                            @error('vacation')
+                                            <label for="leave" class="form-label">leave</label>
+                                            <input type="number" step="0.5" class="form-control" id="leave"
+                                                name="leave" placeholder="Enter Leave" value="{{ old('leave') }}"
+                                                autocomplete="leave">
+                                            @error('leave')
                                                 <div class="text-danger">
                                                     {{ $message }}
                                                 </div>
@@ -160,15 +159,15 @@
                                     <!-- Photo -->
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="image" class="form-label">Photo</label>
-                                            <input type="file" id="image" name="photo" class="form-control">
-                                            @error('name')
+                                            <label for="photo" class="form-label">Photo</label>
+                                            <input type="file" id="photo" name="photo" class="form-control">
+                                            @error('photo')
                                                 <div class="text-danger">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
-                                        <img id="image-preview" src="{{ asset('images/no_image.jpg') }}"
+                                        <img id="photo-preview" src="{{ asset('images/no_image.jpg') }}"
                                             class="rounded-circle avatar-lg img-thumbnail">
                                     </div><!-- End of Photo -->
                                 </div> <!-- end row -->
@@ -192,7 +191,12 @@
 
 @section('js')
     <script src="{{ asset('backend/assets/js/imagePreview.js') }}"></script>
+
+    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
+
     <script type="text/javascript">
-        imagePreview('#image', '#image-preview');
+        imagePreview('#photo', '#photo-preview');
+        numberSeparator('salary');
+        parseIntOnSubmit('salary');
     </script>
 @endsection
