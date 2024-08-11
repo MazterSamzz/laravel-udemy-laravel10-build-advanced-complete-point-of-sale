@@ -5,18 +5,16 @@
  * @param {number} [decimalCount=2] - The number of decimal places to show. Defaults to 2.
  * @return {void} This function does not return anything.
  */
-function numberSeparator(inputId, decimalCount = 2) {
+function numberSeparatorById(inputId, decimalCount = 2) {
     let input = document.getElementById(inputId);
     if (!input) {
         console.error(`Input with ID ${inputId} not found.`);
         return;
     }
 
-    input.addEventListener("input", function () {
-        let value = input.value;
-
+    function formatValue(value) {
         if (value.endsWith(".")) {
-            return;
+            return value;
         }
 
         let parts = value.split(".");
@@ -26,9 +24,87 @@ function numberSeparator(inputId, decimalCount = 2) {
         integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         decimalPart = decimalPart ? decimalPart.substring(0, decimalCount) : "";
 
-        input.value = decimalPart
-            ? `${integerPart}.${decimalPart}`
-            : `${integerPart}`;
+        return decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}`;
+    }
+
+    // Format the initial value
+    input.value = formatValue(input.value);
+
+    // Format the value when the input value changes
+    input.addEventListener("input", function () {
+        input.value = formatValue(input.value);
+    });
+}
+
+function numberSeparatorByName(name, decimalCount = 2) {
+    // Ambil elemen berdasarkan nama
+    let inputs = document.getElementsByName(name);
+
+    // Periksa apakah elemen ditemukan
+    if (inputs.length === 0) {
+        console.error(`Input with name ${name} not found.`);
+        return;
+    }
+
+    // Fungsi untuk memformat nilai
+    function formatValue(value) {
+        if (value.endsWith(".")) {
+            return value;
+        }
+
+        let parts = value.split(".");
+        let integerPart = parts[0].replace(/[^0-9]/g, "");
+        let decimalPart = parts[1] ? parts[1].replace(/[^0-9]/g, "") : "";
+
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        decimalPart = decimalPart ? decimalPart.substring(0, decimalCount) : "";
+
+        return decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}`;
+    }
+
+    // Terapkan format ke semua elemen dengan nama yang diberikan
+    inputs.forEach((input) => {
+        if (input.tagName === "INPUT") {
+            input.addEventListener("input", function () {
+                let value = input.value;
+
+                // Format dan atur nilai input
+                input.value = formatValue(value);
+            });
+
+            // Terapkan format awal
+            input.value = formatValue(input.value);
+        }
+    });
+}
+
+function numberSeparatorDataTable(name, decimalCount = 2) {
+    // Ambil elemen berdasarkan atribut name
+    let cells = document.querySelectorAll(`[name="${name}"]`);
+
+    // Fungsi untuk memformat nilai
+    function formatValue(value) {
+        if (value.endsWith(".")) {
+            return value;
+        }
+
+        let parts = value.split(".");
+        let integerPart = parts[0].replace(/[^0-9]/g, "");
+        let decimalPart = parts[1] ? parts[1].replace(/[^0-9]/g, "") : "";
+
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        decimalPart = decimalPart ? decimalPart.substring(0, decimalCount) : "";
+
+        return decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}`;
+    }
+
+    // Terapkan format ke semua elemen dengan nama yang diberikan
+    cells.forEach((cell) => {
+        // Ambil nilai teks dari elemen
+        let value = cell.textContent.trim();
+
+        // Format dan atur nilai elemen
+        cell.textContent = formatValue(value);
     });
 }
 

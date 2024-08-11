@@ -69,7 +69,7 @@
                                             <td class="align-middle">{{ $employee->phone }}</td>
                                             <td class="align-middle" name="salary">{{ $employee->salary }}</td>
                                             <td>
-                                                <a href="{{--  --}}"
+                                                <a href="{{ route('employees.edit', ['employee' => $employee->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
                                                 <a href="{{--  --}}"
@@ -124,7 +124,7 @@
     <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
 
     <script type="text/javascript">
-        numberSeparator('salary');
+        numberSeparatorDataTable('salary');
     </script>
 
     <!-- Modal Image js-->

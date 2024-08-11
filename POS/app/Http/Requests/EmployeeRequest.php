@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EmployeeRequest extends FormRequest
 {
@@ -33,6 +34,13 @@ class EmployeeRequest extends FormRequest
                 'salary' => $salary,
             ]);
         }
+
+        if ($this->has('experience')) {
+            $experience = intval($this->input('experience'));
+            $this->merge([
+                'experience' => $experience,
+            ]);
+        }
     }
 
     /**
@@ -42,16 +50,29 @@ class EmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'max:100'],
-            'email' => ['required', 'email', 'max:200', 'unique:employees,email'],
-            'phone' => ['required', 'regex:/^0[1-9][0-9]{7,12}$/'],
-            'address' => ['nullable', 'max:255'],
-            'experience' => ['nullable'],
-            'salary' => ['required', 'numeric', 'regex:/^\d*(\,\d{1,2})?$/'],
-            'leave' => ['required', 'min:0'],
-            'city' => ['nullable'],
-            'photo' => ['nullable', 'image'],
-        ];
+        $rules = [];
+
+        if ($this->isMethod('post') || $this->isMethod('put')) {
+            $rules = [ // Validasi create dan update
+                'address' => ['nullable', 'max:255'],
+                'experience' => ['nullable', 'numeric', 'min:0'],
+                'salary' => ['required', 'numeric', 'regex:/^\d*(\,\d{1,2})?$/'],
+                'leave' => ['required', 'min:0'],
+                'city' => ['nullable'],
+                'photo' => ['nullable', 'image'],
+            ];
+
+            if ($this->isMethod('post')) { // Validasi create
+                $rules['name'] = ['required', 'max:100', 'unique:employees,name'];
+                $rules['email'] = ['required', 'email', 'max:200', 'unique:employees,email'];
+                $rules['phone'] = ['required', 'regex:/^0[1-9][0-9]{7,12}$/', 'unique:employees,phone'];
+            } else { // Validasi update
+                $id = $this->route('employee');
+                $rules['name'] = ['required', 'max:100', Rule::unique('employees')->ignore($id)];
+                $rules['email'] = ['required', 'email', 'max:200', Rule::unique('employees')->ignore($id)];
+                $rules['phone'] = ['required', 'regex:/^0[1-9][0-9]{7,12}$/', Rule::unique('employees')->ignore($id)];
+            }
+        }
+        return $rules;
     }
 }

@@ -43,4 +43,32 @@ class EmployeeController extends Controller
 
         return to_route('employees.index')->with($notification);
     }
+
+    public function edit(string $id): View
+    {
+        $employee = Employee::findOrFail($id);
+        return view('backend.employee.edit', compact('employee'));
+    }
+
+    public function update(EmployeeRequest $request, string $id)
+    {
+        $employee = Employee::findOrFail($id);
+        $data = $request->validated();
+
+        // Save the image and Delete the previous image
+        if ($request->hasFile('photo')) {
+            $data['photo'] = ImageHelper::saveImage($request->file('photo'), 'images/employee-photos');
+            if ($employee->photo)
+                ImageHelper::softDelete($employee->photo, $employee->name);
+        }
+
+        $employee->update($data);
+
+        $notification = array(
+            'message' => 'Employee updated successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('employees.index')->with($notification);
+    }
 }
