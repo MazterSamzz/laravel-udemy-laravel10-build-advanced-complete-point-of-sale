@@ -67,7 +67,7 @@ class EmployeeTest extends TestCase
      *
      * @return void
      */
-    public function test_employees_store_an_employee_with_image(): void
+    public function test_employees_store_John_Doe_employee_with_image(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -111,6 +111,7 @@ class EmployeeTest extends TestCase
         File::deleteDirectory('images');
         // Optionally, you can assert that the response is a redirect or any specific response
         $response->assertStatus(302)->assertRedirect('/employees');
+        $this->actingAs($user)->post('/logout');
     }
 
     /**
@@ -120,9 +121,6 @@ class EmployeeTest extends TestCase
      */
     public function test_store_redirect_when_not_authenticated(): void
     {
-        // Simulate the file upload
-        $file = UploadedFile::fake()->image('photo.jpg');
-
         // Act as the user and get the employee page
         $response = $this->post('/employees', [
             'name' => 'John Doe',
@@ -133,7 +131,7 @@ class EmployeeTest extends TestCase
             'salary' => '5000000',
             'leave' => '10.5',
             'city' => 'Jakarta',
-            'photo' => $file,
+            'photo' => UploadedFile::fake()->image('photo.jpg'),
         ]);
 
         $this->assertDatabaseMissing('employees', [
@@ -161,15 +159,106 @@ class EmployeeTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create();
-        $employee = Employee::factory()->create();
+        $this->test_employees_store_John_Doe_employee_with_image();
+        $employee = Employee::where('name', 'John Doe')->first();
+
         $response = $this->actingAs($user)->get("/employees/$employee->id/edit");  // Act as the user and get the employees create page
         $response->assertStatus(200);
     }
 
     public function test_employees_edit_redirect_when_not_authenticated(): void
     {
-        $employee = Employee::factory()->create();
+        $this->test_employees_store_John_Doe_employee_with_image();
+
+        $employee = Employee::where('name', 'John Doe')->first();
+
         $response = $this->get("/employees/$employee->id/edit");
+        $response->assertStatus(302)->assertRedirect('/login');
+    }
+
+    public function test_employees_update_an_employee_with_image(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $this->test_employees_store_John_Doe_employee_with_image();
+        $employee = Employee::where('name', 'John Doe')->first();
+
+        $this->assertEquals($employee->name, 'John Doe');
+        $this->assertEquals($employee->email, 'johndoe@example.com');
+
+        // Act as the user and get the employee page
+        $response = $this->actingAs($user)->put("/employees/$employee->id", [
+            'name' => 'Johnny Yes Papa',
+            'email' => 'johnnyyespapa@example.com',
+            'phone' => '0812345678998',
+            'address' => 'Jl. Jalan Jalan No. 124',
+            'experience' => '2',
+            'salary' => '7000000',
+            'leave' => '11.5',
+            'city' => 'Bandung',
+            'photo' => UploadedFile::fake()->image('photo.jpg'),
+        ]);
+
+        $this->assertDatabaseHas('employees', [
+            'name' => 'Johnny Yes Papa',
+            'email' => 'johnnyyespapa@example.com',
+            'phone' => '0812345678998',
+            'address' => 'Jl. Jalan Jalan No. 124',
+            'experience' => '2',
+            'salary' => '7000000',
+            'leave' => '11.5',
+            'city' => 'Bandung',
+        ]);
+
+        // Fetch the employee from the database
+        $employee = Employee::where('email', 'johnnyyespapa@example.com')->first();
+
+        // Assert that the 'photo' field is not null and starts with 'images/profile-photos/'
+        $this->assertNotNull($employee->photo);
+        $this->assertStringStartsWith('images/employee-photos/', $employee->photo);
+
+        $this->assertFileExists($employee->photo);
+        File::deleteDirectory('images');
+
+        $response->assertStatus(302)->assertRedirect('/employees');
+    }
+
+    public function test_update_redirect_when_not_authenticated(): void
+    {
+        $this->test_employees_store_John_Doe_employee_with_image();
+        $employee = Employee::where('name', 'John Doe')->first();
+
+        $this->assertEquals($employee->name, 'John Doe');
+        $this->assertEquals($employee->email, 'johndoe@example.com');
+
+        // Act as the user and get the employee page
+        $response = $this->put("/employees/$employee->id", [
+            'name' => 'Johnny Yes Papa',
+            'email' => 'johnnyyespapa@example.com',
+            'phone' => '0812345678998',
+            'address' => 'Jl. Jalan Jalan No. 124',
+            'experience' => '2',
+            'salary' => '7000000',
+            'leave' => '11.5',
+            'city' => 'Bandung',
+            'photo' => UploadedFile::fake()->image('photo.jpg'),
+        ]);
+
+        $this->assertDatabaseHas('employees', [
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'phone' => '0812345678999',
+            'address' => 'Jl. Jalan Jalan No. 123',
+            'experience' => '1',
+            'salary' => '5000000',
+            'leave' => '10.5',
+            'city' => 'Jakarta',
+        ]);
+
+        // Fetch the employee from the database
+        $employee = Employee::where('email', 'johnnyyespapa@example.com')->first();
+        $this->assertNull($employee);
+
         $response->assertStatus(302)->assertRedirect('/login');
     }
 }
