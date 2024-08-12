@@ -26,10 +26,10 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            <a href="{{ route('employees.create') }}"
-                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Employee</a>
+                            <a href="{{ route('customers.create') }}"
+                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Customer</a>
                         </div>
-                        <h4 class="page-title">All Employees</h4>
+                        <h4 class="page-title">All Customers</h4>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Employee</h4>
-
+                            <h4 class="header-title">Customer</h4>
 
                             <table id="basic-datatable" class="table dt-responsive table-hover nowrap w-100">
                                 <thead>
@@ -49,16 +48,16 @@
                                         <th>Photo</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Salary</th>
+                                        <th>Shop Name</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
-                                    @foreach ($employees as $key => $employee)
+                                    @foreach ($customers as $key => $customer)
                                         @php
-                                            $photo = $employee->photo ?: 'images/no_image.jpg';
+                                            $photo = $customer->photo ?: 'images/no_image.jpg';
                                         @endphp
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
@@ -66,15 +65,15 @@
                                                     data-large="{{ asset($photo) }}" src="{{ asset($photo) }}"
                                                     alt="Photo-Picture">
                                             </td>
-                                            <td class="align-middle">{{ $employee->email }}</td>
-                                            <td class="align-middle">{{ $employee->phone }}</td>
-                                            <td class="align-middle" name="salary">{{ $employee->salary }}</td>
+                                            <td class="align-middle">{{ $customer->email }}</td>
+                                            <td class="align-middle">{{ $customer->phone }}</td>
+                                            <td class="align-middle" name="shopname">{{ $customer->shopname }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('employees.edit', ['employee' => $employee->id]) }}"
+                                                <a href="{{ route('customers.edit', ['customer' => $customer->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
                                                 <form
-                                                    action="{{ route('employees.destroy', ['employee' => $employee->id]) }}"
+                                                    action="{{ route('customers.destroy', ['customer' => $customer->id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
@@ -127,12 +126,6 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
-
-    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
-
-    <script type="text/javascript">
-        numberSeparatorDataTable('salary');
-    </script>
 
     <!-- Modal Image js-->
     <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>

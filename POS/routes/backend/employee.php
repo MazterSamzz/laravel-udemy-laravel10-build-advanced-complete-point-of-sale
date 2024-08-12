@@ -11,4 +11,5 @@ Route::controller(EmployeeController::class)->group(function () {
     Route::post('/employees', 'store')->name('employees.store');
     Route::get('/employees/{employee}/edit', 'edit')->name('employees.edit');
     Route::put('/employees/{employee}', 'update')->name('employees.update');
+    Route::delete('/employees/{employee}', 'destroy')->name('employees.destroy');
 });

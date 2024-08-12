@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     require __DIR__ . '/backend/employee.php';
-    //
+    Route::resource('customers', CustomerController::class);
 });
 
 require __DIR__ . '/auth.php';

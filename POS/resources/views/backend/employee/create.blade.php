@@ -196,7 +196,7 @@
 
     <script type="text/javascript">
         imagePreview('#photo', '#photo-preview');
-        numberSeparator('salary');
+        numberSeparatorById('salary');
         parseIntOnSubmit('salary');
     </script>
 @endsection

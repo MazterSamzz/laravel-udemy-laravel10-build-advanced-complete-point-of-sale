@@ -261,4 +261,19 @@ class EmployeeTest extends TestCase
 
         $response->assertStatus(302)->assertRedirect('/login');
     }
+
+    public function test_employees_destroy_an_employee(): void
+    {
+        $this->test_employees_store_John_Doe_employee_with_image();
+        $employee = Employee::where('name', 'John Doe')->first();
+        $this->assertEquals($employee->name, 'John Doe');
+        $this->assertEquals($employee->email, 'johndoe@example.com');
+        $this->assertNotNull($employee->photo);
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->delete("/employees/$employee->id");
+        $response->assertStatus(302)->assertRedirect('/employees');
+    }
 }
