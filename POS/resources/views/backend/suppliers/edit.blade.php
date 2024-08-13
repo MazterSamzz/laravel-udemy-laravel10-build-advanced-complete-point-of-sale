@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Add Employe</li>
+                                <li class="breadcrumb-item active">Edit Employe</li>
                             </ol>
                         </div>
                         <h4 class="page-title">Customers</h4>
@@ -26,10 +26,12 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('customers.store') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('customers.update', ['customer' => $customer->id]) }}"
+                                enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
-                                    Add Customers</h5>
+                                    Edit Customers</h5>
 
                                 <div class="row">
                                     <!-- Name -->
@@ -37,8 +39,8 @@
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Name</label>
                                             <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Enter Name" value="{{ old('name') }}" autocomplete="name"
-                                                autofocus>
+                                                placeholder="Enter Name" value="{{ $customer->name }}"
+                                                autocomplete="username" autofocus>
                                             @error('name')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -52,7 +54,7 @@
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Enter email" value="{{ old('email') }}"
+                                                placeholder="Enter email" value="{{ $customer->email }}"
                                                 autocomplete="email }}" autocomplete="email">
                                             @error('email')
                                                 <div class="text-danger">
@@ -67,7 +69,8 @@
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Phone</label>
                                             <input type="tel" class="form-control" id="phone" name="phone"
-                                                placeholder="Enter Phone" value="{{ old('phone') }}" autocomplete="phone">
+                                                placeholder="Enter Phone" value="{{ $customer->phone }}"
+                                                autocomplete="phone">
                                             @error('phone')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -81,7 +84,7 @@
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Address</label>
                                             <input type="text" class="form-control" id="address" name="address"
-                                                placeholder="Enter Address" value="{{ old('address') }}"
+                                                placeholder="Enter Address" value="{{ $customer->address }}"
                                                 autocomplete="address">
                                             @error('address')
                                                 <div class="text-danger">
@@ -96,7 +99,7 @@
                                         <div class="mb-3">
                                             <label for="shopname" class="form-label">shopname</label>
                                             <input type="text" class="form-control" id="shopname" name="shopname"
-                                                placeholder="Enter Shop Name" value="{{ old('shopname') }}"
+                                                placeholder="Enter Shop Name" value="{{ $customer->shopname }}"
                                                 autocomplete="shopname">
                                             @error('shopname')
                                                 <div class="text-danger">
@@ -112,7 +115,7 @@
                                             <label for="account_holder" class="form-label">Account Holder</label>
                                             <input type="text" class="form-control" id="account_holder"
                                                 name="account_holder" placeholder="Enter Account Holder"
-                                                value="{{ old('account_holder') }}">
+                                                value="{{ $customer->account_holder }}">
                                             @error('account_holder')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -127,7 +130,7 @@
                                             <label for="account_number" class="form-label">Account Number</label>
                                             <input type="text" class="form-control" id="account_number"
                                                 name="account_number" placeholder="Enter Account Number"
-                                                value="{{ old('account_number') }}">
+                                                value="{{ $customer->account_number }}">
                                             @error('account_number')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -141,7 +144,7 @@
                                         <div class="mb-3">
                                             <label for="bank_name" class="form-label">Bank Name</label>
                                             <input type="text" class="form-control" id="bank_name" name="bank_name"
-                                                placeholder="Enter Bank Name" value="{{ old('bank_name') }}">
+                                                placeholder="Enter Bank Name" value="{{ $customer->bank_name }}">
                                             @error('bank_name')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -156,7 +159,7 @@
                                             <label for="bank_branch" class="form-label">Bank Branch</label>
                                             <input type="text" class="form-control" id="bank_branch"
                                                 name="bank_branch" placeholder="Enter Bank Branch"
-                                                value="{{ old('bank_branch') }}">
+                                                value="{{ $customer->bank_branch }}">
                                             @error('bank_branch')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -170,7 +173,7 @@
                                         <div class="mb-3">
                                             <label for="city" class="form-label">City</label>
                                             <input type="text" class="form-control" id="city" name="city"
-                                                placeholder="Enter City" value="{{ old('city') }}"
+                                                placeholder="Enter City" value="{{ $customer->city }}"
                                                 autocomplete="city">
                                             @error('city')
                                                 <div class="text-danger">
@@ -192,7 +195,13 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <img id="photo-preview" src="{{ asset('images/no_image.jpg') }}"
+                                        <img id="photo-preview"
+                                            src="@isset($employee->photo)
+                                                    {{ asset($employee->photo) }}
+                                                @else
+                                                    {{ asset('images/no_image.jpg') }}
+                                                @endisset
+                                                "
                                             class="rounded-circle avatar-lg img-thumbnail">
                                     </div><!-- End of Photo -->
                                 </div> <!-- end row -->

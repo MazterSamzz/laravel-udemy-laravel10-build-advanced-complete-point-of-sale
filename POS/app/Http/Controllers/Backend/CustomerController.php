@@ -32,13 +32,13 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $customers = $request->validated();
+        $customer = $request->validated();
 
-        if ($request->file('photo')) {
-            $customers['photo'] = ImageHelper::saveImage($request->file('photo'), 'images/customer-photos');
+        if ($customer['photo']) {
+            $customer['photo'] = ImageHelper::saveImage($customer['photo'], 'images/customer-photos');
         }
 
-        Customer::create($customers);
+        Customer::create($customer);
 
         $notification = array(
             'message' => 'Customer created successfully.',
@@ -58,7 +58,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('backend.customers.edit', compact('customer'));
     }
 
     /**
@@ -66,7 +66,23 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        //
+        $data = $request->validated();
+
+        // Save the image and Delete the previous image
+        if (isset($data['photo'])) {
+            $data['photo'] = ImageHelper::saveImage($data['photo'], 'images/customer-photos');
+            if ($customer->photo)
+                ImageHelper::softDelete($customer->photo, $customer->name);
+        }
+
+        $customer->update($data);
+
+        $notification = array(
+            'message' => 'Customer updated successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('customers.index')->with($notification);
     }
 
     /**
@@ -74,6 +90,16 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        if ($customer->photo)
+            ImageHelper::softDelete($customer->photo, $customer->name);
+
+        $customer->delete();
+
+        $notification = array(
+            'message' => 'Employee deleted successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('customers.index')->with($notification);
     }
 }

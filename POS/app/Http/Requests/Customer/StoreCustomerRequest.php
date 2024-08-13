@@ -27,7 +27,7 @@ class StoreCustomerRequest extends FormRequest
             'phone' => ['required', 'unique:customers,phone'],
             'address' => ['required'],
             'shopname' => ['required'],
-            'image' => ['nullable'],
+            'photo' => ['nullable'],
             'bank_name' => ['required'],
             'account_holder' => ['required'],
             'account_number' => ['required'],

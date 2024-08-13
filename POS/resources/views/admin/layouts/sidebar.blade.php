@@ -54,17 +54,16 @@
                     </a>
                 </li>
 
-
-                <!-- ================ Apps ================ -->
                 <li class="menu-title mt-2">Apps</li>
 
+                <!-- ================ Employees ================ -->
                 <li>
-                    <a href="#sidebarEmployeeManagement" data-bs-toggle="collapse">
+                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-group"></i>
                         <span> Employee</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEmployeeManagement">
+                    <div class="collapse" id="sidebarEmployee">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('employees.index') }}">All Employee</a>
@@ -75,16 +74,16 @@
                         </ul>
                     </div>
                 </li>
-                <!-- ================ End of Apps ================ -->
+                <!-- ================ End of Employees ================ -->
 
-                <!-- ================ CRM ================ -->
+                <!-- ================ Customers ================ -->
                 <li>
-                    <a href="#sidebarCrm" data-bs-toggle="collapse">
+                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-multiple-outline"></i>
                         <span> Customer </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarCrm">
+                    <div class="collapse" id="sidebarEmployee">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('customers.index') }}">All Customers</a>
@@ -95,33 +94,27 @@
                         </ul>
                     </div>
                 </li>
-                <!-- ================ End of CRM ================ -->
+                <!-- ================ End of Customers ================ -->
 
-                <!-- ================ Email ================ -->
+                <!-- ================ Suppliers ================ -->
                 <li>
-                    <a href="#sidebarEmail" data-bs-toggle="collapse">
+                    <a href="#sidebarSuppliers" data-bs-toggle="collapse">
                         <i class="mdi mdi-email-multiple-outline"></i>
-                        <span> Email </span>
+                        <span> Suppliers </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEmail">
+                    <div class="collapse" id="sidebarSuppliers">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="email-inbox.html">Inbox</a>
+                                <a href="{{ route('suppliers.index') }}">All Suppliers</a>
                             </li>
                             <li>
-                                <a href="email-read.html">Read Email</a>
-                            </li>
-                            <li>
-                                <a href="email-compose.html">Compose Email</a>
-                            </li>
-                            <li>
-                                <a href="email-templates.html">Email Templates</a>
+                                <a href="{{ route('suppliers.create') }}">Add Supplier</a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <!-- ================ End of Email ================ -->
+                <!-- ================ End of Suppliers ================ -->
 
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>

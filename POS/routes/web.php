@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
 
     require __DIR__ . '/backend/employee.php';
     Route::resource('customers', CustomerController::class);
+    Route::resource('suppliers', SupplierController::class);
 });
 
 require __DIR__ . '/auth.php';
