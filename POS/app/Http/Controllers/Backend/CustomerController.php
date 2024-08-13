@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Customer;
 use App\Http\Requests\Customer\StoreCustomerRequest;
@@ -15,7 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::latest()->get();
-        return view('backend.customer.index', compact('customers'));
+        return view('backend.customers.index', compact('customers'));
     }
 
     /**
@@ -23,7 +24,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.customers.create');
     }
 
     /**
@@ -31,16 +32,26 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        //
+        $customers = $request->validated();
+
+        if ($request->file('photo')) {
+            $customers['photo'] = ImageHelper::saveImage($request->file('photo'), 'images/customer-photos');
+        }
+
+        Customer::create($customers);
+
+        $notification = array(
+            'message' => 'Customer created successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('customers.index')->with($notification);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
-    {
-        //
-    }
+    public function show(Customer $customer) {}
 
     /**
      * Show the form for editing the specified resource.

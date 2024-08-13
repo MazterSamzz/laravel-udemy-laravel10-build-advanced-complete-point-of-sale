@@ -11,7 +11,7 @@ class StoreCustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,19 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'name' => ['required', 'unique:customers,name'],
+            'email' => ['required', 'unique:customers,email'],
+            'phone' => ['required', 'unique:customers,phone'],
+            'address' => ['required'],
+            'shopname' => ['required'],
+            'image' => ['nullable'],
+            'bank_name' => ['required'],
+            'account_holder' => ['required'],
+            'account_number' => ['required'],
+            'bank_branch' => ['required'],
+            'city' => ['required']
         ];
+        return $rules;
     }
 }
