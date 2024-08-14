@@ -12,10 +12,10 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Add Employe</li>
+                                <li class="breadcrumb-item active">Add Supplier</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Customers</h4>
+                        <h4 class="page-title">Suppliers</h4>
                     </div>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('customers.store') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
-                                    Add Customers</h5>
+                                    Add Suppliers</h5>
 
                                 <div class="row">
                                     <!-- Name -->
@@ -37,7 +37,7 @@
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Name</label>
                                             <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Enter Name" value="{{ old('name') }}" autocomplete="name"
+                                                placeholder="Enter Name" value="{{ old('name') }}" autocomplete="username"
                                                 autofocus>
                                             @error('name')
                                                 <div class="text-danger">
@@ -94,7 +94,7 @@
                                     <!-- Shopname -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="shopname" class="form-label">shopname</label>
+                                            <label for="shopname" class="form-label">Shop Name</label>
                                             <input type="text" class="form-control" id="shopname" name="shopname"
                                                 placeholder="Enter Shop Name" value="{{ old('shopname') }}"
                                                 autocomplete="shopname">
@@ -105,6 +105,24 @@
                                             @enderror
                                         </div>
                                     </div> <!-- End of Shopname -->
+
+                                    <!-- Type -->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Type</label>
+                                            <select class="form-control" id="type" name="type"
+                                                placeholder="Enter Type" value="{{ old('type') }}" autocomplete="type">
+                                                <option selected disabled value="">Select Type</option>
+                                                <option value="Distributor">Distributor</option>
+                                                <option value="Whole Seller">Whole Seller</option>
+                                            </select>
+                                            @error('type')
+                                                <div class="text-danger">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div> <!-- End of Type -->
 
                                     <!-- Account Holder -->
                                     <div class="col-md-6">

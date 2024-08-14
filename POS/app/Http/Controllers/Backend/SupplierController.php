@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Supplier;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
@@ -23,7 +24,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.suppliers.create');
     }
 
     /**
@@ -31,7 +32,20 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
-        //
+        $supplier = $request->validated();
+
+        if (isset($supplier['photo'])) {
+            $supplier['photo'] = ImageHelper::saveImage($supplier['photo'], 'images/suppliers-photos');
+        }
+
+        Supplier::create($supplier);
+
+        $notification = array(
+            'message' => 'Supplier created successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('suppliers.index')->with($notification);
     }
 
     /**

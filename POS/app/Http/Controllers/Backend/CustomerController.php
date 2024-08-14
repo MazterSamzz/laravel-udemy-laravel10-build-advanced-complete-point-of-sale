@@ -34,7 +34,7 @@ class CustomerController extends Controller
     {
         $customer = $request->validated();
 
-        if ($customer['photo']) {
+        if (isset($customer['photo'])) {
             $customer['photo'] = ImageHelper::saveImage($customer['photo'], 'images/customer-photos');
         }
 
