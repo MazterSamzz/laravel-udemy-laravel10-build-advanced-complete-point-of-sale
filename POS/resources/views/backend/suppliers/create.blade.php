@@ -67,7 +67,7 @@
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Phone</label>
                                             <input type="tel" class="form-control" id="phone" name="phone"
-                                                placeholder="Enter Phone" value="{{ old('phone') }}" autocomplete="phone">
+                                                placeholder="Enter Phone" value="{{ old('phone') }}" autocomplete="tel">
                                             @error('phone')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -111,10 +111,16 @@
                                         <div class="mb-3">
                                             <label for="type" class="form-label">Type</label>
                                             <select class="form-control" id="type" name="type"
-                                                placeholder="Enter Type" value="{{ old('type') }}" autocomplete="type">
+                                                placeholder="Enter Type">
                                                 <option selected disabled value="">Select Type</option>
-                                                <option value="Distributor">Distributor</option>
-                                                <option value="Whole Seller">Whole Seller</option>
+                                                <option value="Distributor"
+                                                    {{ old('type') == 'Distributor' ? 'selected' : '' }}>
+                                                    Distributor
+                                                </option>
+                                                <option value="Whole Seller"
+                                                    {{ old('type') == 'Whole Seller' ? 'selected' : '' }}>
+                                                    Whole Seller
+                                                </option>
                                             </select>
                                             @error('type')
                                                 <div class="text-danger">

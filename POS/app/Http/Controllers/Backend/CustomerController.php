@@ -90,7 +90,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        if ($customer->photo)
+        if (isset($customer->photo))
             ImageHelper::softDelete($customer->photo, $customer->name);
 
         $customer->delete();

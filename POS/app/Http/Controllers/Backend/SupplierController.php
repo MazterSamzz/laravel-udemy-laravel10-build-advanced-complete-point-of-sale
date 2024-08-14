@@ -61,7 +61,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        return view('backend.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -69,7 +69,23 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+        $data = $request->validated();
+
+        // Save the image and Delete the previous image
+        if (isset($data['photo'])) {
+            $data['photo'] = ImageHelper::saveImage($data['photo'], 'images/suppliers-photos');
+            if ($supplier->photo)
+                ImageHelper::softDelete($supplier->photo, $supplier->name);
+        }
+
+        $supplier->update($data);
+
+        $notification = array(
+            'message' => 'Supplier updated successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('suppliers.index')->with($notification);
     }
 
     /**
@@ -77,6 +93,16 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        if (isset($supplier->photo))
+            ImageHelper::softDelete($supplier->photo, $supplier->name);
+
+        $supplier->delete();
+
+        $notification = array(
+            'message' => 'Supplier deleted successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('suppliers.index')->with($notification);
     }
 }
