@@ -116,6 +116,26 @@
                 </li>
                 <!-- ================ End of Suppliers ================ -->
 
+                <!-- ================ Suppliers ================ -->
+                <li>
+                    <a href="#sidebarSalary" data-bs-toggle="collapse">
+                        <i class="mdi mdi-email-multiple-outline"></i>
+                        <span>Salary</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSalary">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('salaries.index') }}">All Salary</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('salaries.create') }}">Add Salary</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- ================ End of Salary ================ -->
+
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>
 

@@ -131,7 +131,7 @@ function parseFloatOnSubmit(inputId, decimalCount = 2) {
  */
 function parseIntOnSubmit(input) {
     document.querySelector("form").addEventListener("submit", function (event) {
-        let number = document.getElementByName(input);
+        let number = document.getElementsByName(input);
         console.log("Form submitted");
         console.log("Input value before processing:", number.value);
         let value = number.value.replace(/\D/g, ""); // Delete all non-digit characters
