@@ -69,6 +69,9 @@
                                             <td class="align-middle">{{ $supplier->phone }}</td>
                                             <td class="align-middle" name="shopname">{{ $supplier->shopname }}</td>
                                             <td class="align-middle">
+                                                <a href="{{ route('suppliers.show', ['supplier' => $supplier->id]) }}"
+                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-eye"></span></a>
                                                 <a href="{{ route('suppliers.edit', ['supplier' => $supplier->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>

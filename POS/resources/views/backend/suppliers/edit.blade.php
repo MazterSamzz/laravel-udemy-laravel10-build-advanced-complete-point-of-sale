@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Edit Employe</li>
+                                <li class="breadcrumb-item active">Edit Supplier</li>
                             </ol>
                         </div>
                         <h4 class="page-title">Suppliers</h4>
@@ -219,8 +219,8 @@
                                             @enderror
                                         </div>
                                         <img id="photo-preview"
-                                            src="@isset($employee->photo)
-                                                    {{ asset($employee->photo) }}
+                                            src="@isset($supplier->photo)
+                                                    {{ asset($supplier->photo) }}
                                                 @else
                                                     {{ asset('images/no_image.jpg') }}
                                                 @endisset

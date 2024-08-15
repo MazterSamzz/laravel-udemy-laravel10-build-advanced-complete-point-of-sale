@@ -53,7 +53,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
+        return view('backend.suppliers.show', compact('supplier'));
     }
 
     /**
