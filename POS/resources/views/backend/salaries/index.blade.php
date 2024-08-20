@@ -57,7 +57,7 @@
                                     @foreach ($salaries as $salary)
                                         <tr>
                                             <td scope="row" class="align-middle">
-                                                {{ $salary->year . '/' . $salary->month }}
+                                                {{ $salary->year . '/' . ($salary->month < 10 ? '0' . $salary->month : $salary->month) }}
                                             </td>
                                             <td> <img class="avatar-md img-thumbnail modal-img"
                                                     src="{{ $salary->employee->photo ?: asset('images/no_image.jpg') }}"

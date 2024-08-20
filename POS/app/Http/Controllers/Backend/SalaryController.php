@@ -34,6 +34,20 @@ class SalaryController extends Controller
     public function store(StoreSalaryRequest $request)
     {
         $salary = $request->validated();
+
+        // Check if salary already exists
+        $duplicate = Salary::where("employee_id", $request->input('employee_id'))
+            ->where("month", $request->input('month'))
+            ->where("year", $request->input('year'))->first();
+
+        if ($duplicate) {
+            return redirect()->back()->withInput()->with([
+                'message' => 'Salary record already exists for this employee, month, and year.',
+                'alert-type' => 'warning'
+            ]);
+        }
+        // End of Check if salary already exists
+
         Salary::create($salary);
 
         $notification = array(
@@ -57,7 +71,8 @@ class SalaryController extends Controller
      */
     public function edit(Salary $salary)
     {
-        //
+        $employees = Employee::all();
+        return view('backend.salaries.edit', compact(['salary', 'employees']));
     }
 
     /**
@@ -65,7 +80,30 @@ class SalaryController extends Controller
      */
     public function update(UpdateSalaryRequest $request, Salary $salary)
     {
-        //
+        $data = $request->validated();
+
+        // Check if salary already exists
+        $duplicate = Salary::where("employee_id", $request->input('employee_id'))
+            ->where("month", $request->input('month'))
+            ->where("year", $request->input('year'))
+            ->where("id", "!=", $salary->id)->first();
+
+        if ($duplicate) {
+            return redirect()->back()->withInput()->with([
+                'message' => 'Salary record already exists for this employee, month, and year.',
+                'alert-type' => 'warning'
+            ]);
+        }
+        // End Check if salary already exists
+
+        $salary->update($data);
+
+        $notification = array(
+            'message' => 'Salary Updated successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('salaries.index')->with($notification);
     }
 
     /**
@@ -73,6 +111,13 @@ class SalaryController extends Controller
      */
     public function destroy(Salary $salary)
     {
-        //
+        $salary->delete();
+
+        $notification = array(
+            'message' => 'Salary deleted successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('salaries.index')->with($notification);
     }
 }

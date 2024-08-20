@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Salary;
 
+use App\Models\Backend\Salary;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSalaryRequest extends FormRequest

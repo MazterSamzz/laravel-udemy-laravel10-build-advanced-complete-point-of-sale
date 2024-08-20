@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Add Salary</li>
+                                <li class="breadcrumb-item active">Edit Salary</li>
                             </ol>
                         </div>
                         <h4 class="page-title">Salary</h4>
@@ -26,10 +26,12 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('salaries.store') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('salaries.update', ['salary' => $salary->id]) }}"
+                                enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
-                                    Add Salary</h5>
+                                    Edit Salary</h5>
 
                                 <div class="row">
 
@@ -41,7 +43,7 @@
                                                 <option value="" selected disabled>-- Select Employee --</option>
                                                 @foreach ($employees as $employee)
                                                     <option value="{{ $employee->id }}" data-salary={{ $employee->salary }}
-                                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                                        {{ old('employee_id', $salary->employee_id) == $employee->id ? 'selected' : '' }}>
                                                         {{ $employee->name }}</option>
                                                 @endforeach
                                             </select>
@@ -59,29 +61,32 @@
                                             <label for="month" class="form-label">Month</label>
                                             <select class="form-select" id="month" name="month">
                                                 <option value="" selected disabled>-- Select Month --</option>
-                                                <option value=1 {{ old('month', now()->month) == 1 ? 'selected' : '' }}>
+                                                <option value=1 {{ old('month', $salary->month) == 1 ? 'selected' : '' }}>
                                                     January</option>
-                                                <option value=2 {{ old('month', now()->month) == 2 ? 'selected' : '' }}>
+                                                <option value=2 {{ old('month', $salary->month) == 2 ? 'selected' : '' }}>
                                                     February</option>
-                                                <option value=3 {{ old('month', now()->month) == 3 ? 'selected' : '' }}>
+                                                <option value=3 {{ old('month', $salary->month) == 3 ? 'selected' : '' }}>
                                                     March</option>
-                                                <option value=4 {{ old('month', now()->month) == 4 ? 'selected' : '' }}>
+                                                <option value=4 {{ old('month', $salary->month) == 4 ? 'selected' : '' }}>
                                                     April</option>
-                                                <option value=5 {{ old('month', now()->month) == 5 ? 'selected' : '' }}>
+                                                <option value=5 {{ old('month', $salary->month) == 5 ? 'selected' : '' }}>
                                                     May</option>
-                                                <option value=6 {{ old('month', now()->month) == 6 ? 'selected' : '' }}>
+                                                <option value=6 {{ old('month', $salary->month) == 6 ? 'selected' : '' }}>
                                                     June</option>
-                                                <option value=7 {{ old('month', now()->month) == 7 ? 'selected' : '' }}>
+                                                <option value=7 {{ old('month', $salary->month) == 7 ? 'selected' : '' }}>
                                                     July</option>
-                                                <option value=8 {{ old('month', now()->month) == 8 ? 'selected' : '' }}>
+                                                <option value=8 {{ old('month', $salary->month) == 8 ? 'selected' : '' }}>
                                                     August</option>
-                                                <option value=9 {{ old('month', now()->month) == 9 ? 'selected' : '' }}>
+                                                <option value=9 {{ old('month', $salary->month) == 9 ? 'selected' : '' }}>
                                                     September</option>
-                                                <option value=10 {{ old('month', now()->month) == 10 ? 'selected' : '' }}>
+                                                <option value=10
+                                                    {{ old('month', $salary->month) == 10 ? 'selected' : '' }}>
                                                     October</option>
-                                                <option value=11 {{ old('month', now()->month) == 11 ? 'selected' : '' }}>
+                                                <option value=11
+                                                    {{ old('month', $salary->month) == 11 ? 'selected' : '' }}>
                                                     November</option>
-                                                <option value=12 {{ old('month', now()->month) == 12 ? 'selected' : '' }}>
+                                                <option value=12
+                                                    {{ old('month', $salary->month) == 12 ? 'selected' : '' }}>
                                                     December</option>
                                             </select>
                                             @error('month')
@@ -100,7 +105,7 @@
                                                 <option value="" selected disabled>-- Select Year --</option>
                                                 @for ($i = 2000; $i < 2300; $i++)
                                                     <option value="{{ $i }}"
-                                                        {{ old('year', now()->year) == $i ? 'selected' : '' }}>
+                                                        {{ old('year', $salary->year) == $i ? 'selected' : '' }}>
                                                         {{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -117,7 +122,7 @@
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">Amount</label>
                                             <input type="text" class="form-control" id="amount" name="amount"
-                                                placeholder="Enter amount" value="{{ old('amount') }}">
+                                                placeholder="Enter amount" value="{{ old('amount', $salary->amount) }}">
                                             @error('amount')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -148,12 +153,6 @@
     <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
 
     <script type="text/javascript">
-        document.getElementById('employee_id').addEventListener('change', function() {
-            var selectedEmployee = this.options[this.selectedIndex];
-            var salary = selectedEmployee.getAttribute('data-salary');
-            document.getElementById('amount').value = salary ||
-                ''; // Mengisi input amount dengan salary atau kosongkan jika tidak ada
-            numberSeparatorById('amount');
-        });
+        numberSeparatorById('amount');
     </script>
 @endsection

@@ -11,7 +11,28 @@ class UpdateSalaryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Prepares the request data for validation by cleaning and converting the amount value.
+     *
+     * If the request contains a 'amount' field, this method removes any commas from the value and converts it to an integer.
+     * The cleaned amount value is then merged back into the request data.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->has('amount')) {
+            $amount = $this->input('amount');
+            $amount = str_replace(',', '', $amount); // Menghapus koma
+            $amount = intval($amount);
+
+            $this->merge([
+                'amount' => $amount,
+            ]);
+        }
     }
 
     /**
@@ -22,7 +43,10 @@ class UpdateSalaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'employee_id' => ['required', 'exists:employees,id'],
+            'month' => ['required', 'min:1', 'max:12'],
+            'year' => ['required', 'min:1', 'max:9999'],
+            'amount' => ['required', 'min:0']
         ];
     }
 }
