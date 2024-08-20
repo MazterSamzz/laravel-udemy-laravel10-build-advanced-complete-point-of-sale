@@ -1,1 +1,4 @@
 *.sqlite*
+public/images/
+!public/images/no_images.jpg
+public/recycle bin/

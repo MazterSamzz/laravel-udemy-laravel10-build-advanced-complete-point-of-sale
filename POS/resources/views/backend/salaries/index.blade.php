@@ -46,6 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
+                                        <th>Photo</th>
                                         <th>Name</th>
                                         <th>Amount</th>
                                         <th>Action</th>
@@ -58,6 +59,9 @@
                                             <td scope="row" class="align-middle">
                                                 {{ $salary->year . '/' . $salary->month }}
                                             </td>
+                                            <td> <img class="avatar-md img-thumbnail modal-img"
+                                                    src="{{ $salary->employee->photo ?: asset('images/no_image.jpg') }}"
+                                                    alt="Employee Photo" srcset=""></td>
                                             <td class="align-middle"> {{ $salary->employee->name }}</td>
                                             <td class="align-middle" name="amount">{{ $salary->amount }}</td>
                                             <td class="align-middle">

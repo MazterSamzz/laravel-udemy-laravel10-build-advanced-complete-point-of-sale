@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('employee_id');
+            $table->unsignedBigInteger('employee_id');
             $table->unsignedTinyInteger('month');
             $table->unsignedSmallInteger('year');
             $table->unsignedInteger('amount');
