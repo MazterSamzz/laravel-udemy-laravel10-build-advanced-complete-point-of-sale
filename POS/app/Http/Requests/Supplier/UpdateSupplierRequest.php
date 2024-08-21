@@ -27,16 +27,16 @@ class UpdateSupplierRequest extends FormRequest
         $rules = [
             'name' => ['required', 'max:100', Rule::unique('suppliers')->ignore($id)],
             'email' => ['required', 'max:100', Rule::unique('suppliers')->ignore($id)],
-            'phone' => ['required', 'max:100', Rule::unique('suppliers')->ignore($id)],
-            'address' => ['required'],
-            'shopname' => ['required'],
-            'type' => ['required'],
-            'photo' => ['nullable'],
-            'bank_name' => ['nullable'],
-            'account_holder' => ['nullable'],
-            'account_number' => ['nullable'],
-            'bank_branch' => ['nullable'],
-            'city' => ['nullable']
+            'phone' => ['required', 'max:100', Rule::unique('suppliers')->ignore($id), 'regex:/^0[1-9][0-9]{7,12}$/'],
+            'address' => ['required', 'string'],
+            'shopname' => ['required', 'string'],
+            'type' => ['required', 'string'],
+            'photo' => ['nullable', 'image'],
+            'bank_name' => ['nullable', 'string'],
+            'account_holder' => ['nullable', 'string'],
+            'account_number' => ['nullable', 'string'],
+            'bank_branch' => ['nullable', 'string'],
+            'city' => ['nullable', 'string']
         ];
 
         return $rules;

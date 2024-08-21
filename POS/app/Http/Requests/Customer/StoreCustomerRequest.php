@@ -25,14 +25,14 @@ class StoreCustomerRequest extends FormRequest
             'name' => ['required', 'unique:customers,name'],
             'email' => ['required', 'unique:customers,email'],
             'phone' => ['required', 'unique:customers,phone'],
-            'address' => ['required'],
-            'shopname' => ['required'],
-            'photo' => ['nullable'],
-            'bank_name' => ['required'],
-            'account_holder' => ['required'],
-            'account_number' => ['required'],
-            'bank_branch' => ['required'],
-            'city' => ['required']
+            'address' => ['required', 'string'],
+            'shopname' => ['required', 'string'],
+            'photo' => ['nullable', 'image'],
+            'bank_name' => ['required', 'string'],
+            'account_holder' => ['required', 'string'],
+            'account_number' => ['required', 'string'],
+            'bank_branch' => ['required', 'string'],
+            'city' => ['required', 'string']
         ];
         return $rules;
     }

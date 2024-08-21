@@ -25,15 +25,15 @@ class StoreSupplierRequest extends FormRequest
             'name' => ['required', 'unique:suppliers,name'],
             'email' => ['required', 'unique:suppliers,email'],
             'phone' => ['required', 'unique:suppliers,phone'],
-            'address' => ['required'],
-            'shopname' => ['required'],
-            'type' => ['required'],
-            'photo' => ['nullable'],
-            'bank_name' => ['nullable'],
-            'account_holder' => ['nullable'],
-            'account_number' => ['nullable'],
-            'bank_branch' => ['nullable'],
-            'city' => ['nullable']
+            'address' => ['required', 'string'],
+            'shopname' => ['required', 'string'],
+            'type' => ['required', 'string'],
+            'photo' => ['nullable', 'image'],
+            'bank_name' => ['nullable', 'string'],
+            'account_holder' => ['nullable', 'string'],
+            'account_number' => ['nullable', 'string'],
+            'bank_branch' => ['nullable', 'string'],
+            'city' => ['nullable', 'string']
         ];
 
         return $rules;
