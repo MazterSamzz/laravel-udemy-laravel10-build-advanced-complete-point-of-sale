@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Salary;
-use App\Http\Requests\Salary\StoreSalaryRequest;
-use App\Http\Requests\Salary\UpdateSalaryRequest;
+use App\Models\Backend\AdvanceSalary;
+use App\Http\Requests\AdvanceSalary\StoreAdvanceSalaryRequest;
+use App\Http\Requests\AdvanceSalary\UpdateAdvanceSalaryRequest;
 use App\Models\Backend\Employee;
 
-class SalaryController extends Controller
+class AdvanceSalaryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $salaries = Salary::latest()->get();
-        return view('backend.salaries.index', compact('salaries'));
+        $salaries = AdvanceSalary::latest()->get();
+        return view('backend.advance-salaries.index', compact('salaries'));
     }
 
     /**
@@ -25,18 +25,18 @@ class SalaryController extends Controller
     public function create()
     {
         $employees = Employee::all();
-        return view('backend.salaries.create', compact('employees'));
+        return view('backend.advance-salaries.create', compact('employees'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSalaryRequest $request)
+    public function store(StoreAdvanceSalaryRequest $request)
     {
-        $salary = $request->validated();
+        $advanceSalary = $request->validated();
 
-        // Check if salary already exists
-        $duplicate = Salary::where("employee_id", $request->input('employee_id'))
+        // Check if advance salary already exists
+        $duplicate = AdvanceSalary::where("employee_id", $request->input('employee_id'))
             ->where("month", $request->input('month'))
             ->where("year", $request->input('year'))->first();
 
@@ -48,20 +48,20 @@ class SalaryController extends Controller
         }
         // End of Check if salary already exists
 
-        Salary::create($salary);
+        AdvanceSalary::create($advanceSalary);
 
         $notification = array(
-            'message' => 'Salary created successfully.',
+            'message' => 'Advance salary created successfully.',
             'alert-type' => 'success'
         );
 
-        return to_route('salaries.index')->with($notification);
+        return to_route('advance-salaries.index')->with($notification);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Salary $salary)
+    public function show(AdvanceSalary $advanceSalary)
     {
         //
     }
@@ -69,24 +69,24 @@ class SalaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Salary $salary)
+    public function edit(AdvanceSalary $advanceSalary)
     {
         $employees = Employee::all();
-        return view('backend.salaries.edit', compact(['salary', 'employees']));
+        return view('backend.advance-salaries.edit', compact(['advanceSalary', 'employees']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSalaryRequest $request, Salary $salary)
+    public function update(UpdateAdvanceSalaryRequest $request, AdvanceSalary $advanceSalary)
     {
         $data = $request->validated();
 
         // Check if salary already exists
-        $duplicate = Salary::where("employee_id", $request->input('employee_id'))
+        $duplicate = AdvanceSalary::where("employee_id", $request->input('employee_id'))
             ->where("month", $request->input('month'))
             ->where("year", $request->input('year'))
-            ->where("id", "!=", $salary->id)->first();
+            ->where("id", "!=", $advanceSalary->id)->first();
 
         if ($duplicate) {
             return redirect()->back()->withInput()->with([
@@ -96,28 +96,28 @@ class SalaryController extends Controller
         }
         // End Check if salary already exists
 
-        $salary->update($data);
+        $advanceSalary->update($data);
 
         $notification = array(
             'message' => 'Salary Updated successfully.',
             'alert-type' => 'success'
         );
 
-        return to_route('salaries.index')->with($notification);
+        return to_route('advance-salaries.index')->with($notification);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Salary $salary)
+    public function destroy(AdvanceSalary $advanceSalary)
     {
-        $salary->delete();
+        $advanceSalary->delete();
 
         $notification = array(
             'message' => 'Salary deleted successfully.',
             'alert-type' => 'success'
         );
 
-        return to_route('salaries.index')->with($notification);
+        return to_route('advance-salaries.index')->with($notification);
     }
 }

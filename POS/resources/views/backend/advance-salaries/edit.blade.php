@@ -1,5 +1,10 @@
 @extends('admin.layouts.admin_dashboard')
 
+@section('css')
+    <!-- Include Tippy.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
+@endsection
+
 @section('admin')
     <div class="content">
 
@@ -26,7 +31,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('salaries.update', ['salary' => $salary->id]) }}"
+                            <form method ="post"
+                                action="{{ route('advance-salaries.update', ['advance_salary' => $advanceSalary->id]) }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('put')
@@ -43,7 +49,7 @@
                                                 <option value="" selected disabled>-- Select Employee --</option>
                                                 @foreach ($employees as $employee)
                                                     <option value="{{ $employee->id }}" data-salary={{ $employee->salary }}
-                                                        {{ old('employee_id', $salary->employee_id) == $employee->id ? 'selected' : '' }}>
+                                                        {{ old('employee_id', $advanceSalary->employee_id) == $employee->id ? 'selected' : '' }}>
                                                         {{ $employee->name }}</option>
                                                 @endforeach
                                             </select>
@@ -61,32 +67,41 @@
                                             <label for="month" class="form-label">Month</label>
                                             <select class="form-select" id="month" name="month">
                                                 <option value="" selected disabled>-- Select Month --</option>
-                                                <option value=1 {{ old('month', $salary->month) == 1 ? 'selected' : '' }}>
+                                                <option value=1
+                                                    {{ old('month', $advanceSalary->month) == 1 ? 'selected' : '' }}>
                                                     January</option>
-                                                <option value=2 {{ old('month', $salary->month) == 2 ? 'selected' : '' }}>
+                                                <option value=2
+                                                    {{ old('month', $advanceSalary->month) == 2 ? 'selected' : '' }}>
                                                     February</option>
-                                                <option value=3 {{ old('month', $salary->month) == 3 ? 'selected' : '' }}>
+                                                <option value=3
+                                                    {{ old('month', $advanceSalary->month) == 3 ? 'selected' : '' }}>
                                                     March</option>
-                                                <option value=4 {{ old('month', $salary->month) == 4 ? 'selected' : '' }}>
+                                                <option value=4
+                                                    {{ old('month', $advanceSalary->month) == 4 ? 'selected' : '' }}>
                                                     April</option>
-                                                <option value=5 {{ old('month', $salary->month) == 5 ? 'selected' : '' }}>
+                                                <option value=5
+                                                    {{ old('month', $advanceSalary->month) == 5 ? 'selected' : '' }}>
                                                     May</option>
-                                                <option value=6 {{ old('month', $salary->month) == 6 ? 'selected' : '' }}>
+                                                <option value=6
+                                                    {{ old('month', $advanceSalary->month) == 6 ? 'selected' : '' }}>
                                                     June</option>
-                                                <option value=7 {{ old('month', $salary->month) == 7 ? 'selected' : '' }}>
+                                                <option value=7
+                                                    {{ old('month', $advanceSalary->month) == 7 ? 'selected' : '' }}>
                                                     July</option>
-                                                <option value=8 {{ old('month', $salary->month) == 8 ? 'selected' : '' }}>
+                                                <option value=8
+                                                    {{ old('month', $advanceSalary->month) == 8 ? 'selected' : '' }}>
                                                     August</option>
-                                                <option value=9 {{ old('month', $salary->month) == 9 ? 'selected' : '' }}>
+                                                <option value=9
+                                                    {{ old('month', $advanceSalary->month) == 9 ? 'selected' : '' }}>
                                                     September</option>
                                                 <option value=10
-                                                    {{ old('month', $salary->month) == 10 ? 'selected' : '' }}>
+                                                    {{ old('month', $advanceSalary->month) == 10 ? 'selected' : '' }}>
                                                     October</option>
                                                 <option value=11
-                                                    {{ old('month', $salary->month) == 11 ? 'selected' : '' }}>
+                                                    {{ old('month', $advanceSalary->month) == 11 ? 'selected' : '' }}>
                                                     November</option>
                                                 <option value=12
-                                                    {{ old('month', $salary->month) == 12 ? 'selected' : '' }}>
+                                                    {{ old('month', $advanceSalary->month) == 12 ? 'selected' : '' }}>
                                                     December</option>
                                             </select>
                                             @error('month')
@@ -105,7 +120,7 @@
                                                 <option value="" selected disabled>-- Select Year --</option>
                                                 @for ($i = 2000; $i < 2300; $i++)
                                                     <option value="{{ $i }}"
-                                                        {{ old('year', $salary->year) == $i ? 'selected' : '' }}>
+                                                        {{ old('year', $advanceSalary->year) == $i ? 'selected' : '' }}>
                                                         {{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -122,7 +137,8 @@
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">Amount</label>
                                             <input type="text" class="form-control" id="amount" name="amount"
-                                                placeholder="Enter amount" value="{{ old('amount', $salary->amount) }}">
+                                                placeholder="Enter amount"
+                                                value="{{ old('amount', $advanceSalary->amount) }}" data-plugin="tippy">
                                             @error('amount')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -149,10 +165,44 @@
 
 @section('js')
     <script src="{{ asset('backend/assets/js/imagePreview.js') }}"></script>
-
     <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
+
+    <!-- Include Tippy.js JS -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 
     <script type="text/javascript">
         numberSeparatorById('amount');
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let employeeSelect = document.getElementById('employee_id');
+            let amountInput = document.getElementById('amount');
+
+            tippy(amountInput, {
+                content: 'Max Amount: 0', // Nilai default
+                placement: 'bottom',
+                animation: 'scale',
+                arrow: true,
+                trigger: 'mouseenter', // Tooltip muncul saat mouse masuk
+                hideOnClick: false // Tooltip tidak hilang saat klik
+            });
+
+            // Update tooltip saat halaman dimuat
+            let selectedEmployee = employeeSelect.options[employeeSelect.selectedIndex];
+            let maxAmount = selectedEmployee ? selectedEmployee.getAttribute('data-salary') : 0;
+            amountInput._tippy.setContent(`Max Amount: ${maxAmount}`);
+
+            // Update tooltip ketika nilai pada select berubah
+            employeeSelect.addEventListener('change', function() {
+                let selectedEmployee = this.options[this.selectedIndex];
+                let maxAmount = selectedEmployee.getAttribute('data-salary') || 0;
+                amountInput.value = maxAmount; // Mengisi input amount dengan maxAmount
+
+                // Perbarui konten tooltip
+                amountInput._tippy.setContent(`Max Amount: ${maxAmount}`);
+            });
+
+        });
     </script>
 @endsection

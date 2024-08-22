@@ -85,45 +85,33 @@ class EmployeeTest extends TestCase
     }
 
     /**
-     * Test if the employees page redirects to the login page when not authenticated.
+     * Tests the accessibility of the employees index page.
      *
      * @return void
      */
-    public function test_employees_index_redirect_when_not_authenticated(): void
+    public function test_employees_index_accessibility(): void
     {
+        // Test if the employees page redirects to the login page when not authenticated.
         $response = $this->get('/employees');
         $response->assertStatus(302)->assertRedirect('/login');
-    }
 
-    /**
-     * Test if the employee page is displayed when the user is authenticated.
-     *
-     * @return void
-     */
-    public function test_employee_index_is_displayed(): void
-    {
-        $response = $this->actingAs($this->user)->get('/employees');  // Act as the user and get the employee page
+        // Test if the employee page is displayed when the user is authenticated.
+        $response = $this->actingAs($this->user)->get('/employees');
         $response->assertStatus(200);
     }
 
     /**
-     * Test if the employee creation page redirects to the login page when not authenticated.
+     * Tests the accessibility of the employee creation page.
      *
      * @return void
      */
-    public function test_employees_create_redirect_when_not_authenticated(): void
+    public function test_employees_create_accessibility(): void
     {
+        // Test if the employee creation page redirects to the login page when not authenticated.
         $response = $this->get('/employees/create');
         $response->assertStatus(302)->assertRedirect('/login');
-    }
 
-    /**
-     * Test if the employees create page is displayed when the user is authenticated.
-     *
-     * @return void
-     */
-    public function test_employees_create_is_displayed(): void
-    {
+        // Test if the employees create page is displayed when the user is authenticated.
         $response = $this->actingAs($this->user)->get('/employees/create');
         $response->assertStatus(200);
     }
@@ -183,7 +171,7 @@ class EmployeeTest extends TestCase
         // Fetch the employee from the database
         $employee = Employee::where('email', $data['email'])->first();
 
-        // Assert that the 'photo' field is not null and starts with 'images/profile-photos/'
+        // Assert that the 'photo' field is not null and starts with 'images/employee-photos/'
         $this->assertNotNull($employee->photo);
         $this->assertStringStartsWith('images/employee-photos/', $employee->photo);
         $this->assertFileExists($employee->photo);
@@ -192,65 +180,57 @@ class EmployeeTest extends TestCase
         $response->assertStatus(302)->assertRedirect('/employees');
     }
 
-    public function test_employees_edit_redirect_when_not_authenticated(): void
+    /**
+     * Tests the accessibility of the employee edit page.
+     *
+     * @return void
+     */
+    public function test_employees_edit_accessibility(): void
     {
-        // Act as the user and store employee
+        // Store Employee without image
         $data = $this->generateData(false);
         $this->actingAs($this->user)->post('/employees', $data);
         $this->post('/logout');
         $this->assertDatabaseHasEmployee($data);
+        $employee = Employee::where('email', $data['email'])->first();
 
-        $employee = Employee::where('name', $data['name'])->first();
-
+        // Test if the employee edit page redirects to the login page when not authenticated.
         $response = $this->get("/employees/$employee->id/edit");
         $response->assertStatus(302)->assertRedirect('/login');
-    }
 
-    public function test_edit_is_displayed(): void
-    {
-        // Act as the user and store employee
-        $data = $this->generateData(true);
-        $response = $this->actingAs($this->user)->post('/employees', $data);
-        $this->assertDatabaseHasEmployee($data);
-
-        $employee = Employee::where('name', $data['name'])->first();
-
-        // Act as the user and get the employees edit page
+        // Test if the employee edit page is displayed when the user is authenticated.
         $response = $this->actingAs($this->user)->get("/employees/$employee->id/edit");
         $response->assertStatus(200);
     }
 
     public function test_update_redirect_when_not_authenticated(): void
     {
-        // Act as the user and store employee
+        // Store Employee with image
         $data = $this->generateData(true);
         $this->actingAs($this->user)->post('/employees', $data);
         $this->post('/logout');
-
+        $employee = Employee::where('email', $data['email'])->first();
         $this->assertDatabaseHasEmployee($data);
-
-        $employee = Employee::where('name', $data['name'])->first();
 
         // Update Employee without authentication
         $updatedData = $this->generateData(true);
         $response = $this->put("/employees/{$employee->id}", $updatedData);
         $this->assertDatabaseMissingEmployee($updatedData);
 
-        // Fetch the employee from the database
-        $updatedEmployee = Employee::where('email', $updatedData['email'])->first();
-        $this->assertNull($updatedEmployee);
+        // Fetch the updated employee from the database
+        $updatedEmployee = Employee::find($employee->id);
+        $this->assertEquals($employee->email, $updatedEmployee->email);
 
         $response->assertStatus(302)->assertRedirect('/login');
     }
 
     public function test_employees_update_employee_without_image(): void
     {
-        // Act as the user and store employee
+        // Store Employee without image
         $data = $this->generateData(false);
         $this->actingAs($this->user)->post('/employees', $data);
+        $employee = Employee::where('email', $data['email'])->first();
         $this->assertDatabaseHasEmployee($data);
-
-        $employee = Employee::where('name', $data['name'])->first();
 
         // Act as the user and get the updated employee
         $updatedData = $this->generateData(false);
@@ -258,7 +238,7 @@ class EmployeeTest extends TestCase
         $this->assertDatabaseHasEmployee($updatedData);
 
         // Fetch the employee from the database
-        $employee = Employee::where('email', $updatedData['email'])->first();
+        $employee = Employee::find($employee->id);
 
         // Assert that the 'photo' field is null
         $this->assertNull($employee->photo);
@@ -267,25 +247,24 @@ class EmployeeTest extends TestCase
 
     public function test_employees_update_an_employee_with_image(): void
     {
-        // Act as the user and store employee
+        // Store Employee
         $data = $this->generateData(true);
         $this->actingAs($this->user)->post('/employees', $data);
+        $employee = Employee::where('email', $data['email'])->first();
         $this->assertDatabaseHasEmployee($data);
-
-        $employee = Employee::where('name', $data['name'])->first();
 
         // Act as the user and get the updated employee
         $updatedData = $this->generateData(true);
         $response = $this->actingAs($this->user)->put("/employees/{$employee->id}", $updatedData);
+        $updatedEmployee = Employee::find($employee->id);
+
         $this->assertDatabaseHasEmployee($updatedData);
 
-        // Fetch the employee from the database
-        $employee = Employee::where('email', $updatedData['email'])->first();
 
         // Assert that the 'photo' field is not null and starts with 'images/employee-photos/'
-        $this->assertNotNull($employee->photo);
-        $this->assertStringStartsWith('images/employee-photos/', $employee->photo);
-        $this->assertFileExists($employee->photo);
+        $this->assertNotEquals($employee->photo, $updatedEmployee->photo);
+        $this->assertStringStartsWith('images/employee-photos/', $updatedEmployee->photo);
+        $this->assertFileExists($updatedEmployee->photo);
         $this->assertFileExists('recycle bin/images/employee-photos/');
 
         File::deleteDirectory('images');

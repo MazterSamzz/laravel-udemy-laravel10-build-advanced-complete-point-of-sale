@@ -35,7 +35,7 @@ class SupplierController extends Controller
         $supplier = $request->validated();
 
         if (isset($supplier['photo'])) {
-            $supplier['photo'] = ImageHelper::saveImage($supplier['photo'], 'images/suppliers-photos');
+            $supplier['photo'] = ImageHelper::saveImage($supplier['photo'], 'images/supplier-photos');
         }
 
         Supplier::create($supplier);
@@ -73,7 +73,7 @@ class SupplierController extends Controller
 
         // Save the image and Delete the previous image
         if (isset($data['photo'])) {
-            $data['photo'] = ImageHelper::saveImage($data['photo'], 'images/suppliers-photos');
+            $data['photo'] = ImageHelper::saveImage($data['photo'], 'images/supplier-photos');
             if ($supplier->photo)
                 ImageHelper::softDelete($supplier->photo, $supplier->name);
         }

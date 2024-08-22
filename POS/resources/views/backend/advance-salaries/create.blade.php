@@ -26,7 +26,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('salaries.store') }}" enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('advance-salaries.store') }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
                                     Add Salary</h5>

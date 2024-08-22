@@ -5,15 +5,13 @@ namespace Tests\Feature\Backend;
 use App\Models\Backend\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     protected User $user;
 
@@ -91,48 +89,37 @@ class CustomerTest extends TestCase
     }
 
     /**
-     * Test if the customers index page is displayed when the user is authenticated.
+     * Tests the accessibility of the customers index page.
+     *
+     * @return void
      */
-    public function  test_customer_index_is_displayed(): void
+    public function  test_customer_index_accessiblility(): void
     {
+        // Test if the customers index page redirects to the login page when not authenticated.
+        $this->get('/customers')
+            ->assertStatus(302)
+            ->assertRedirect('/login');
+
+        // Test if the customers index page is displayed when the user is authenticated.
         $this->actingAs($this->user)->get('/customers')
             ->assertStatus(200);
     }
 
     /**
-     * Test if the customers index page redirects to the login page when not authenticated.
+     * Tests if the customer creation page is displayed correctly based on the user's authentication status.
      *
      * @return void
      */
-    public function test_customers_index_redirect_when_not_authenticated(): void
+    public function test_customers_create_accessibility(): void
     {
-        $this->get('/customers')
-            ->assertStatus(302)
-            ->assertRedirect('/login');
-    }
-
-    /**
-     * Test if the customers create page is displayed when the user is authenticated.
-     *
-     * @return void
-     */
-    public function test_customers_create_is_displayed(): void
-    {
-        // Act as the user and get the customers create page
-        $this->actingAs($this->user)->get('/customers/create')
-            ->assertStatus(200);
-    }
-
-    /**
-     * Test if the customer creation page redirects to the login page when not authenticated.
-     *
-     * @return void
-     */
-    public function test_customers_create_redirect_when_not_authenticated(): void
-    {
+        // Test if the customer creation page redirects to the login page when not authenticated.
         $this->get('/customers/create')
             ->assertStatus(302)
             ->assertRedirect('/login');
+
+        // Test if the customers create page is displayed when the user is authenticated.
+        $this->actingAs($this->user)->get('/customers/create')
+            ->assertStatus(200);
     }
 
     /**
@@ -192,28 +179,21 @@ class CustomerTest extends TestCase
     }
 
     /**
-     * Test if the customers edit page redirects to the login page when not authenticated.
+     * Test if the customers edit page redirects to the login page when not authenticated and is displayed when the user is authenticated.
      *
      * @return void
      */
-    public function test_customers_edit_redirect_when_not_authenticated(): void
+    public function test_customers_edit_accessibility(): void
     {
         $data = $this->generateData(true);
         $customer = Customer::create($data);
+
+        // Test if the customers edit page redirects to the login page when not authenticated.
         $this->get("/customers/{$customer->id}/edit")
             ->assertStatus(302)
             ->assertRedirect('/login');
-    }
 
-    /**
-     * Test if the customers edit page is displayed when the user is authenticated.
-     *
-     * @return void
-     */
-    public function test_customers_edit_is_displayed(): void
-    {
-        $data = $this->generateData(true);
-        $customer = Customer::create($data);
+        // Test if the customers edit page is displayed when the user is authenticated.
         $this->actingAs($this->user)->get("/customers/{$customer->id}/edit")
             ->assertStatus(200);
     }
@@ -319,15 +299,21 @@ class CustomerTest extends TestCase
      *
      * @return void
      */
-    public function test_customers_destroy(): void
+    public function test_customers_destroy_accessibility(): void
     {
         // Act as the user with an image and create the customer page
         $data = $this->generateData(false);
         $this->actingAs($this->user)->post("/customers", $data);
+        $this->post('/logout');
 
         // Get Customer from the database
         $customer = Customer::where('email', $data['email'])->first();
 
+        // Delete the customer without authentication
+        $response = $this->delete("/customers/{$customer->id}");
+        $this->assertDatabaseHas('customers', ['id' => $customer->id]);
+
+        // Delete the customer with authentication
         $response = $this->actingAs($this->user)->delete("/customers/{$customer->id}");
         $this->assertDatabaseMissing('customers', ['id' => $customer->id]);
 

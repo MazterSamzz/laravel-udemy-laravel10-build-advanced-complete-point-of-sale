@@ -126,10 +126,10 @@
                     <div class="collapse" id="sidebarSalary">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('salaries.index') }}">All Salary</a>
+                                <a href="{{ route('advance-salaries.index') }}">All Advance Salary</a>
                             </li>
                             <li>
-                                <a href="{{ route('salaries.create') }}">Add Salary</a>
+                                <a href="{{ route('advance-salaries.create') }}">Add Advance Salary</a>
                             </li>
                         </ul>
                     </div>

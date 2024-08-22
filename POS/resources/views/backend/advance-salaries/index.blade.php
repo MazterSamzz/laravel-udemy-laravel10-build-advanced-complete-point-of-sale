@@ -26,7 +26,7 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            <a href="{{ route('salaries.create') }}"
+                            <a href="{{ route('advance-salaries.create') }}"
                                 class="btn btn-primary rounded-pill waves-effect waves-light">Add Salary</a>
                         </div>
                         <h4 class="page-title">All Salaries</h4>
@@ -65,10 +65,11 @@
                                             <td class="align-middle"> {{ $salary->employee->name }}</td>
                                             <td class="align-middle" name="amount">{{ $salary->amount }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('salaries.edit', ['salary' => $salary->id]) }}"
+                                                <a href="{{ route('advance-salaries.edit', ['advance_salary' => $salary->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
-                                                <form action="{{ route('salaries.destroy', ['salary' => $salary->id]) }}"
+                                                <form
+                                                    action="{{ route('advance-salaries.destroy', ['advance_salary' => $salary->id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
