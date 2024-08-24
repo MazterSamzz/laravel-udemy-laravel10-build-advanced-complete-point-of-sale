@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AdvanceSalaryController;
+use App\Http\Controllers\Backend\SalaryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +24,9 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('advance-salaries', AdvanceSalaryController::class);
+    // Route::resource('salaries', SalaryController::class);
+    Route::get('salaries', [SalaryController::class, 'index'])->name('salaries.index');
+    Route::get('salaries/pay/now/{id}', [SalaryController::class, 'payNow'])->name('salaries.pay.now');
 });
 
 require __DIR__ . '/auth.php';

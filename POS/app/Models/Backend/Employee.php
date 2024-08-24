@@ -4,6 +4,7 @@ namespace App\Models\Backend;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
@@ -22,8 +23,8 @@ class Employee extends Model
         'city',
     ];
 
-    public function salaries(): HasMany
+    public function advance(): BelongsTo
     {
-        return $this->hasMany(AdvanceSalary::class);
+        return $this->belongsTo(AdvanceSalary::class, 'id', 'employee_id');
     }
 }

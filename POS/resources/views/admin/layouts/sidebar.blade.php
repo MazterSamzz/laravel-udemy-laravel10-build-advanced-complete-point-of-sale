@@ -131,6 +131,9 @@
                             <li>
                                 <a href="{{ route('advance-salaries.create') }}">Add Advance Salary</a>
                             </li>
+                            <li>
+                                <a href="{{ route('salaries.index') }}">Salary</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

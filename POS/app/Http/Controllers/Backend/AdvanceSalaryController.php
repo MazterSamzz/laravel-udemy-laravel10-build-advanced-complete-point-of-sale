@@ -15,8 +15,8 @@ class AdvanceSalaryController extends Controller
      */
     public function index()
     {
-        $salaries = AdvanceSalary::latest()->get();
-        return view('backend.advance-salaries.index', compact('salaries'));
+        $advanceSalaries = AdvanceSalary::latest()->get();
+        return view('backend.advance-salaries.index', compact('advanceSalaries'));
     }
 
     /**
