@@ -2,10 +2,8 @@
 
 @section('admin')
     <div class="content">
-
         <!-- Start Content-->
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -26,8 +24,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('advance-salaries.store') }}"
-                                enctype="multipart/form-data">
+                            <form method ="post" action="{{ route('salaries.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
                                     Pay Salary</h5>
@@ -39,6 +36,7 @@
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Employee</label>
                                             <strong style="color: white;" name="name">{{ $employee->name }}</strong>
+                                            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
                                         </div>
                                     </div> <!-- End of Employee Id -->
 
@@ -47,6 +45,7 @@
                                         <div class="mb-3">
                                             <label for="year" class="form-label">Year</label>
                                             <strong style="color: white;">{{ date('Y') }}</strong>
+                                            <input type="hidden" name="year" value="{{ date('Y') }}">
                                         </div>
                                     </div> <!-- End of Year -->
 
@@ -55,6 +54,7 @@
                                         <div class="mb-3">
                                             <label for="month" class="form-label">Month</label>
                                             <strong style="color: white;">{{ date('F', strtotime('-1 month')) }}</strong>
+                                            <input type="hidden" name="month" value="{{ now()->subMonth()->month }}">
                                         </div>
                                     </div> <!-- End of Month -->
 
@@ -62,7 +62,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="salary" class="form-label">Salary</label>
-                                            <strong style="color: white;" name="salary">{{ $employee->salary }}</strong>
+                                            <strong style="color: white;" name="salary_v">{{ $employee->salary }}</strong>
+                                            <input type="hidden" name="paid" value="{{ $employee->salary }}">
                                         </div>
                                     </div> <!-- End of Salary -->
 
@@ -71,7 +72,8 @@
                                         <div class="mb-3">
                                             <label for="advance" class="form-label">Advance Salary</label>
                                             <strong style="color: white;"
-                                                name="advance">{{ $employee->advance->amount }}</strong>
+                                                name="advance_v">{{ $employee->advance->amount }}</strong>
+                                            <input type="hidden" name="advance" value="{{ $employee->advance->amount }}">
                                         </div>
                                     </div> <!-- End of Advance Salary -->
 
@@ -80,7 +82,9 @@
                                         <div class="mb-3">
                                             <label for="due" class="form-label">Due Salary</label>
                                             <strong style="color: white;"
-                                                name="due">{{ $employee->salary - $employee->advance->amount }}</strong>
+                                                name="due_v">{{ $employee->salary - $employee->advance->amount }}</strong>
+                                            <input type="hidden" name="due"
+                                                value="{{ $employee->salary - $employee->advance->amount }}">
                                         </div>
                                     </div> <!-- End of Due Salary -->
 
@@ -107,8 +111,8 @@
     <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
 
     <script type="text/javascript">
-        numberSeparatorDataTable('salary');
-        numberSeparatorDataTable('advance');
-        numberSeparatorDataTable('due');
+        numberSeparatorDataTable('salary_v');
+        numberSeparatorDataTable('advance_v');
+        numberSeparatorDataTable('due_v');
     </script>
 @endsection

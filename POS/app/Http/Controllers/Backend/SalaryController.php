@@ -15,8 +15,8 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->get();
-        return view('backend.salaries.index', compact('employees'));
+        $salaries = Salary::latest()->get();
+        return view('backend.salaries.index', compact('salaries'));
     }
 
     /**
@@ -24,21 +24,44 @@ class SalaryController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employee::latest()->get();
+        return view('backend.salaries.create', compact('employees'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSalaryRequest $request) {}
+    public function store(StoreSalaryRequest $request)
+    {
+        $salary = $request->validated();
+
+        // Check if advance salary already exists
+        $duplicate = Salary::where("employee_id", $request->input('employee_id'))
+            ->where("month", $request->input('month'))
+            ->where("year", $request->input('year'))->first();
+
+        if ($duplicate) {
+            return redirect()->back()->withInput()->with([
+                'message' => "Salary already paid for this employee in {$salary['month']}/{$salary['year']}.",
+                'alert-type' => 'warning'
+            ]);
+        }
+
+        // End of Check if salary already exists
+        Salary::create($salary);
+        return to_route('salaries.index')->with([
+            'message' => 'Salary paid successfully',
+            'alert-type' => 'success'
+        ]);
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Salary $salary = null)
+    public function show(Employee $salary)
     {
-        dd($salary);
-        return view('backend.salaries.show', compact('salary'));
+        $employee = $salary;
+        return view('backend.salaries.show', compact('employee'));
     }
 
     /**
@@ -63,11 +86,5 @@ class SalaryController extends Controller
     public function destroy(Salary $salary)
     {
         //
-    }
-
-    public function payNow($id)
-    {
-        $employee = Employee::find($id);
-        return view('backend.salaries.pay-now', compact('employee'));
     }
 }

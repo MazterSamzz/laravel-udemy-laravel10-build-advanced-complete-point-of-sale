@@ -23,18 +23,17 @@ class StoreSalaryRequest extends FormRequest
      *
      * @return void
      */
-    protected function prepareForValidation()
+    public function prepareForValidation(): void
     {
-        if ($this->has('amount')) {
-            $amount = $this->input('amount');
-            $amount = str_replace(',', '', $amount); // Menghapus koma
-            $amount = intval($amount);
-
-            $this->merge([
-                'amount' => $amount,
-            ]);
-        }
+        $this->merge([
+            'year' => intval($this->input('year')),
+            'month' => intval($this->input('month')),
+            'paid' => intval($this->input('paid')),
+            'advance' => intval($this->input('advance')),
+            'due' => intval($this->input('due')),
+        ]);
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -46,7 +45,9 @@ class StoreSalaryRequest extends FormRequest
             'employee_id' => ['required', 'exists:employees,id'],
             'month' => ['required', 'min:1', 'max:12'],
             'year' => ['required', 'min:1', 'max:9999'],
-            'amount' => ['required', 'min:0']
+            'paid' => ['required', 'min:0', 'numeric'],
+            'advance' => ['required', 'min:0', 'numeric'],
+            'due' => ['required', 'min:0', 'numeric'],
         ];
     }
 }
