@@ -78,12 +78,12 @@
 
                 <!-- ================ Customers ================ -->
                 <li>
-                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
+                    <a href="#sidebarCustomers" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-multiple-outline"></i>
                         <span> Customer </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEmployee">
+                    <div class="collapse" id="sidebarCustomers">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('customers.index') }}">All Customers</a>
@@ -116,7 +116,7 @@
                 </li>
                 <!-- ================ End of Suppliers ================ -->
 
-                <!-- ================ Suppliers ================ -->
+                <!-- ================ Salaries ================ -->
                 <li>
                     <a href="#sidebarSalary" data-bs-toggle="collapse">
                         <i class="mdi mdi-email-multiple-outline"></i>
@@ -140,7 +140,27 @@
                         </ul>
                     </div>
                 </li>
-                <!-- ================ End of Salary ================ -->
+                <!-- ================ End of Salaries ================ -->
+
+                <!-- ================ Attendances ================ -->
+                <li>
+                    <a href="#sidebarAttendances" data-bs-toggle="collapse">
+                        <i class="mdi mdi-email-multiple-outline"></i>
+                        <span> Attendances </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarAttendances">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('attendances.index') }}">All Attendances</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('attendances.create') }}">Add Attendance</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- ================ End of Attendances ================ -->
 
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>

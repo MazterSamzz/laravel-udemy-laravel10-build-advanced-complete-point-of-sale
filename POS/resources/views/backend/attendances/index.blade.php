@@ -26,10 +26,10 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            {{-- <a href=""
-                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Salary</a> --}}
+                            <a href="{{ route('attendances.create') }}"
+                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Employee Attendance</a>
                         </div>
-                        <h4 class="page-title">All Salaries</h4>
+                        <h4 class="page-title">All Employee Attendances</h4>
                     </div>
                 </div>
             </div>
@@ -39,60 +39,36 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">{{ date('F Y') }}</h4>
-
+                            <h4 class="header-title">Attendance</h4>
 
                             <table id="basic-datatable" class="table dt-responsive table-hover nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Photo</th>
-                                        <th>Name</th>
-                                        <th>Month</th>
-                                        <th>Salary</th>
-                                        <th>Advance</th>
-                                        <th>Due</th>
+                                        <th>Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($employees as $key => $employee)
-                                        <tr>
-                                            <td scope="row" class="align-middle">
-                                                {{ $key + 1 }}
-                                            </td>
-                                            <td> <img class="avatar-md img-thumbnail modal-img"
-                                                    src="{{ asset($employee->photo) ?: asset('images/no_image.jpg') }}"
-                                                    alt="Employee Photo" srcset=""></td>
-                                            <td class="align-middle"> {{ $employee->name }}</td>
-                                            <td class="align-middle">
-                                                <span class="badge bg-info">{{ date('F', strtotime('-1 month')) }}</span>
-                                            </td>
-                                            <td class="align-middle" name="salary">{{ $employee->salary }}</td>
-                                            <td class="align-middle" name="advance">
-                                                @php
-                                                    isset($employee->advance->amount)
-                                                        ? ($advanceAmount = $employee->advance->amount)
-                                                        : ($advanceAmount = null);
-                                                @endphp
 
-                                                @if ($advanceAmount == null)
-                                                    <p>No Advance</p>
-                                                @else
-                                                    {{ $advanceAmount }}
-                                                @endif
-                                            </td>
-                                            <td class="align-middle" name="due" style="color: #fff;">
-                                                @php
-                                                    $due = $employee->salary - $advanceAmount;
-                                                @endphp
-                                                <strong>{{ round($due) }}</strong>
-                                            </td>
+                                    @foreach ($attendances as $key => $attendance)
+                                        <tr>
+                                            <td scope="row">{{ $key + 1 }}</td>
+                                            <td class="align-middle">{{ date('Y-m-d', strtotime($attendance->date)) }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('salaries.show', ['salary' => $employee->id]) }}"
-                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2">
-                                                    Pay Now</a>
+                                                <a href="{{ route('attendances.edit', ['attendance' => $attendance->id]) }}"
+                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-pencil"></span></a>
+                                                <form
+                                                    action="{{ route('attendances.destroy', ['attendance' => $attendance->id]) }}"
+                                                    method="post" class="d-inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit"
+                                                        class="btn btn-danger rounded-pill waves-effect waves-light delete-button"><span
+                                                            class="mdi mdi-eye"></span></button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -138,18 +114,6 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
-
-    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
-
-    <script type="text/javascript">
-        let advanceAmount = {{ json_encode($advanceAmount) }}
-
-        numberSeparatorDataTable('salary');
-        if (advanceAmount != null) {
-            numberSeparatorDataTable('advance');
-        }
-        numberSeparatorDataTable('due');
-    </script>
 
     <!-- Modal Image js-->
     <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>
