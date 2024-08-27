@@ -22,7 +22,11 @@ class StoreAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'employee_id' => ['required', 'array'],
+            'employee_id.*' => ['required', 'exists:employees,id'],
+            'date' => ['required', 'date'],
+            'status' => ['required', 'array'],
+            'status*' => ['required', 'in:present,leave,absent'],
         ];
     }
 }

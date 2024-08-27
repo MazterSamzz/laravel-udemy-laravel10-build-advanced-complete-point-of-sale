@@ -15,7 +15,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::orderBy('id', 'DESC')->get();
+        $attendances = Attendance::select('date')->groupBy('date')->orderBy('date', 'DESC')->get();
         return view('backend.attendances.index', compact('attendances'));
     }
 
@@ -33,7 +33,22 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
-        //
+        $countEmployees = count($request->employee_id);
+
+        for ($i = 0; $i < $countEmployees; $i++) {
+            $attendance = new Attendance();
+            $attendance->employee_id = $request->employee_id[$i];
+            $attendance->date = date('Y-m-d', strtotime($request->date));
+            $attendance->status = $request->status[$i];
+            $attendance->save();
+        }
+
+        $notification = array(
+            'message' => 'Attendance created successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('attendances.index')->with($notification);
     }
 
     /**

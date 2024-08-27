@@ -54,17 +54,17 @@
                 <div class="col-12">
                     <div class="card">
 
-
-
-
                         <div class="card-body">
-                            <form action=" " method="post" id="myForm">
+                            <form action="{{ route('attendances.store') }}" method="post" id="myForm">
                                 @csrf
                                 <div class="form-group col-md-4">
                                     <label for="date" class="control-label">Attendance Date</label>
                                     <input type="date" name="date" id="date"
                                         class="checkdate form-control form-control-sm singledatepicker"
                                         placeholder="Attendance Date" autocomplete="off">
+                                    @error('date')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <table class="table sm table-bordered table-striped dt-responsive" style="width: 100%">
                                     <thead>
@@ -93,22 +93,25 @@
                                                 <td>{{ $employee->name }}</td>
                                                 <td colspan="3">
                                                     <div class="switch-toggle switch-3 switch-candy">
-                                                        <input class="present" id="present{{ $key }}"
-                                                            name="attend_status{{ $key }}" value="Present"
+                                                        <input class="present" id="present[{{ $key }}]"
+                                                            name="status[{{ $key }}]" value="Present"
                                                             type="radio" checked="checked">
+                                                        <label for="present[{{ $key }}]">Present</label>
 
-                                                        <label for="present{{ $key }}">Present</label>
-                                                        <input class="leave" id="leave{{ $key }}"
-                                                            name="attend_status{{ $key }}" value="Leave"
+                                                        <input class="leave" id="leave[{{ $key }}]"
+                                                            name="status[{{ $key }}]" value="Leave"
                                                             type="radio">
+                                                        <label for="leave[{{ $key }}]">Leave</label>
 
-                                                        <label for="leave{{ $key }}">Leave</label>
-                                                        <input class="absent" id="absent{{ $key }}"
-                                                            name="attend_status{{ $key }}" value="Absent"
+                                                        <input class="absent" id="absent[{{ $key }}]"
+                                                            name="status[{{ $key }}]" value="Absent"
                                                             type="radio">
+                                                        <label for="absent[{{ $key }}]">Absent</label>
 
-                                                        <label for="absent{{ $key }}">Absent</label>
                                                         <a></a>
+                                                        @error('status.' . $key)
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </td>
                                             </tr>

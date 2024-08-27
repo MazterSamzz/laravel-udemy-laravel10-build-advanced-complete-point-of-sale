@@ -57,12 +57,10 @@
                                             <td scope="row">{{ $key + 1 }}</td>
                                             <td class="align-middle">{{ date('Y-m-d', strtotime($attendance->date)) }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('attendances.edit', ['attendance' => $attendance->id]) }}"
+                                                <a href=" "
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
-                                                <form
-                                                    action="{{ route('attendances.destroy', ['attendance' => $attendance->id]) }}"
-                                                    method="post" class="d-inline">
+                                                <form action="" method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit"
