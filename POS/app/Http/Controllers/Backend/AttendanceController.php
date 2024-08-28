@@ -48,38 +48,60 @@ class AttendanceController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('attendances.index')->with($notification);
+        return to_route('attendances.index')->with($notification);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show($date)
     {
-        //
+        $attendances = Attendance::where('date', $date)->get();
+        return view('backend.attendances.show', compact('attendances'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attendance $attendance)
+    public function edit($date)
     {
-        //
+        $attendances = Attendance::where('date', $date)->get();
+        return view('backend.attendances.edit', compact('attendances'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAttendanceRequest $request, Attendance $attendance)
+    public function update(UpdateAttendanceRequest $request)
     {
-        //
+        foreach ($request->validated()['attendances'] as $data) {
+            $attendance = Attendance::findOrFail($data['id']);
+            $attendance->update([
+                'status' => $data['status'],
+            ]);
+        }
+
+        $notification = array(
+            'message' => 'Attendance Updated successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attendance $attendance)
+    public function destroy($date)
     {
-        //
+        $attendances = Attendance::where('date', $date)->get();
+
+        $attendances->each->delete();
+
+        $notification = array(
+            'message' => 'Attendance deleted successfully',
+            'alert-type' => 'success'
+        );
+        return to_route('attendances.index')->with($notification);
     }
 }

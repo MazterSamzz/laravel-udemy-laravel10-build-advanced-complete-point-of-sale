@@ -27,7 +27,6 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('advance-salaries', AdvanceSalaryController::class);
     Route::resource('salaries', SalaryController::class);
     Route::get('salaries', [SalaryController::class, 'index'])->name('salaries.index');
-    Route::resource('attendances', AttendanceController::class);
 });
 
 require __DIR__ . '/auth.php';

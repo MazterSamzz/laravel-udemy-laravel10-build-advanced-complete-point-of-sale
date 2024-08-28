@@ -45,8 +45,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Photo</th>
+                                        <th>Name</th>
                                         <th>Date</th>
-                                        <th>Action</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
 
@@ -55,24 +57,14 @@
                                     @foreach ($attendances as $key => $attendance)
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
-                                            <td class="align-middle">{{ date('Y-m-d', strtotime($attendance->date)) }}</td>
-                                            <td class="align-middle">
-                                                <a href="{{ route('attendances.edit', ['date' => $attendance->date]) }}"
-                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
-                                                        class="mdi mdi-pencil"></span></a>
-                                                <a href="{{ route('attendances.show', ['date' => $attendance->date]) }}"
-                                                    class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
-                                                        class="mdi mdi-eye"></span></a>
-                                                <form
-                                                    action="{{ route('attendances.destroy', ['date' => $attendance->date]) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit"
-                                                        class="btn btn-danger rounded-pill waves-effect waves-light delete-button"><span
-                                                            class="mdi mdi-delete"></span></button>
-                                                </form>
+                                            <td> <img class="avatar-md img-thumbnail modal-img"
+                                                    data-large="{{ asset($attendance->employee->photo ?: 'images/no_image.jpg') }}"
+                                                    src="{{ asset($attendance->employee->photo ?: 'images/no_image.jpg') }}"
+                                                    alt="Photo-Picture">
                                             </td>
+                                            <td class="align-middle">{{ $attendance->employee->name }}</td>
+                                            <td class="align-middle">{{ date('Y-m-d', strtotime($attendance->date)) }}</td>
+                                            <td>{{ $attendance->status }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

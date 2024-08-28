@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Attendance;
 
+use App\Models\Backend\Attendance;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAttendanceRequest extends FormRequest
@@ -22,7 +23,9 @@ class UpdateAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'attendances.*.id' => ['required', 'exists:attendances,id'],
+            'attendances.*.employee_id*' => ['required', 'exists:employees,id'],
+            'attendances.*.status*' => ['required', 'in:Present,Leave,Absent'],
         ];
     }
 }
