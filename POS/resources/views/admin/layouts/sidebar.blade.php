@@ -162,6 +162,23 @@
                 </li>
                 <!-- ================ End of Attendances ================ -->
 
+                <!-- ================ Categories ================ -->
+                <li>
+                    <a href="#sidebarCategory" data-bs-toggle="collapse">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Categories</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarCategory">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('categories.index') }}">All Categories</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- ================ End of Categories ================ -->
+
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>
 
