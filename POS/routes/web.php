@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AdvanceSalaryController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('salaries', SalaryController::class);
     Route::get('salaries', [SalaryController::class, 'index'])->name('salaries.index');
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__ . '/auth.php';

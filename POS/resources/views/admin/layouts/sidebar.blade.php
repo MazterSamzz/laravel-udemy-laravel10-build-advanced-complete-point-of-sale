@@ -179,6 +179,26 @@
                 </li>
                 <!-- ================ End of Categories ================ -->
 
+                <!-- ================ Products ================ -->
+                <li>
+                    <a href="#sidebarProduct" data-bs-toggle="collapse">
+                        <i class="mdi mdi-account-group"></i>
+                        <span> Products</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarProduct">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('products.index') }}">All Products</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('products.create') }}">Add Product</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- ================ End of Products ================ -->
+
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>
 
