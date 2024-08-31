@@ -26,7 +26,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method ="post" action="{{ route('products.store') }}" enctype="multipart/form-data">
+                            <form id="myForm" method ="post" action="{{ route('products.store') }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
                                     Add Products</h5>
@@ -34,7 +35,7 @@
                                 <div class="row">
                                     <!-- Name -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label for="name" class="form-label">Product Name</label>
                                             <input type="text" class="form-control" id="name" name="name"
                                                 placeholder="Enter Product Name" value="{{ old('name') }}" autofocus>
@@ -48,7 +49,7 @@
 
                                     <!-- Product Category -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Product Category</label>
                                             <select class="form-control"name="category_id">
                                                 <option selected disabled>Select Category</option>
@@ -66,7 +67,7 @@
 
                                     <!-- Supplier -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Supplier</label>
                                             <select class="form-control"name="supplier_id">
                                                 <option selected disabled>Select Category</option>
@@ -84,21 +85,7 @@
 
                                     <!-- Code -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Product Code</label>
-                                            <input type="text" class="form-control" name="code"
-                                                placeholder="Enter Product Code" value="{{ old('code') }}">
-                                            @error('code')
-                                                <div class="text-danger">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div><!-- End of Code -->
-
-                                    <!-- Code -->
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Product Code</label>
                                             <input type="text" class="form-control" name="code"
                                                 placeholder="Enter Product Code" value="{{ old('code') }}">
@@ -112,7 +99,7 @@
 
                                     <!-- Garage -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Product Garage</label>
                                             <input type="text" class="form-control" name="garage"
                                                 placeholder="Enter Product Garage" value="{{ old('garage') }}">
@@ -126,9 +113,9 @@
 
                                     <!-- Buying Date -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Buying Date</label>
-                                            <input type="text" class="form-control" name="buying_date"
+                                            <input type="date" class="form-control" name="buying_date"
                                                 placeholder="Enter Product Buying Date" value="{{ old('buying_date') }}">
                                             @error('buying_date')
                                                 <div class="text-danger">
@@ -140,9 +127,9 @@
 
                                     <!-- Expire Date -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Expire Date</label>
-                                            <input type="text" class="form-control" name="expire_date"
+                                            <input type="date" class="form-control" name="expire_date"
                                                 placeholder="Enter Product Expire Date" value="{{ old('expire_date') }}">
                                             @error('expire_date')
                                                 <div class="text-danger">
@@ -154,9 +141,9 @@
 
                                     <!-- Buying Price -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Buying Price</label>
-                                            <input type="text" class="form-control" name="buying_price"
+                                            <input type="number" class="form-control" name="buying_price"
                                                 placeholder="Enter Product Buying Price" value="{{ old('buying_price') }}">
                                             @error('buying_price')
                                                 <div class="text-danger">
@@ -168,9 +155,9 @@
 
                                     <!-- Selling Price -->
                                     <div class="col-md-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Selling Price</label>
-                                            <input type="text" class="form-control" name="selling_price"
+                                            <input type="number" class="form-control" name="selling_price"
                                                 placeholder="Enter Product Selling Price"
                                                 value="{{ old('selling_price') }}">
                                             @error('selling_price')
@@ -183,14 +170,14 @@
 
                                     <!-- Product Image -->
                                     <div class="col-md-12">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Product Image</label>
                                             <input type="file" class="form-control" name="image" id="image">
                                         </div>
                                     </div><!-- End of Product Image -->
 
                                     <div class="col-md-12">
-                                        <div class="mb3">
+                                        <div class="form-group mb3">
                                             <label for="image-preview" class="form-label"></label>
                                             <img src="{{ asset('images/no_image.jpg') }}" id ="image-preview"
                                                 class="rounded-circle avatar-lg img-thumbnail" alt="Product Image">
@@ -215,8 +202,13 @@
 @endsection
 
 @section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('backend/assets/js/imagePreview.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/validate.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/form-validation.js') }}"></script>
     <script type="text/javascript">
         imagePreview('#image', '#image-preview');
+        formValidation('myForm');
     </script>
 @endsection

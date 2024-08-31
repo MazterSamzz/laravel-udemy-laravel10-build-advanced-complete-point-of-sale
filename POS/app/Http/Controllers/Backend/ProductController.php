@@ -35,7 +35,14 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = $request->validated();
+        Product::create($product);
+
+        $notification = array(
+            'message' => 'Product created successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('products.index')->with($notification);
     }
 
     /**

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('garage')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('store')->nullable();
             $table->date('buying_date')->nullable();
             $table->date('expire_date')->nullable();
