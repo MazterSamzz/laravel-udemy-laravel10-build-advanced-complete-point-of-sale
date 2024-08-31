@@ -23,11 +23,11 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'category_id' => ['required', 'unique:categorys,id'],
-            'supplier_id' => ['required', 'unique:suppliers,id'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'supplier_id' => ['required', 'exists:suppliers,id'],
             'code' => ['nullable', 'string'],
             'garage' => ['nullable', 'string'],
-            'image' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
             'store' => ['nullable', 'string'],
             'buying_date' => ['nullable', 'string'],
             'expire_date' => ['nullable', 'string'],

@@ -54,7 +54,9 @@
                                             <select class="form-control"name="category_id">
                                                 <option selected disabled>Select Category</option>
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}"
+                                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('category_id')
@@ -72,7 +74,9 @@
                                             <select class="form-control"name="supplier_id">
                                                 <option selected disabled>Select Category</option>
                                                 @foreach ($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                                    <option value="{{ $supplier->id }}"
+                                                        {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                        {{ $supplier->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('supplier_id')
@@ -143,7 +147,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">Buying Price</label>
-                                            <input type="number" class="form-control" name="buying_price"
+                                            <input type="text" class="form-control" name="buying_price"
+                                                inputmode="decimal"
+                                                title="Please enter a valid number with up to 2 decimal places"
                                                 placeholder="Enter Product Buying Price" value="{{ old('buying_price') }}">
                                             @error('buying_price')
                                                 <div class="text-danger">
@@ -157,7 +163,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label">Selling Price</label>
-                                            <input type="number" class="form-control" name="selling_price"
+                                            <input type="text" class="form-control" name="selling_price"
+                                                inputmode="decimal"
+                                                title="Please enter a valid number with up to 2 decimal places"
                                                 placeholder="Enter Product Selling Price"
                                                 value="{{ old('selling_price') }}">
                                             @error('selling_price')
@@ -207,8 +215,10 @@
     <script src="{{ asset('backend/assets/js/imagePreview.js') }}"></script>
     <script src="{{ asset('backend/assets/js/validate.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/form-validation.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
     <script type="text/javascript">
         imagePreview('#image', '#image-preview');
-        formValidation('myForm');
+        numberSeparatorByName('buying_price');
+        numberSeparatorByName('selling_price');
     </script>
 @endsection

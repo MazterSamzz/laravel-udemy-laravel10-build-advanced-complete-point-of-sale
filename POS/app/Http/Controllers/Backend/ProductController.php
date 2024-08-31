@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Product;
 use App\Http\Requests\Product\StoreProductRequest;
@@ -36,6 +37,10 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = $request->validated();
+
+        if (isset($product['image']))
+            $product['image'] = ImageHelper::saveImage($product['image'], 'images/product-images');
+
         Product::create($product);
 
         $notification = array(
