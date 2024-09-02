@@ -11,7 +11,26 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * Remove commas from the price fields and convert them to integers.
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->has('buying_price'))
+            $buying_price = str_replace(',', '', $this->input('buying_price')); // Menghapus koma
+
+        if ($this->has('selling_price'))
+            $selling_price = str_replace(',', '', $this->input('selling_price')); // Menghapus koma
+
+        $this->merge([
+            'buying_price' => intval($buying_price),
+            'selling_price' => intval($selling_price),
+        ]);
     }
 
     /**
@@ -22,7 +41,17 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'supplier_id' => ['required', 'exists:suppliers,id'],
+            'code' => ['nullable', 'string'],
+            'garage' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
+            'store' => ['nullable', 'string'],
+            'buying_date' => ['nullable', 'string'],
+            'expire_date' => ['nullable', 'string'],
+            'buying_price' => ['nullable', 'numeric'],
+            'selling_price' => ['nullable', 'numeric'],
         ];
     }
 }

@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item active">Add Product</li>
+                                <li class="breadcrumb-item active">Edit Product</li>
                             </ol>
                         </div>
                         <h4 class="page-title">Products</h4>
@@ -26,11 +26,13 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form id="myForm" method ="post" action="{{ route('products.store') }}"
+                            <form id="myForm" method ="post"
+                                action="{{ route('products.update', ['product' => $product->id]) }}"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
-                                    Add Products</h5>
+                                    Edit Products</h5>
 
                                 <div class="row">
                                     <!-- Name -->
@@ -38,7 +40,8 @@
                                         <div class="form-group mb-3">
                                             <label for="name" class="form-label">Product Name</label>
                                             <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Enter Product Name" value="{{ old('name') }}" autofocus>
+                                                placeholder="Enter Product Name" value="{{ old('name') ?: $product->name }}"
+                                                autofocus>
                                             @error('name')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -55,7 +58,7 @@
                                                 <option selected disabled>Select Category</option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}"
-                                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                        {{ (old('category_id') ?: $product->category_id) == $category->id ? 'selected' : '' }}>
                                                         {{ $category->name }}</option>
                                                 @endforeach
                                             </select>
@@ -75,7 +78,7 @@
                                                 <option selected disabled>Select Category</option>
                                                 @foreach ($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}"
-                                                        {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                        {{ (old('supplier_id') ?: $product->supplier_id == $supplier->id) ? 'selected' : '' }}>
                                                         {{ $supplier->name }}</option>
                                                 @endforeach
                                             </select>
@@ -92,7 +95,8 @@
                                         <div class="form-group mb-3">
                                             <label class="form-label">Product Code</label>
                                             <input type="text" class="form-control" name="code"
-                                                placeholder="Enter Product Code" value="{{ old('code') }}">
+                                                placeholder="Enter Product Code"
+                                                value="{{ old('code') ?: $product->code }}">
                                             @error('code')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -106,7 +110,8 @@
                                         <div class="form-group mb-3">
                                             <label class="form-label">Product Garage</label>
                                             <input type="text" class="form-control" name="garage"
-                                                placeholder="Enter Product Garage" value="{{ old('garage') }}">
+                                                placeholder="Enter Product Garage"
+                                                value="{{ old('garage') ?: $product->garage }}">
                                             @error('garage')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -120,7 +125,8 @@
                                         <div class="form-group mb-3">
                                             <label class="form-label">Product Store</label>
                                             <input type="text" class="form-control" name="store"
-                                                placeholder="Enter Product Store" value="{{ old('store') }}">
+                                                placeholder="Enter Product Store"
+                                                value="{{ old('store') ?: $product->store }}">
                                             @error('store')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -134,7 +140,8 @@
                                         <div class="form-group mb-3">
                                             <label class="form-label">Buying Date</label>
                                             <input type="date" class="form-control" name="buying_date"
-                                                placeholder="Enter Product Buying Date" value="{{ old('buying_date') }}">
+                                                placeholder="Enter Product Buying Date"
+                                                value="{{ old('buying_date') ?: $product->buying_date }}">
                                             @error('buying_date')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -148,7 +155,8 @@
                                         <div class="form-group mb-3">
                                             <label class="form-label">Expire Date</label>
                                             <input type="date" class="form-control" name="expire_date"
-                                                placeholder="Enter Product Expire Date" value="{{ old('expire_date') }}">
+                                                placeholder="Enter Product Expire Date"
+                                                value="{{ old('expire_date') ?: $product->expire_date }}">
                                             @error('expire_date')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -164,7 +172,8 @@
                                             <input type="text" class="form-control" name="buying_price"
                                                 inputmode="decimal"
                                                 title="Please enter a valid number with up to 2 decimal places"
-                                                placeholder="Enter Product Buying Price" value="{{ old('buying_price') }}">
+                                                placeholder="Enter Product Buying Price"
+                                                value="{{ old('buying_price') ?: $product->buying_price }}">
                                             @error('buying_price')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -181,7 +190,7 @@
                                                 inputmode="decimal"
                                                 title="Please enter a valid number with up to 2 decimal places"
                                                 placeholder="Enter Product Selling Price"
-                                                value="{{ old('selling_price') }}">
+                                                value="{{ old('selling_price') ?: $product->selling_price }}">
                                             @error('selling_price')
                                                 <div class="text-danger">
                                                     {{ $message }}
@@ -201,14 +210,15 @@
                                     <div class="col-md-12">
                                         <div class="form-group mb3">
                                             <label for="image-preview" class="form-label"></label>
-                                            <img src="{{ asset('images/no_image.jpg') }}" id ="image-preview"
-                                                class="rounded-circle avatar-lg img-thumbnail" alt="Product Image">
+                                            <img src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
+                                                id ="image-preview" class="rounded-circle avatar-lg img-thumbnail"
+                                                alt="Product Image">
                                         </div>
                                     </div>
 
                                     <div class="text-end">
                                         <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i
-                                                class="mdi mdi-content-save"></i> Save</button>
+                                                class="mdi mdi-content-save"></i> Update</button>
                                     </div>
                             </form>
                         </div>

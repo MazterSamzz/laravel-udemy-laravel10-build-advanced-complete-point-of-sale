@@ -63,7 +63,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+        return view('backend.products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     /**
@@ -71,7 +73,22 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->file('image')) {
+            $data['image'] = ImageHelper::saveImage($data['image'], 'images/product-images');
+            if ($product->image)
+                ImageHelper::softDelete($product->image, $product->name);
+        }
+
+        $product->update($data);
+
+        $notification = array(
+            'message' => 'Product updated successfully',
+            'alert-type' => 'success'
+        );
+
+        return to_route('products.index')->with($notification);
     }
 
     /**
@@ -79,6 +96,16 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if ($product->photo)
+            ImageHelper::softDelete($product->photo, $product->name);
+
+        $product->delete();
+
+        $notification = array(
+            'message' => 'Product deleted successfully.',
+            'alert-type' => 'success'
+        );
+
+        return to_route('products.index')->with($notification);
     }
 }
