@@ -9,6 +9,9 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Backend\Category;
 use App\Models\Backend\Supplier;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\Facades\DNS1DFacade;
+use Milon\Barcode\Facades\DNS2DFacade;
 
 class ProductController extends Controller
 {
@@ -55,7 +58,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $barcode = DNS1DFacade::getBarcodeHTML($product->code, 'C128');
+        return view('backend.products.barcode', compact('product', 'barcode'));
     }
 
     /**

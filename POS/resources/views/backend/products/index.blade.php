@@ -74,6 +74,9 @@
                                                 <a href="{{ route('products.edit', ['product' => $product->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
+                                                <a href="{{ route('products.show', ['product' => $product->id]) }}"
+                                                    class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-barcode"></span></a>
                                                 <form action="{{ route('products.destroy', ['product' => $product->id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Backend;
 
 use App\Models\Backend\AdvanceSalary;
 use App\Models\Backend\Employee;
