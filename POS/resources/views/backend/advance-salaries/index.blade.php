@@ -54,14 +54,15 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($advanceSalaries as $advanceSalary)
+                                    @foreach ($advanceSalaries as $key => $advanceSalary)
                                         <tr>
                                             <td scope="row" class="align-middle">
                                                 {{ $advanceSalary->year . '/' . ($advanceSalary->month < 10 ? '0' . $advanceSalary->month : $advanceSalary->month) }}
                                             </td>
-                                            <td> <img class="avatar-md img-thumbnail modal-img"
-                                                    src="{{ $advanceSalary->employee->photo ?: asset('images/no_image.jpg') }}"
-                                                    alt="Employee Photo" srcset=""></td>
+                                            <td> <img class="avatar-md img-thumbnail modal-trigger" alt="Employee Photo"
+                                                    data-bs-toggle="modal" data-bs-target="#photoModal{{ $key }}"
+                                                    src="{{ asset($advanceSalary->employee->photo ?: 'images/no_image.jpg') }}">
+                                            </td>
                                             <td class="align-middle"> {{ $advanceSalary->employee->name }}</td>
                                             <td class="align-middle" name="amount">{{ $advanceSalary->amount }}</td>
                                             <td class="align-middle">
@@ -79,6 +80,22 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        <!-- Modal for Large Photo -->
+                                        <div class="modal fade" id="photoModal{{ $key }}" tabindex="-1"
+                                            aria-labelledby="photoModalLabel{{ $key }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <button type="button"
+                                                            class="btn-close position-absolute top-0 end-0 m-2"
+                                                            data-bs-dismiss="modal"aria-label="Close"></button>
+                                                        <img class="img-fluid"
+                                                            src="{{ asset($advanceSalary->employee->photo ?: 'images/no_image.jpg') }}"
+                                                            alt="Large Photo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- End Modal for Large Photo -->
                                     @endforeach
                                 </tbody>
                             </table>
@@ -91,12 +108,6 @@
 
         </div> <!-- container -->
 
-    </div> <!-- Modal For Large Image -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImg" class="modal-img" src="" alt="Large Image">
-        </div>
     </div>
 @endsection
 
@@ -128,7 +139,4 @@
     <script type="text/javascript">
         numberSeparatorDataTable('amount');
     </script>
-
-    <!-- Modal Image js-->
-    <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>
 @endsection

@@ -12,13 +12,8 @@
         type="text/css" />
     <!-- datatables css end -->
 
-    <style>
-        /* Optional: Style to center the image in the modal */
-        .modal-body img {
-            width: 100%;
-            height: auto;
-        }
-    </style>
+    <!-- modal image css -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/modal-image.css') }}">
 @endsection
 
 @section('admin')
@@ -65,10 +60,9 @@
                                     @foreach ($products as $key => $product)
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
-                                            <td> <img class="avatar-md img-thumbnail modal-trigger" data-bs-toggle="modal"
-                                                    data-bs-target="#imageModal{{ $key }}"
-                                                    src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
-                                                    alt="Product Image">
+                                            <td> <img class="avatar-md img-thumbnail modal-trigger" alt="Product Image"
+                                                    data-bs-toggle="modal" data-bs-target="#imageModal{{ $key }}"
+                                                    src="{{ asset($product->image ?: 'images/no_image.jpg') }}">
                                             </td>
                                             <td class="align-middle">{{ $product->name }}</td>
                                             <td class="align-middle">{{ $product->category_id }}</td>
@@ -92,6 +86,23 @@
                                                 </form>
                                             </td>
                                         </tr>
+
+                                        <!-- Modal for Large Image -->
+                                        <div class="modal fade" id="imageModal{{ $key }}" tabindex="-1"
+                                            aria-labelledby="imageModalLabel{{ $key }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <button type="button"
+                                                            class="btn-close position-absolute top-0 end-0 m-2"
+                                                            data-bs-dismiss="modal"aria-label="Close"></button>
+                                                        <img class="img-fluid"
+                                                            src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
+                                                            alt="Large Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- End Modal for Large Image -->
                                     @endforeach
                                 </tbody>
                             </table>
@@ -105,23 +116,6 @@
         </div> <!-- container -->
 
     </div>
-    @foreach ($products as $key => $product)
-        <!-- Modal for Large Image -->
-        <div class="modal fade" id="imageModal{{ $key }}" tabindex="-1"
-            aria-labelledby="imageModalLabel{{ $key }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body p-0">
-                        <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
-                            data-bs-dismiss="modal"aria-label="Close"></button>
-                        <img class="img-fluid" src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
-                            alt="Large Image">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal for Large Image -->
-    @endforeach
 @endsection
 
 @section('js')

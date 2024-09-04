@@ -86,12 +86,6 @@
 
         </div> <!-- container -->
 
-    </div> <!-- Modal For Large Image -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImg" class="modal-img" src="" alt="Large Image">
-        </div>
     </div>
 @endsection
 
@@ -117,7 +111,4 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
-
-    <!-- Modal Image js-->
-    <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>
 @endsection

@@ -62,9 +62,10 @@
                                             <td scope="row" class="align-middle">
                                                 {{ $key + 1 }}
                                             </td>
-                                            <td> <img class="avatar-md img-thumbnail modal-img"
-                                                    src="{{ asset($employee->photo) ?: asset('images/no_image.jpg') }}"
-                                                    alt="Employee Photo" srcset=""></td>
+                                            <td> <img class="avatar-md img-thumbnail modal-img" alt="Employee Photo"
+                                                    data-bs-toggle="modal" data-bs-target="#photoModal{{ $key }}"
+                                                    src="{{ asset($employee->photo ?: 'images/no_image.jpg') }}">
+                                            </td>
                                             <td class="align-middle"> {{ $employee->name }}</td>
                                             <td class="align-middle">
                                                 <span class="badge bg-info">{{ date('F', strtotime('-1 month')) }}</span>
@@ -95,6 +96,23 @@
                                                     Pay Now</a>
                                             </td>
                                         </tr>
+
+                                        <!-- Modal for Large Photo -->
+                                        <div class="modal fade" id="photoModal{{ $key }}" tabindex="-1"
+                                            aria-labelledby="photoModalLabel{{ $key }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <button type="button"
+                                                            class="btn-close position-absolute top-0 end-0 m-2"
+                                                            data-bs-dismiss="modal"aria-label="Close"></button>
+                                                        <img class="img-fluid"
+                                                            src="{{ asset($employee->photo ?: 'images/no_image.jpg') }}"
+                                                            alt="Large Photo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- End Modal for Large Photo -->
                                     @endforeach
                                 </tbody>
                             </table>
@@ -106,51 +124,40 @@
             <!-- end row-->
 
         </div> <!-- container -->
+    @endsection
 
-    </div> <!-- Modal For Large Image -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImg" class="modal-img" src="" alt="Large Image">
-        </div>
-    </div>
-@endsection
+    @section('js')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="{{ asset('backend/assets/js/sweetalert.js') }}"></script>
+        <!-- datatables js -->
+        <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}">
+        </script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+        <!-- datatables js ends -->
 
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="{{ asset('backend/assets/js/sweetalert.js') }}"></script>
-    <!-- datatables js -->
-    <script src="{{ asset('backend/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}">
-    </script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-    <!-- datatables js ends -->
+        <!-- Datatables init -->
+        <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
 
-    <!-- Datatables init -->
-    <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+        <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
 
-    <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
+        <script type="text/javascript">
+            let advanceAmount = {{ json_encode($advanceAmount) }}
 
-    <script type="text/javascript">
-        let advanceAmount = {{ json_encode($advanceAmount) }}
-
-        numberSeparatorDataTable('salary');
-        if (advanceAmount != null) {
-            numberSeparatorDataTable('advance');
-        }
-        numberSeparatorDataTable('due');
-    </script>
-
-    <!-- Modal Image js-->
-    <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script>
-@endsection
+            numberSeparatorDataTable('salary');
+            if (advanceAmount != null) {
+                numberSeparatorDataTable('advance');
+            }
+            numberSeparatorDataTable('due');
+        </script>
+    @endsection
