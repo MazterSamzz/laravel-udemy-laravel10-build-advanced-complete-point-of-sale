@@ -8,12 +8,17 @@
         rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css') }}" rel="stylesheet"
+    <link href="{{ asset('backend/assets/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet"
         type="text/css" />
     <!-- datatables css end -->
-    {{-- 
-    <!-- modal image css -->
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/modal-image.css') }}"> --}}
+
+    <style>
+        /* Optional: Style to center the image in the modal */
+        .modal-body img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 @endsection
 
 @section('admin')
@@ -60,15 +65,15 @@
                                     @foreach ($products as $key => $product)
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
-                                            <td> <img class="avatar-md img-thumbnail modal-img"
-                                                    data-large="{{ asset($product->image ?: 'images/no_image.jpg') }}"
+                                            <td> <img class="avatar-md img-thumbnail modal-trigger" data-bs-toggle="modal"
+                                                    data-bs-target="#imageModal{{ $key }}"
                                                     src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
                                                     alt="Product Image">
                                             </td>
                                             <td class="align-middle">{{ $product->name }}</td>
                                             <td class="align-middle">{{ $product->category_id }}</td>
                                             <td class="align-middle">{{ $product->supplier_id }}</td>
-                                            <td class="align-middle">{{ $product->code }}</td>X
+                                            <td class="align-middle">{{ $product->code }}</td>
                                             <td class="align-middle">{{ $product->selling_price }}</td>
                                             <td class="align-middle">
                                                 <a href="{{ route('products.edit', ['product' => $product->id]) }}"
@@ -99,13 +104,24 @@
 
         </div> <!-- container -->
 
-    </div> <!-- Modal For Large Image -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImg" class="modal-img" src="" alt="Large Image">
-        </div>
     </div>
+    @foreach ($products as $key => $product)
+        <!-- Modal for Large Image -->
+        <div class="modal fade" id="imageModal{{ $key }}" tabindex="-1"
+            aria-labelledby="imageModalLabel{{ $key }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
+                            data-bs-dismiss="modal"aria-label="Close"></button>
+                        <img class="img-fluid" src="{{ asset($product->image ?: 'images/no_image.jpg') }}"
+                            alt="Large Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal for Large Image -->
+    @endforeach
 @endsection
 
 @section('js')
@@ -130,7 +146,4 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
-    {{-- 
-    <!-- Modal Image js-->
-    <script src="{{ asset('backend/assets/js/modal-image.js') }}"></script> --}}
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class StoreProductRequest extends FormRequest
 {
@@ -21,6 +22,16 @@ class StoreProductRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+
+        $this->merge([
+            'code' => $this->input('code') ?: IdGenerator::generate([
+                'table' => 'products',
+                'field' => 'code',
+                'length' => 6,
+                'prefix' => 'PC'
+            ])
+        ]);
+
         if ($this->has('buying_price'))
             $buying_price = str_replace(',', '', $this->input('buying_price')); // Menghapus koma
 
@@ -44,7 +55,7 @@ class StoreProductRequest extends FormRequest
             'name' => ['required', 'string'],
             'category_id' => ['required', 'exists:categories,id'],
             'supplier_id' => ['required', 'exists:suppliers,id'],
-            'code' => ['nullable', 'string'],
+            'code' => ['required', 'string'],
             'garage' => ['nullable', 'string'],
             'image' => ['nullable', 'image'],
             'store' => ['nullable', 'string'],
