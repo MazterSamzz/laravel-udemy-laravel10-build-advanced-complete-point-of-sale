@@ -29,6 +29,11 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('salaries', SalaryController::class);
     Route::get('salaries', [SalaryController::class, 'index'])->name('salaries.index');
     Route::resource('categories', CategoryController::class);
+
+    Route::controller(ProductController::class)->prefix('products')->group(function () {
+        Route::get('export-import', 'exportImport')->name('products.export-import');
+        Route::get('export', 'export')->name('products.export');
+    });
     Route::resource('products', ProductController::class);
 });
 

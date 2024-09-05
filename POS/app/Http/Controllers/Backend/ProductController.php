@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Helpers\ImageHelper;
+use App\Helpers\Spout;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Product;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Backend\Category;
 use App\Models\Backend\Supplier;
-use Milon\Barcode\DNS1D;
 use Milon\Barcode\Facades\DNS1DFacade;
-use Milon\Barcode\Facades\DNS2DFacade;
 
 class ProductController extends Controller
 {
@@ -111,5 +110,29 @@ class ProductController extends Controller
         );
 
         return to_route('products.index')->with($notification);
+    }
+
+    public function exportImport()
+    {
+        return view('backend.products.export-import');
+    }
+
+    public function export()
+    {
+        $products = Product::all();
+
+        return Spout::exportExcel($products, 'products', [
+            'name',
+            'category_id',
+            'supplier_id',
+            'code',
+            'garage',
+            'image',
+            'store',
+            'buying_date',
+            'expire_date',
+            'buying_price',
+            'selling_price',
+        ]);
     }
 }
