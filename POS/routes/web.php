@@ -31,8 +31,10 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     Route::controller(ProductController::class)->prefix('products')->group(function () {
-        Route::get('export-import', 'exportImport')->name('products.export-import');
         Route::get('export', 'export')->name('products.export');
+        Route::get('import-page', 'importPage')->name('products.import.page');
+        Route::get('import-sample', 'importSample')->name('products.import.sample');
+        Route::post('import', 'import')->name('products.import');
     });
     Route::resource('products', ProductController::class);
 });

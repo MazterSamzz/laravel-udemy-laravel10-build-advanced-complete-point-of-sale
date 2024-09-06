@@ -29,6 +29,10 @@
                             <a href="{{ route('products.create') }}"
                                 class="btn btn-primary rounded-pill waves-effect waves-light">Add Product</a>
                         </div>
+                        <div class="page-title-right me-2">
+                            <a href="{{ route('products.export') }}"
+                                class="btn btn-primary rounded-pill waves-effect waves-light">Export Products</a>
+                        </div>
                         <h4 class="page-title">All Products</h4>
                     </div>
                 </div>

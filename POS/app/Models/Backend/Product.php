@@ -23,6 +23,5 @@ class Product extends Model
         'expire_date',
         'buying_price',
         'selling_price',
-
     ];
 }

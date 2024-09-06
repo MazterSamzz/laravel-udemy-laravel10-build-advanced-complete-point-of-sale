@@ -112,27 +112,91 @@ class ProductController extends Controller
         return to_route('products.index')->with($notification);
     }
 
-    public function exportImport()
+    public function importPage()
     {
-        return view('backend.products.export-import');
+        return view('backend.products.import-page');
     }
 
     public function export()
     {
-        $products = Product::all();
+        $products = Product::select(['name', 'category_id', 'supplier_id', 'code', 'garage', 'image', 'store', 'buying_date', 'expire_date', 'buying_price', 'selling_price'])->get();
 
-        return Spout::exportExcel($products, 'products', [
-            'name',
-            'category_id',
-            'supplier_id',
-            'code',
-            'garage',
-            'image',
-            'store',
-            'buying_date',
-            'expire_date',
-            'buying_price',
-            'selling_price',
+        return Spout::exportExcel($products, [
+            'name' => ['no', 'Product Name'],
+            'category_id' => ['no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
+            'supplier_id' => ['no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
+            'code' => ['yes', 'Product Code'],
+            'garage' => ['yes', 'Garage Stock For This Product'],
+            'image' => ['yes', 'Path of the image ex: C:\images\file_name.jpg'],
+            'store' => ['yes', 'Store Stock For This Product'],
+            'buying_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
+            'expire_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
+            'buying_price' => ['yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
+            'selling_price' => ['yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
         ]);
+    }
+
+    public function import()
+    {
+        Spout::importExcel(request()->file('import'), new Product(), [
+            'Name' => 'name',
+            'Category Id' => 'category_id',
+            'Supplier Id' => 'supplier_id',
+            'Code' => 'code',
+            'Garage' => 'garage',
+            'Image' => 'image',
+            'Store' => 'store',
+            'Buying Date' => 'buying_date',
+            'Expire Date' => 'expire_date',
+            'Buying Price' => 'buying_price',
+            'Selling Price' => 'selling_price'
+        ]);
+
+        return to_route('products.index');
+    }
+
+    public function importSample()
+    {
+        Spout::importSample(
+            'products',
+            [
+                'name' => ['no', 'Product Name'],
+                'category_id' => ['no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
+                'supplier_id' => ['no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
+                'code' => ['yes', 'Product Code'],
+                'garage' => ['yes', 'Garage Stock For This Product'],
+                'store' => ['yes', 'Store Stock For This Product'],
+                'buying_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
+                'expire_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
+                'buying_price' => ['yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
+                'selling_price' => ['yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
+                'image' => ['yes', 'Path of the image ex: C:\images\file_name.jpg'],
+            ],
+            [
+                [
+                    'name' => 'Product 1',
+                    'category_id' => '1',
+                    'supplier_id' => '1',
+                    'code' => 'P-001',
+                    'garage' => 'A',
+                    'image' => 'C:\images\file_name.jpg',
+                    'store' => 'A',
+                    'buying_date' => '2020-01-01',
+                    'expire_date' => '2020-01-01',
+                    'buying_price' => '100',
+                    'selling_price' => '200',
+                ],
+                [
+                    'name' => 'Product 2',
+                    'category_id' => '1',
+                    'supplier_id' => '1',
+                    'code' => 'P-002',
+                ]
+            ]
+        );
+
+        // $products = Product::select(['name', 'category_id', 'supplier_id', 'code', 'garage', 'image', 'store', 'buying_date', 'expire_date', 'buying_price', 'selling_price'])->get();
+
+        // return Spout::test();
     }
 }
