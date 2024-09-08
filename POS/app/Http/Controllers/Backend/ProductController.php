@@ -10,6 +10,8 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Backend\Category;
 use App\Models\Backend\Supplier;
+use App\Services\ExportService;
+use App\Services\ImportService;
 use Milon\Barcode\Facades\DNS1DFacade;
 
 class ProductController extends Controller
@@ -117,28 +119,28 @@ class ProductController extends Controller
         return view('backend.products.import-page');
     }
 
-    public function export()
+    public function export(ExportService $export)
     {
         $products = Product::select(['name', 'category_id', 'supplier_id', 'code', 'garage', 'image', 'store', 'buying_date', 'expire_date', 'buying_price', 'selling_price'])->get();
 
-        return Spout::exportExcel($products, [
-            'name' => ['no', 'Product Name'],
-            'category_id' => ['no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
-            'supplier_id' => ['no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
-            'code' => ['yes', 'Product Code'],
-            'garage' => ['yes', 'Garage Stock For This Product'],
-            'image' => ['yes', 'Path of the image ex: C:\images\file_name.jpg'],
-            'store' => ['yes', 'Store Stock For This Product'],
-            'buying_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
-            'expire_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
-            'buying_price' => ['yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
-            'selling_price' => ['yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
+        return $export->toExcel($products, ['Column', 'Nullable', 'Description'], [
+            ['Name', 'no', 'Product Name'],
+            ['Category Id', 'no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
+            ['Supplier Id', 'no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
+            ['Code', 'yes', 'Product Code'],
+            ['Garage', 'yes', 'Garage Stock For This Product'],
+            ['Image', 'yes', 'Path of the image ex: C:\images\file_name.jpg'],
+            ['Store', 'yes', 'Store Stock For This Product'],
+            ['Buying Date', 'yes', 'Format: (YYYY-MM-DD) | ex: 2020-01-30'],
+            ['Expire Date', 'yes', 'Format: (YYYY-MM-DD) | ex: 2020-01-30'],
+            ['Buying Price', 'yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
+            ['Selling Price', 'yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
         ]);
     }
 
-    public function import()
+    public function import(ImportService $import)
     {
-        Spout::importExcel(request()->file('import'), new Product(), [
+        $import->importExcel(request()->file('import'), new Product(), [
             'Name' => 'name',
             'Category Id' => 'category_id',
             'Supplier Id' => 'supplier_id',
@@ -155,22 +157,23 @@ class ProductController extends Controller
         return to_route('products.index');
     }
 
-    public function importSample()
+    public function importSample(ImportService $import)
     {
-        Spout::importSample(
-            'products',
+        return $import->importSample(
+            'products-sample',
+            ['Column', 'Nullable', 'Description'],
             [
-                'name' => ['no', 'Product Name'],
-                'category_id' => ['no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
-                'supplier_id' => ['no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
-                'code' => ['yes', 'Product Code'],
-                'garage' => ['yes', 'Garage Stock For This Product'],
-                'store' => ['yes', 'Store Stock For This Product'],
-                'buying_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
-                'expire_date' => ['yes', 'Format: (YYYY-MM-DD) || ex: 2020-01-30'],
-                'buying_price' => ['yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
-                'selling_price' => ['yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
-                'image' => ['yes', 'Path of the image ex: C:\images\file_name.jpg'],
+                ['Name', 'no', 'Product Name'],
+                ['Category Id', 'no', 'Category ID based on the category name (ID must equal to the Category ID in the Category table)'],
+                ['Supplier Id', 'no', 'Supplier ID based on the supplier name (ID must equal to the Supplier ID in the Supplier table)'],
+                ['Code', 'yes', 'Product Code'],
+                ['Garage', 'yes', 'Garage Stock For This Product'],
+                ['Image', 'yes', 'Path of the image ex: C:\images\file_name.jpg'],
+                ['Store', 'yes', 'Store Stock For This Product'],
+                ['Buying Date', 'yes', 'Format: (YYYY-MM-DD) | ex: 2020-01-30'],
+                ['Expire Date', 'yes', 'Format: (YYYY-MM-DD) | ex: 2020-01-30'],
+                ['Buying Price', 'yes', 'Buying Price (This will be used for auto fill when make sales order/ invoice)'],
+                ['Selling Price', 'yes', 'Selling Price (This will be used for auto fill when make Purchase order/ invoice)'],
             ],
             [
                 [
@@ -194,9 +197,5 @@ class ProductController extends Controller
                 ]
             ]
         );
-
-        // $products = Product::select(['name', 'category_id', 'supplier_id', 'code', 'garage', 'image', 'store', 'buying_date', 'expire_date', 'buying_price', 'selling_price'])->get();
-
-        // return Spout::test();
     }
 }
