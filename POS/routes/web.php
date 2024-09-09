@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AdvanceSalaryController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,5 +39,6 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     });
     Route::resource('products', ProductController::class);
 });
+Route::resource('expenses', ExpenseController::class);
 
 require __DIR__ . '/auth.php';

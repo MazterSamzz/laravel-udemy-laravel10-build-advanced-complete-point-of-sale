@@ -140,3 +140,48 @@ function parseIntOnSubmit(input) {
         console.log("Value after parsing as integer:", number.value);
     });
 }
+
+function numberSeparatorClass(className, decimalCount = 2) {
+    // Ambil elemen berdasarkan kelas
+    let inputs = document.getElementsByClassName(className);
+
+    // Periksa apakah elemen ditemukan
+    if (inputs.length === 0) {
+        console.error(`No input found with class ${className}.`);
+        return;
+    }
+
+    // Fungsi untuk memformat nilai
+    function formatValue(value) {
+        if (value.endsWith(".")) {
+            return value;
+        }
+
+        let parts = value.split(".");
+        let integerPart = parts[0].replace(/[^0-9]/g, ""); // Hapus semua karakter kecuali angka
+        let decimalPart = parts[1] ? parts[1].replace(/[^0-9]/g, "") : ""; // Bagian desimal jika ada
+
+        // Format bagian integer dengan pemisah ribuan
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Potong bagian desimal sesuai jumlah desimal yang diinginkan
+        decimalPart = decimalPart ? decimalPart.substring(0, decimalCount) : "";
+
+        return decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}`;
+    }
+
+    // Terapkan format ke semua elemen dengan kelas yang diberikan
+    Array.from(inputs).forEach((input) => {
+        if (input.tagName === "INPUT") {
+            input.addEventListener("input", function () {
+                let value = input.value;
+
+                // Format dan atur nilai input
+                input.value = formatValue(value);
+            });
+
+            // Terapkan format awal
+            input.value = formatValue(input.value);
+        }
+    });
+}

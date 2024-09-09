@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Helpers\ImageHelper;
-use App\Helpers\Spout;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Product;
 use App\Http\Requests\Product\StoreProductRequest;
