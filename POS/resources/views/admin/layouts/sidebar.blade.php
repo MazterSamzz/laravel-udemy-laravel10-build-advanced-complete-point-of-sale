@@ -217,13 +217,13 @@
                                 <a href="{{ route('expenses.create') }}">Add Expense</a>
                             </li>
                             <li>
-                                <a href="auth-login-2.html">Today Expense</a>
+                                <a href="{{ route('expenses.filter', ['filter' => 'date']) }}">Today Expense</a>
                             </li>
                             <li>
-                                <a href="auth-login-2.html">Monthly Expense</a>
+                                <a href="{{ route('expenses.filter', ['filter' => 'month']) }}">Monthly Expense</a>
                             </li>
                             <li>
-                                <a href="auth-login-2.html">Yearly Expense</a>
+                                <a href="{{ route('expenses.filter', ['filter' => 'year']) }}">Yearly Expense</a>
                             </li>
                         </ul>
                     </div>

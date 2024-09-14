@@ -69,4 +69,39 @@ class ExpenseController extends Controller
     {
         //
     }
+
+    /**
+     * Filter expenses by date, month, or year.
+     *
+     * @param string $filter
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($filter)
+    {
+        switch ($filter) {
+            case 'month':
+                $date = date('m');
+                break;
+
+            case 'year':
+                $date = date('Y');
+                break;
+
+            default:
+                $date = date('Y-m-d');
+                break;
+        }
+
+        $expenses = Expense::where($filter, $date)->latest()->get();
+
+        $amount = $expenses->sum('amount');
+        $amount = 'Rp. ' . number_format($amount, 2);
+
+        if ($filter == 'date')
+            $filter = 'Today';
+        else
+            $filter = ucfirst($filter);
+
+        return view('backend.expenses.filter', compact(['expenses', 'amount', 'filter']));
+    }
 }

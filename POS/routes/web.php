@@ -39,6 +39,10 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     });
     Route::resource('products', ProductController::class);
 });
+
+
+
 Route::resource('expenses', ExpenseController::class);
+Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
 
 require __DIR__ . '/auth.php';

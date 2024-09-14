@@ -21,7 +21,7 @@ class ExpenseRequest extends FormRequest
         $month = $date[1];
 
         $this->merge([
-            'amount' => intval($this->input('amount')),
+            'amount' => intval(str_replace(',', '', $this->input('amount'))),
             'year' => intval($year),
             'month' => intval($month)
         ]);
