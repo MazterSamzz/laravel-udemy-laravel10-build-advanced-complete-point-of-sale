@@ -70,10 +70,11 @@
                                             <td class="align-middle">{{ $expense->year }}</td>
                                             <td class="align-middle">{{ $expense->month }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('expenses.edit', ['expense' => $expense->id]) }}"
+                                                <a href="{{ route('expenses.edit', ['expense' => $expense->id, 'filter' => $filter]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
-                                                <form action="{{ route('expenses.destroy', ['expense' => $expense->id]) }}"
+                                                <form
+                                                    action="{{ route('expenses.destroy', ['expense' => $expense->id, 'filter' => $filter]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')

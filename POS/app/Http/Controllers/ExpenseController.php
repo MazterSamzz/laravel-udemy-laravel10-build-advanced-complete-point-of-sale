@@ -35,7 +35,7 @@ class ExpenseController extends Controller
             'alert-type' => 'success',
         );
 
-        return redirect()->route('expenses.create')->with($notification);
+        return to_route('expenses.create')->with($notification);
     }
 
     /**
@@ -51,7 +51,10 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        //
+        $filter = strtolower(request()->query('filter'));
+        $filter = $filter == 'Today' ? 'date' : $filter;
+
+        return view('backend.expenses.edit', compact(['expense', 'filter']));
     }
 
     /**
@@ -59,7 +62,15 @@ class ExpenseController extends Controller
      */
     public function update(ExpenseRequest $request, Expense $expense)
     {
-        //
+        $expense->update($request->validated());
+        $filter = request()->query('filter') ?? 'date';
+
+        $notification = array(
+            'message' => 'Expense updated successfully!',
+            'alert-type' => 'success',
+        );
+
+        return to_route('expenses.filter', ['filter' => $filter])->with($notification);
     }
 
     /**
@@ -67,7 +78,17 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $expense->delete();
+
+        $filter = strtolower(request()->query('filter'));
+        $filter = $filter == 'Today' ? 'date' : $filter;
+
+        $notification = array(
+            'message' => 'Expense deleted successfully!',
+            'alert-type' => 'success',
+        );
+
+        return to_route('expenses.filter', ['filter' => $filter])->with($notification);
     }
 
     /**
