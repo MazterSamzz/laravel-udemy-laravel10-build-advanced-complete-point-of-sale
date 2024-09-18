@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,9 +41,9 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('products', ProductController::class);
 });
 
-
-
 Route::resource('expenses', ExpenseController::class);
 Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
+
+Route::get('/sales/pos', [SaleController::class, 'pos'])->name('sales.pos');
 
 require __DIR__ . '/auth.php';

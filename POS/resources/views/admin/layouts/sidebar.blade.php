@@ -53,24 +53,140 @@
                         <span> Dashboards </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('sales.pos') }}">
+                        <span class="badge bg-pink float-end">Hot</span>
+                        <i class="mdi mdi-view-dashboard-outline"></i>
+                        <span> POS </span>
+                    </a>
+                </li>
 
                 <li class="menu-title mt-2">Apps</li>
 
+                <!-- ================ Master Data ================ -->
+                <li>
+                    <a href="#masterData" data-bs-toggle="collapse">
+                        <i class="mdi mdi-bookmark-multiple-outline"></i>
+                        <span> Master Data</span> <span class="menu-arrow"></a>
+                    <div class="collapse" id="masterData">
+                        <ul class="nav-second-level">
+                            <!-- ================ Categories ================ -->
+                            <li>
+                                <a href="#sidebarCategory" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> Categories</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarCategory">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('categories.index') }}">All Categories</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- ================ End of Categories ================ -->
+
+                            <!-- ================ Products ================ -->
+                            <li>
+                                <a href="#sidebarProduct" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> Products</span> <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarProduct">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('products.index') }}">All Products</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('products.create') }}">Add Product</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('products.import.page') }}">Import</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- ================ End of Products ================ -->
+                        </ul>
+                    </div>
+                </li>
+                <!-- ================ End of Master Data ================ -->
+
                 <!-- ================ Employees ================ -->
                 <li>
-                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
+                    <a href="#sidebarEmployeeManagement" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-group"></i>
-                        <span> Employee</span>
+                        <span> Employees</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEmployee">
+                    <div class="collapse" id="sidebarEmployeeManagement">
                         <ul class="nav-second-level">
+                            <!-- ================ Employees ================ -->
                             <li>
-                                <a href="{{ route('employees.index') }}">All Employee</a>
+                                <a href="#sidebarEmployee" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> Employee</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarEmployee">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('employees.index') }}">All Employee</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('employees.create') }}">Add Employee</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
+                            <!-- ================ End of Employees ================ -->
+
+                            <!-- ================ Salaries ================ -->
                             <li>
-                                <a href="{{ route('employees.create') }}">Add Employee</a>
+                                <a href="#sidebarSalary" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-email-multiple-outline"></i>
+                                    <span>Salary</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarSalary">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('advance-salaries.index') }}">All Advance Salary</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('advance-salaries.create') }}">Add Advance Salary</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('salaries.create') }}">Pay Salary</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('salaries.index') }}">Paid Salary</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
+                            <!-- ================ End of Salaries ================ -->
+
+                            <!-- ================ Attendances ================ -->
+                            <li>
+                                <a href="#sidebarAttendances" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-email-multiple-outline"></i>
+                                    <span> Attendances </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarAttendances">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('attendances.index') }}">All Attendances</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('attendances.create') }}">Add Attendance</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- ================ End of Attendances ================ -->
                         </ul>
                     </div>
                 </li>
@@ -115,92 +231,6 @@
                     </div>
                 </li>
                 <!-- ================ End of Suppliers ================ -->
-
-                <!-- ================ Salaries ================ -->
-                <li>
-                    <a href="#sidebarSalary" data-bs-toggle="collapse">
-                        <i class="mdi mdi-email-multiple-outline"></i>
-                        <span>Salary</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarSalary">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="{{ route('advance-salaries.index') }}">All Advance Salary</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('advance-salaries.create') }}">Add Advance Salary</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('salaries.create') }}">Pay Salary</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('salaries.index') }}">Paid Salary</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <!-- ================ End of Salaries ================ -->
-
-                <!-- ================ Attendances ================ -->
-                <li>
-                    <a href="#sidebarAttendances" data-bs-toggle="collapse">
-                        <i class="mdi mdi-email-multiple-outline"></i>
-                        <span> Attendances </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarAttendances">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="{{ route('attendances.index') }}">All Attendances</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('attendances.create') }}">Add Attendance</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <!-- ================ End of Attendances ================ -->
-
-                <!-- ================ Categories ================ -->
-                <li>
-                    <a href="#sidebarCategory" data-bs-toggle="collapse">
-                        <i class="mdi mdi-account-group"></i>
-                        <span> Categories</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarCategory">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="{{ route('categories.index') }}">All Categories</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <!-- ================ End of Categories ================ -->
-
-                <!-- ================ Products ================ -->
-                <li>
-                    <a href="#sidebarProduct" data-bs-toggle="collapse">
-                        <i class="mdi mdi-account-group"></i>
-                        <span> Products</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarProduct">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="{{ route('products.index') }}">All Products</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('products.create') }}">Add Product</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('products.import.page') }}">Import</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <!-- ================ End of Products ================ -->
 
                 <!-- ================ Custom ================ -->
                 <li class="menu-title mt-2">Custom</li>
@@ -261,4 +291,3 @@
     <!-- Sidebar -left -->
 
 </div>
-f
