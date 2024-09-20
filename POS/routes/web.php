@@ -8,7 +8,7 @@ use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\SaleController;
+use App\Http\Controllers\Backend\SaleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,6 +44,9 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
 Route::resource('expenses', ExpenseController::class);
 Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
 
+Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
 Route::get('/sales/pos', [SaleController::class, 'pos'])->name('sales.pos');
+Route::post('/sales/pos/{product}', [SaleController::class, 'addCart'])->name('sales.add-cart');
+Route::patch('/sales/pos/{rowId}', [SaleController::class, 'updateCart'])->name('sales.update-cart');
 
 require __DIR__ . '/auth.php';
