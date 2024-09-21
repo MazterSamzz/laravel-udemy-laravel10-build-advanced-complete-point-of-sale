@@ -94,15 +94,16 @@
                                 <h2 class="text-white">Total: </h2>
                                 <h1 class="text-white">{{ $display['total'] }}</h1>
                             </div>
-                            <form action="{{ route('customers.create') }}" class="mt-3">
+                            <form method="post" action="{{ route('sales.create-invoice') }}" class="mt-3">
+                                @csrf
                                 <div class="form-group mb-3">
                                     <div class="mb-2">
                                         <label for="customer_id" class="form-label"> Customer</label>
                                         <a class="btn btn-primary rounded-pill waves-effect waves-light"
                                             href="{{ route('customers.create') }}">Add Customer</a>
                                     </div>
-                                    <select name="customer_id" class="form-select">
-                                        <option selected disabled> Select Customer </option>
+                                    <select name="customer_id" class="form-select" required>
+                                        <option value="" selected disabled> Select Customer </option>
                                         @foreach ($customers as $item)
                                             <option {{ old('customer_id') == $item->id ? 'selected' : '' }}
                                                 value="{{ $item->id }}">{{ $item->name }}

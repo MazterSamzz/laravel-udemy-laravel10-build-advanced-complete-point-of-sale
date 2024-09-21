@@ -127,4 +127,14 @@ class SaleController extends Controller
 
         return to_route('sales.pos')->with($notification);
     }
+
+    public function createInvoice()
+    {
+        $contents = Cart::content();
+
+        $customer_id = request()->customer_id;
+        $customer = Customer::find($customer_id);
+
+        return view('backend.sales.create-invoice', compact('contents', 'customer'));
+    }
 }

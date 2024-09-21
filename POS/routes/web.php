@@ -44,10 +44,13 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
 Route::resource('expenses', ExpenseController::class);
 Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
 
-Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
-Route::get('/sales/pos', [SaleController::class, 'pos'])->name('sales.pos');
-Route::post('/sales/pos/{product}', [SaleController::class, 'addCart'])->name('sales.add-cart');
-Route::patch('/sales/pos/{rowId}', [SaleController::class, 'updateCart'])->name('sales.update-cart');
-Route::delete('/sales/pos/{rowId}', [SaleController::class, 'deleteCart'])->name('sales.delete-cart');
+Route::prefix('sales')->name('sales.')
+    ->controller(SaleController::class)->group(function () {
+        Route::get('/pos', 'pos')->name('pos');
+        Route::post('/pos/{product}', 'addCart')->name('add-cart');
+        Route::patch('/pos/{rowId}', 'updateCart')->name('update-cart');
+        Route::delete('/pos/{rowId}', 'deleteCart')->name('delete-cart');
+        Route::post('/create-invoice', 'createInvoice')->name('create-invoice');
+    });
 
 require __DIR__ . '/auth.php';
