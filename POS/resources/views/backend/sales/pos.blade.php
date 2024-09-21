@@ -72,7 +72,16 @@
                                                 </td>
                                                 <td class="align-middle">{{ number_format($item->price) }}</td>
                                                 <td class="align-middle">{{ number_format($item->subtotal) }}</td>
-                                                <td class="align-middle"><i class="fas fa-trash-alt text-white"></i></td>
+                                                <td class="align-middle">
+                                                    <form method="post"
+                                                        action="{{ route('sales.delete-cart', ['rowId' => $item->rowId]) }}">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -115,4 +115,16 @@ class SaleController extends Controller
 
         return to_route('sales.pos')->with($notification);
     }
+
+    public function deleteCart($rowId)
+    {
+        Cart::remove($rowId);
+
+        $notification = [
+            'message' => 'Product removed from cart successfully',
+            'alert-type' => 'success'
+        ];
+
+        return to_route('sales.pos')->with($notification);
+    }
 }

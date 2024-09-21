@@ -48,5 +48,6 @@ Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
 Route::get('/sales/pos', [SaleController::class, 'pos'])->name('sales.pos');
 Route::post('/sales/pos/{product}', [SaleController::class, 'addCart'])->name('sales.add-cart');
 Route::patch('/sales/pos/{rowId}', [SaleController::class, 'updateCart'])->name('sales.update-cart');
+Route::delete('/sales/pos/{rowId}', [SaleController::class, 'deleteCart'])->name('sales.delete-cart');
 
 require __DIR__ . '/auth.php';
