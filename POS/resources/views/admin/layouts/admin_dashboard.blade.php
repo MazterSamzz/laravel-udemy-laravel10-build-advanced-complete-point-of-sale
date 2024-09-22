@@ -85,8 +85,8 @@
 
     <script src="{{ asset('backend/assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 
-    <!-- Dashboar 1 init js-->
-    <script src="{{ asset('backend/assets/js/pages/dashboard-1.init.js') }}"></script>
+    {{-- <!-- Dashboar 1 init js-->
+    <script src="{{ asset('backend/assets/js/pages/dashboard-1.init.js') }}"></script> --}}
 
     <!-- App js-->
     <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>

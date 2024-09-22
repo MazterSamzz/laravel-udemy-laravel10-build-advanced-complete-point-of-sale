@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('customer_id');
+            $table->date('date');
+            $table->unsignedTinyInteger('status')->default(0);
+            $table->decimal('total_products', 16, 2)->default(0);
+            $table->decimal('vat', 15, 2)->default(0);
+            $table->decimal('total', 16, 2)->default(0);
+            $table->unsignedTinyInteger('payment_status')->default(0);
+            $table->decimal('paid', 16, 2)->default(0);
+            $table->decimal('recieveables', 16, 2)->default(0);
             $table->timestamps();
         });
     }

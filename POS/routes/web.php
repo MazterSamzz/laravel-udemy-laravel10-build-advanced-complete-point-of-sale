@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AdvanceSalaryController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PosController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\Backend\SaleController;
@@ -39,18 +40,21 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
         Route::post('import', 'import')->name('products.import');
     });
     Route::resource('products', ProductController::class);
+
+    Route::resource('expenses', ExpenseController::class);
+    Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
+
+    Route::prefix('/pos')->name('pos.')
+        ->controller(PosController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/create-invoice', 'createInvoice')->name('create-invoice');
+            Route::post('/{product}', 'store')->name('store');
+            Route::patch('/{rowId}', 'update')->name('update');
+            Route::delete('/{rowId}', 'delete')->name('delete');
+        });
+
+    Route::resource('sales', SaleController::class);
 });
 
-Route::resource('expenses', ExpenseController::class);
-Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
-
-Route::prefix('sales')->name('sales.')
-    ->controller(SaleController::class)->group(function () {
-        Route::get('/pos', 'pos')->name('pos');
-        Route::post('/pos/{product}', 'addCart')->name('add-cart');
-        Route::patch('/pos/{rowId}', 'updateCart')->name('update-cart');
-        Route::delete('/pos/{rowId}', 'deleteCart')->name('delete-cart');
-        Route::post('/create-invoice', 'createInvoice')->name('create-invoice');
-    });
 
 require __DIR__ . '/auth.php';

@@ -1,5 +1,6 @@
 @extends('admin.layouts.admin_dashboard')
 
+
 @section('css')
     <!-- datatables css -->
     <link href="{{ asset('backend/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet"
@@ -58,13 +59,12 @@
                                             <tr class="text-align-center">
                                                 <th scope="row" class="align-middle">{{ $item->name }}</th>
                                                 <td>
-                                                    <form
-                                                        action="{{ route('sales.update-cart', ['rowId' => $item->rowId]) }}"
-                                                        method="post" class="d-flex">
+                                                    <form action="{{ route('pos.update', ['rowId' => $item->rowId]) }}"
+                                                        method="post" class="d-flex justify-content-center">
                                                         @csrf
                                                         @method('patch')
                                                         <input type="number" name="qty" value="{{ $item->qty }}"
-                                                            min="1" style="width: 40px">
+                                                            min="1" class="me-xxl-1" style="width:4em;">
                                                         <button type="submit" class="btn btn-sm btn-success">
                                                             <i class="fas fa-check"></i>
                                                         </button>
@@ -74,7 +74,7 @@
                                                 <td class="align-middle">{{ number_format($item->subtotal) }}</td>
                                                 <td class="align-middle">
                                                     <form method="post"
-                                                        action="{{ route('sales.delete-cart', ['rowId' => $item->rowId]) }}">
+                                                        action="{{ route('pos.delete', ['rowId' => $item->rowId]) }}">
                                                         @csrf
                                                         @method('delete')
                                                         <button type="submit">
@@ -94,7 +94,7 @@
                                 <h2 class="text-white">Total: </h2>
                                 <h1 class="text-white">{{ $display['total'] }}</h1>
                             </div>
-                            <form method="post" action="{{ route('sales.create-invoice') }}" class="mt-3">
+                            <form method="post" action="{{ route('pos.create-invoice') }}" class="mt-3">
                                 @csrf
                                 <div class="form-group mb-3">
                                     <div class="mb-2">
@@ -102,11 +102,11 @@
                                         <a class="btn btn-primary rounded-pill waves-effect waves-light"
                                             href="{{ route('customers.create') }}">Add Customer</a>
                                     </div>
-                                    <select name="customer_id" class="form-select" required>
+                                    <select id="customer_id" name="customer_id" class="form-select" required>
                                         <option value="" selected disabled> Select Customer </option>
-                                        @foreach ($customers as $item)
-                                            <option {{ old('customer_id') == $item->id ? 'selected' : '' }}
-                                                value="{{ $item->id }}">{{ $item->name }}
+                                        @foreach ($customers as $customer)
+                                            <option {{ old('customer_id') == $customer->encrypted_id ? 'selected' : '' }}
+                                                value="{{ $customer->encrypted_id }}">{{ $customer->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -147,7 +147,7 @@
                                                 </td>
                                                 <td class="align-middle">{{ $product->name }}</td>
                                                 <form method="post"
-                                                    action="{{ route('sales.add-cart', ['product' => $product->id]) }}">
+                                                    action="{{ route('pos.store', ['product' => $product->id]) }}">
                                                     @csrf
                                                     @method('post')
                                                     <td class="align-middle">
@@ -199,8 +199,8 @@
     <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}">
     </script>
-    <script src="{{ asset('backend/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
     <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
