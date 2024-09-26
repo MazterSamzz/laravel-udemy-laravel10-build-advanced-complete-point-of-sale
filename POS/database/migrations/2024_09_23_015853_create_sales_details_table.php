@@ -20,6 +20,9 @@ return new class extends Migration
             $table->decimal('price', 16, 2)->default(0);
             $table->decimal('total_price', 16, 2)->default(0);
             $table->timestamps();
+
+            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

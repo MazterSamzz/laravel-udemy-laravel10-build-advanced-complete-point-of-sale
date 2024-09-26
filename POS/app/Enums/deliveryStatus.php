@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum SalesStatus: int
+enum DeliveryStatus: int
 {
     case Pending = 1;            // Created by customer
     case Confirmed = 2;          // Confirmed by admin

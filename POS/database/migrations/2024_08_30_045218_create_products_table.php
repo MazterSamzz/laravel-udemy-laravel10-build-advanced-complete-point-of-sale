@@ -26,6 +26,9 @@ return new class extends Migration
             $table->unsignedInteger('selling_price')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
 

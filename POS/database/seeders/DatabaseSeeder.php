@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Backend\Sale;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,13 +14,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'root',
-            'email' => 'root@local.host',
-            'phone' => '0812345678910',
-            'password' => 'Rahasia1234.'
+        $this->call([
+            Backend\UserSeeder::class,
+            Backend\EmployeeSeeder::class,
+            Backend\CustomerSeeder::class,
+            Backend\SupplierSeeder::class,
         ]);
+
+        for ($i = 0; $i < 3; $i++) {
+            $this->call(Backend\AdvanceSalarySeeder::class);
+        }
+
+        for ($i = 0; $i < 3; $i++) {
+            $this->call(Backend\SalarySeeder::class);
+        }
+
+        for ($i = 0; $i < 2; $i++) {
+            $this->call(Backend\AttendanceSeeder::class);
+        }
+
+        $this->call([
+            Backend\CategorySeeder::class,
+            Backend\ProductSeeder::class,
+        ]);
+
+        $paymentStatus = 1;
+        for ($i = 0; $i < 7; $i++) {
+            for ($j = 3; $j < 6; $j++) {
+
+                Sale::factory()->withDetails($j)->create([
+                    'date' => date('Y-m-d'),
+                    'payment_status' => $paymentStatus
+                ]);
+
+                if ($paymentStatus == 9)
+                    $paymentStatus = 1;
+                else
+                    $paymentStatus++;
+            }
+        }
     }
 }

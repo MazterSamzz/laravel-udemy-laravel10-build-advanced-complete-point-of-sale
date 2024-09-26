@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedInteger('advance');
             $table->unsignedInteger('due');
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees');
         });
     }
 

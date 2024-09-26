@@ -23,6 +23,8 @@ return new class extends Migration
             $table->decimal('paid', 16, 2)->default(0);
             $table->decimal('recieveables', 16, 2)->default(0);
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

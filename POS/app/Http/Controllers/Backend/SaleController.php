@@ -54,7 +54,7 @@ class SaleController extends Controller
                 $sale['payment_status'] = 2;
                 break;
             case 'Due':
-                $sale['payment_status'] = 3;
+                $sale['payment_status'] = 2;
                 break;
 
             default:

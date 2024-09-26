@@ -72,7 +72,8 @@
                                             <td class="align-middle">{{ $product->category_id }}</td>
                                             <td class="align-middle">{{ $product->supplier_id }}</td>
                                             <td class="align-middle">{{ $product->code }}</td>
-                                            <td class="align-middle">{{ $product->selling_price }}</td>
+                                            <td class="align-middle">
+                                                {{ number_format($product->selling_price, 2, '.', ',') }}</td>
                                             <td class="align-middle">
                                                 <a href="{{ route('products.edit', ['product' => $product->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
