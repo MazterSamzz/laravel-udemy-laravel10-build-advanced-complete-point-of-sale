@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Sale;
 use App\Http\Requests\Sale\StoreSaleRequest;
@@ -17,7 +18,31 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        // Mengambil semua data sales dengan relasi customer
+        $all = Sale::with('customer')->get();
+
+        // Filter dan bagi berdasarkan payment_status
+        $sales = [
+            'awaiting' => $all->filter(fn($sale) => in_array($sale->payment_status, [
+                PaymentStatus::Unpaid,
+                PaymentStatus::NotYet,
+                PaymentStatus::Overdue
+            ])),
+            'cancel'   => $all->filter(fn($sale) => in_array($sale->payment_status, [
+                PaymentStatus::Canceling,
+                PaymentStatus::Canceled
+            ])),
+            'paid'     => $all->filter(fn($sale) => in_array($sale->payment_status, [
+                PaymentStatus::Authorized,
+                PaymentStatus::Paid
+            ])),
+            'refund'   => $all->filter(fn($sale) => in_array($sale->payment_status, [
+                PaymentStatus::Refunding,
+                PaymentStatus::Refunded
+            ])),
+        ];
+
+        return view('backend.sales.index', compact('sales'));
     }
 
     /**
@@ -113,6 +138,11 @@ class SaleController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Sale $sale)
+    {
+        //
+    }
+
+    public function importPage()
     {
         //
     }

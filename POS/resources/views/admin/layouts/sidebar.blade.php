@@ -108,6 +108,27 @@
                                     </div>
                                 </li>
                                 <!-- ================ End of Products ================ -->
+                                <!-- ================ Sales ================ -->
+                                <li>
+                                    <a href="#sidebarSales" data-bs-toggle="collapse">
+                                        <i class="mdi mdi-account-group"></i>
+                                        <span> Sales</span> <span class="menu-arrow"></span>
+                                    </a>
+                                    <div class="collapse" id="sidebarSales">
+                                        <ul class="nav-second-level">
+                                            <li>
+                                                <a href="{{ route('sales.index') }}">All Sales</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('sales.create') }}">Add Sales</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('sales.import.page') }}">Import</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-- ================ End of Sales ================ -->
                             </ul>
                         </div>
                     </li>

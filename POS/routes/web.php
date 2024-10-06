@@ -53,6 +53,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
             Route::delete('/{rowId}', 'delete')->name('delete');
         });
 
+    Route::get('/sales/import', [SaleController::class, 'importPage'])->name('sales.import.page');
     Route::resource('sales', SaleController::class);
 });
 

@@ -36,6 +36,7 @@
 <body data-layout-mode="default" data-theme="dark" data-topbar-color="dark" data-menu-position="fixed"
     data-leftbar-color="dark" data-leftbar-size='default' data-sidebar-user='false'>
 
+    @include('components.preloader')
     <!-- Begin page -->
     <div id="wrapper">
 

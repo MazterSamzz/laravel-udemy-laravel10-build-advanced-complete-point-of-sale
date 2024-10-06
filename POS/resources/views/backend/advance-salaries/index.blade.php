@@ -20,7 +20,6 @@
     <div class="content">
         <!-- Start Content-->
         <div class="container-fluid">
-            @include('components.preloader')
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
