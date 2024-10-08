@@ -48,23 +48,22 @@
                 </li>
             </ul>
             <div class="tab-content">
-                @foreach ($sales as $status => $sale)
-                    @php $no = 1; @endphp
-                    <div class="tab-pane {{ $status == 'awaiting' ? 'active' : '' }}" id="{{ $status }}"
+                @foreach ($sales as $payment_status => $sale)
+                    <div class="tab-pane {{ $payment_status == 'awaiting' ? 'active' : '' }}" id="{{ $payment_status }}"
                         role="tabpanel">
-                        <h4 class="header-title">Sales {{ $status }}</h4>
+                        <h4 class="header-title">Sales {{ $payment_status }}</h4>
 
-                        <table id="basic-datatable" class="table dt-responsive table-hover nowrap w-100">
+                        <table class="datatable table table-hover nowrap w-100">
                             <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Photo</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                    <th>Payment Status</th>
-                                    <th>Action</th>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Photo</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Payment Status</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
 
@@ -72,10 +71,11 @@
 
                                 @foreach ($sale as $key => $value)
                                     <tr>
-                                        <td scope="row">{{ $no++ }}</td>
-                                        <td>{{ $value->date }}</td>
+                                        <td scope="row" class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $value->date }}</td>
                                         <td> <img class="avatar-md img-thumbnail modal-trigger" alt="Product Image"
-                                                data-bs-toggle="modal" data-bs-target="#imageModal{{ $status . $key }}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#imageModal{{ $payment_status . $key }}"
                                                 src="{{ asset($value->customer->photo ?: 'images/no_image.jpg') }}">
                                         </td>
                                         <td class="align-middle">{{ $value->customer->name }}</td>
@@ -84,45 +84,52 @@
                                             {{ number_format($value->total, 2, '.', ',') }}
                                         </td>
                                         <td class="align-middle text-center">
-                                            @switch($value->payment_status)
-                                                @case(App\Enums\PaymentStatus::Unpaid)
-                                                    <span class="badge bg-info">Unpaid</span>
-                                                @break
 
-                                                @case(App\Enums\PaymentStatus::NotYet)
-                                                    <span class="badge bg-info">Not Yet</span>
-                                                @break
+                                            @if ($payment_status == 'awaiting')
+                                                @switch($value->payment_status)
+                                                    @case(App\Enums\PaymentStatus::Unpaid)
+                                                        <span class="badge bg-info">Unpaid</span>
+                                                    @break
 
-                                                @case(App\Enums\PaymentStatus::Overdue)
-                                                    <span class="badge bg-danger">Overdue</span>
-                                                @break
+                                                    @case(App\Enums\PaymentStatus::NotYet)
+                                                        <span class="badge bg-info">Not Yet</span>
+                                                    @break
 
-                                                @case(App\Enums\PaymentStatus::Canceling)
-                                                    <span class="badge bg-warning">Canceling</span>
-                                                @break
+                                                    @case(App\Enums\PaymentStatus::Overdue)
+                                                        <span class="badge bg-danger">Overdue</span>
+                                                    @break
+                                                @endswitch
+                                            @elseif ($payment_status == 'cancel')
+                                                @switch($value->payment_status)
+                                                    @case(App\Enums\PaymentStatus::Canceling)
+                                                        <span class="badge bg-warning">Canceling</span>
+                                                    @break
 
-                                                @case(App\Enums\PaymentStatus::Canceled)
-                                                    <span class="badge bg-info">Canceled</span>
-                                                @break
+                                                    @case(App\Enums\PaymentStatus::Canceled)
+                                                        <span class="badge bg-info">Canceled</span>
+                                                    @break
+                                                @endswitch
+                                            @elseif ($payment_status == 'paid')
+                                                @switch($value->payment_status)
+                                                    @case(App\Enums\PaymentStatus::Authorized)
+                                                        <span class="badge bg-info">Authorized</span>
+                                                    @break
 
-                                                @case(App\Enums\PaymentStatus::Authorized)
-                                                    <span class="badge bg-success">Authorized</span>
-                                                @break
+                                                    @case(App\Enums\PaymentStatus::Paid)
+                                                        <span class="badge bg-success">Paid</span>
+                                                    @break
+                                                @endswitch
+                                            @elseif ($payment_status == 'refund')
+                                                @switch($value->payment_status)
+                                                    @case(App\Enums\PaymentStatus::Refunding)
+                                                        <span class="badge bg-warning">Refunding</span>
+                                                    @break
 
-                                                @case(App\Enums\PaymentStatus::Paid)
-                                                    <span class="badge bg-success">Paid</span>
-                                                @break
-
-                                                @case(App\Enums\PaymentStatus::Refunding)
-                                                    <span class="badge bg-warning">Refunding</span>
-                                                @break
-
-                                                @case(App\Enums\PaymentStatus::Refunded)
-                                                    <span class="badge bg-info">Refunded</span>
-                                                @break
-
-                                                @default
-                                            @endswitch
+                                                    @case(App\Enums\PaymentStatus::Refunded)
+                                                        <span class="badge bg-info">Refunded</span>
+                                                    @break
+                                                @endswitch
+                                            @endif
                                         </td>
                                         <td class="align-middle">
                                             <a href="{{--  --}}"
@@ -142,8 +149,8 @@
                                     </tr>
 
                                     <!-- Modal for Large Image -->
-                                    <div class="modal fade" id="imageModal{{ $status . $key }}" tabindex="-1"
-                                        aria-labelledby="imageModalLabel{{ $status . $key }}" aria-hidden="true">
+                                    <div class="modal fade" id="imageModal{{ $payment_status . $key }}" tabindex="-1"
+                                        aria-labelledby="imageModalLabel{{ $payment_status . $key }}" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-body p-0">
@@ -190,4 +197,23 @@
 
     <!-- Datatables init -->
     <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi DataTables untuk tabel yang aktif saat halaman dimuat
+            $('.tab-pane.active .datatable').DataTable();
+
+            // Ketika tab baru ditampilkan
+            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function() {
+                // Menghentikan semua DataTables yang sudah ada
+                $.fn.dataTable.tables({
+                    visible: true,
+                    api: true
+                }).columns.adjust();
+
+                // Inisialisasi DataTables untuk tabel yang baru ditampilkan
+                $('.tab-pane.active .datatable').DataTable();
+            });
+        });
+    </script>
 @endsection
