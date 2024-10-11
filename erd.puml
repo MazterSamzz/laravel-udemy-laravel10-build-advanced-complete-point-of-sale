@@ -1,0 +1,263 @@
+@startuml ERD
+
+entity "users" {
+    + id : unsigned mediumInteger <<PK>>
+    --
+    + name : string(100) <<nullable: false, unique: true>>
+    + email : string(100) <<nullable: true, unique: true>>
+    + phone : string(20) <<nullable: true, unique: true>>
+    + photo : string(225) <<nullable: true>>
+    + email_verified_at : string(225) <<nullable: true>>
+    + password : string(255)
+    + remember_token : string(100) <nullable: true>>
+    + status : tinyInteger <<nullable: false, default: 2>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "employees" {
+    + id : unsigned mediumInteger <<PK>>
+    --
+    + user_id : unsigned mediumInteger <<nullable: true>>
+    --
+    + name : string(100) <<nullable: false, unique: true>>
+    + email : string(100) <<nullable: true, unique: true>>
+    + phone : string(20) <<nullable: true, unique: true>>
+    + address : string(255) <<nullable: true>>
+    + joined : datetime <<nullable: true>>
+    + salary : decimal(12, 2) <<nullable: false, default: 0>>
+    + leave : decimal (3,1) <<nullable: false, default: 0>>
+    + photo : string(255) <<nullable: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "customer_categories" {
+    + id : unsigned mediumInteger <<PK>>
+    --
+    + name: string(100) <<nullable: false, unique: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "customers" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + customer_category_id : mediumInteger <<nullable: false, default: 1>> <<FK>>
+    --
+    + name : string(100) <<nullable: false, unique: true>>
+    + email : string(100) <<nullable: true, unique: true>>
+    + phone : string(20) <<nullable: true, unique: true>>
+    + phone2 : string(20) <<nullable: true, unique: true>>
+    + gender : tinyInteger <nullable: true>
+    + birth : datetime <<nullable: true>>
+    + company : string(100) <<nullable: true>>
+    + photo : string(255) <<nullable: true>>
+    --
+    + shipping_street : string(255) <<nullable: true>>
+    + shipping_city : string(50) <<nullable: true>>
+    + shipping_state : string(50) <<nullable: true>>
+    + shipping_country : string(50) <<nullable: true>>
+    + shipping_postal : string(10) <<nullable: true>>
+    --
+    + billing_street : string(255) <<nullable: true>>
+    + billing_city : string(50) <<nullable: true>>
+    + billing_state : string(50) <<nullable: true>>
+    + billing_country : string(50) <<nullable: true>>
+    + billing_postal : string(10) <<nullable: true>>
+    --
+    + nik : string(16) <<nullable: true, unique: true>>
+    + npwp : string(15) <<nullable: true, unique: true>>
+    + wp : string(100) <<nullable: true>>
+    + tax_category : tinyInteger <<default: 1>>
+    + transaction_category : tinyInteger <<nullable: true>>
+    --
+    + account_holder : string(100) <<nullable: true>>
+    + account_number : string(100) <<nullable: true>>
+    + bank : string(100) <<nullable: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "supplier_categories" {
+    + id : unsigned smallInteger <<PK>>
+    --
+    + name: string(100) <<nullable: false, unique: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "suppliers" {
+    + id : unsigned mediumInteger <<PK>>
+    --
+    + supplier_category_id : unsigned smallInteger <<nullable: false, default: 1>> <<FK>>
+    --
+    + name : string(225) <<nullable: false, unique: true>>
+    + email : string(225) <<nullable: true, unique: true>>
+    + phone : string(225) <<nullable: true, unique: true>>
+    + address : string(255) <<nullable: true>>
+    + company : string(255) <<nullable: true>>
+    + account_holder : string(255) <<nullable: true>>
+    + account_number : string(255) <<nullable: true>>
+    + bank : string(100) <<nullable: true>>
+    + photo : string(255) <<nullable: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "advance_salaries" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + employee_id : unsigned mediumInteger <<FK>>
+    --
+    + date : datetime
+    + amount : decimal(12, 2) <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "salaries" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + employee_id : unsigned mediumInteger <<FK>>
+    --
+    + month : tinyInteger <<nullable: false>>
+    + year : smallInteger <<nullable: false>>
+    + advanced_amount : decimal(12, 2) <<nullable: false, default: 0>>
+    + paid : decimal(12, 2) <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "attendances" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + employee_id : unsigned mediumInteger <<FK>>
+    --
+    + date : datetime
+    + status : tinyInteger <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "product_categories" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + name: string(100) <<nullable: false, unique: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "warehouse" {
+    + id : unsigned smallInteger <<PK>>
+    --
+    + name : string (100)
+    + street : string(255) <<nullable: true>>
+    + city : string(50) <<nullable: true>>
+    + state : string(50) <<nullable: true>>
+    + country : string(50) <<nullable: true>>
+    + postal : string(10) <<nullable: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "products" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + category_id : unsigned smallInteger <<FK>
+    + warehouse_id : unsigned smallInteger <<FK>
+    --
+    + name : string (255)
+    + code : string(255) <<nullable: true, unique: true>>
+    + Shelf : string(100) <<nullable: true>>
+    + price : decimal(16,2) <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "expenses_categories" {
+    + id : unsigned smallInteger <<PK>>
+    --
+    + name: string(100) <<nullable: false, unique: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "expenses" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + delivery_status : unsigned tinyInteger <<nullable: false, default: 1>>
+    + tax_basis : decimal(16,2) <<nullable: false, default: 0>>
+    + vat : decimal(15,2) <<nullable: false, default: 0>>
+    + total : decimal(16,2) <<nullable: false, default: 0>>
+    + payment_status : unsigned tinyInteger <<nullable: false, default: 1>>
+    + paid : decimal(16,2) <<nullable: false, default: 0>>
+    + recieveables : decimal(16,2) <<nullable: false, default: 0>>
+}
+
+entity "sales_categories" {
+    + id : unsigned smallInteger <<PK>>
+    --
+    + name: string(100) <<nullable: false, unique: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "delivery_status" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    sales_id : unsignedBigInteger <<FK>>
+    --
+    + status : unsigned tinyInteger <<nullable: false>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
+entity "sales" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + sales_category_id : unsigned smallInteger <<FK>>
+    + customer_id : unsigned bigInteger <<FK>>
+    --
+    + date : datetime
+    + delivery_status : unsigned tinyInteger <<nullable: false, default: 1>>
+    + tax_basis : decimal(16,2) <<nullable: false, default: 0>>
+    + vat : decimal(15,2) <<nullable: false, default: 0>>
+    + total : decimal(16,2) <<nullable: false, default: 0>>
+    + payment_status : unsigned tinyInteger <<nullable: false, default: 1>>
+    + paid : decimal(16,2) <<nullable: false, default: 0>>
+    + recieveables : decimal(16,2) <<nullable: false, default: 0>>
+}
+
+entity "salesDetails" {
+    + id : unsigned bigInteger <<PK>>
+    --
+    + sales_id : unsigned bigInteger <<FK>>
+    + product_id : unsigned bigInteger <<FK>>
+    --
+    + quantity : int
+}
+
+users |o--o| employees : "access of"
+employees |o--|{ advance_salaries : "receives"
+employees |o--|{ salaries : "earns"
+employees |o--|{ attendances : "records"
+
+salaries |o--o{ advance_salaries : "includes"
+
+supplier_categories |o--|{ suppliers : "contains"
+
+customer_categories |o--|{ customers : "contains"
+customers |o--|{ sales : "orders"
+
+product_categories |o--|{ products : "contains"
+products||--o{ warehouse : "stored at"
+products |o--|{ salesDetails : "is object of"
+
+expenses_categories |o--|{ expenses : "contains"
+
+sales_categories |o--|{ sales : "contains"
+sales ||--|{ salesDetails : "contains"
+sales ||--|{ delivery_status : "tracked by"
+
+@enduml

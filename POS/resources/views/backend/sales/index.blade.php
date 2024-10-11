@@ -131,14 +131,31 @@
                                                 @endswitch
                                             @endif
                                         </td>
+
                                         <td class="align-middle">
-                                            <a href="{{--  --}}"
+                                            <a href="{{ route('sales.edit', ['sale' => $value->id]) }}"
                                                 class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                     class="mdi mdi-pencil"></span></a>
-                                            <a href="{{--  --}}"
-                                                class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
-                                                    class="mdi mdi-barcode"></span></a>
-                                            <form action="{{--  --}}" method="post" class="d-inline">
+                                            @if ($value->payment_status->value > App\Enums\PaymentStatus::Paid->value)
+                                                <a href="{{ route('sales.show', ['sale' => $value->id]) }}"
+                                                    class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-eye"></span></a>
+                                            @elseif ($value->payment_status->value > App\Enums\PaymentStatus::Canceled->value)
+                                                <a href="{{ route('sales.show', ['sale' => $value->id]) }}"
+                                                    class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-printer"></span></a>
+                                            @elseif ($value->payment_status->value > App\Enums\PaymentStatus::Overdue->value)
+                                                <a href="{{ route('sales.show', ['sale' => $value->id]) }}"
+                                                    class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-eye"></span></a>
+                                            @else
+                                                <a href="{{ route('sales.show', ['sale' => $value->id]) }}"
+                                                    class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
+                                                        class="mdi mdi-eye"></span></a>
+                                            @endif
+
+                                            <form action="{{ route('sales.destroy', ['sale' => $value->id]) }}}"
+                                                method="post" class="d-inline">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit"

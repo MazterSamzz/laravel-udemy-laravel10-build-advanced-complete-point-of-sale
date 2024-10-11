@@ -55,6 +55,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
 
     Route::get('/sales/import', [SaleController::class, 'importPage'])->name('sales.import.page');
     Route::resource('sales', SaleController::class);
+    Route::patch('/sales/{sale}/complete', [SaleController::class, 'complete'])->name('sales.complete');
 });
 
 

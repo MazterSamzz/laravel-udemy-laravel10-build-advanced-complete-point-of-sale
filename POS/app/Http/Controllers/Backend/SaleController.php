@@ -10,6 +10,7 @@ use App\Http\Requests\Sale\UpdateSaleRequest;
 use App\Models\Backend\Product;
 use App\Models\Backend\SalesDetail;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Crypt;
 
 class SaleController extends Controller
 {
@@ -92,7 +93,7 @@ class SaleController extends Controller
         $data = [];
 
         foreach ($carts as $value) {
-            $data['sale_id'] = $sale->id;
+            $data['sale_id'] = Crypt::decryptString($sale->id);
             $data['product_id'] = $value->id;
             $data['cogs'] = number_format(Product::find($value->id)->buying_price, 2, '.', '');
             $data['qty'] = $value->qty;
@@ -115,7 +116,9 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
-        //
+        $salesDetails = SalesDetail::with('product')->where('sale_id', Crypt::decryptString($sale->id))->latest()->get();
+
+        return view('backend.sales.show', compact('sale', 'salesDetails'));
     }
 
     /**
@@ -145,5 +148,18 @@ class SaleController extends Controller
     public function importPage()
     {
         //
+    }
+
+    public function complete(Sale $sale)
+    {
+        if ($sale->payment_status->value == 6 || $sale->payment_status->value == 7) {
+            $sale->update([
+                'status' => 7,
+            ]);
+        } else {
+            return redirect()->back()->with(['message' => 'Please make payment first', 'alert-type' => 'error']);
+        }
+
+        return redirect()->back()->with(['message' => 'Order Received', 'alert-type' => 'success']);
     }
 }
