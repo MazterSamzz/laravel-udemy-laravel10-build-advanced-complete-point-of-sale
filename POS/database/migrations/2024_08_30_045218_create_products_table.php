@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('code')->unique()->nullable();
             $table->string('garage')->nullable();
             $table->string('image')->nullable();
-            $table->string('store')->nullable();
+            $table->decimal('store', 10, 2)->default(0);
             $table->date('buying_date')->nullable();
             $table->date('expire_date')->nullable();
             $table->unsignedInteger('buying_price')->nullable();

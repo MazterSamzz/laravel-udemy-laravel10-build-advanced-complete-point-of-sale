@@ -47,7 +47,7 @@ class UpdateProductRequest extends FormRequest
             'code' => ['nullable', 'string'],
             'garage' => ['nullable', 'string'],
             'image' => ['nullable', 'image'],
-            'store' => ['nullable', 'string'],
+            'store' => ['nullable'],
             'buying_date' => ['nullable', 'string'],
             'expire_date' => ['nullable', 'string'],
             'buying_price' => ['nullable', 'numeric'],

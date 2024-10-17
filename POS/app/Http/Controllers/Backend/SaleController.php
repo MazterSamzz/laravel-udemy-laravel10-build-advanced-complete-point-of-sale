@@ -11,6 +11,7 @@ use App\Models\Backend\Product;
 use App\Models\Backend\SalesDetail;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -67,11 +68,11 @@ class SaleController extends Controller
         $sale['vat'] = str_replace(',', '', Cart::tax());
         $sale['total'] = str_replace(',', '', Cart::total());
 
-        if ($validated['paid'] < $sale['total']) {
+        if ($validated['paid'] <= $sale['total']) {
             $sale['paid'] = $validated['paid'];
             $sale['recieveables'] = bcsub($sale['total'], $sale['paid']);
         } else {
-            $sale['change'] = $sale['paid'] - $sale['total'];
+            $sale['change'] = $validated['paid'] - $sale['total'];
             $sale['paid'] = $sale['total'];
         }
 
@@ -90,25 +91,44 @@ class SaleController extends Controller
 
         $sale = Sale::create($sale);
         $carts = Cart::content();
-        $data = [];
 
-        foreach ($carts as $value) {
-            $data['sale_id'] = Crypt::decryptString($sale->id);
-            $data['product_id'] = $value->id;
-            $data['cogs'] = number_format(Product::find($value->id)->buying_price, 2, '.', '');
-            $data['qty'] = $value->qty;
-            $data['price'] = $value->price;
-            $data['total_price'] = bcmul($value->qty, $value->price, 2);
-            SalesDetail::create($data);
+        try {
+            DB::transaction(function () use ($sale, $carts) {
+                $data = [];
+
+                foreach ($carts as $value) {
+                    $product = Product::where('id', $value->id)->lockForUpdate()->first();
+
+                    $data['sale_id'] = Crypt::decryptString($sale->id);
+                    $data['product_id'] = $value->id;
+                    $data['cogs'] = number_format($product->buying_price, 2, '.', '');
+                    $data['qty'] = $value->qty;
+                    $data['price'] = $value->price;
+                    $data['total_price'] = bcmul($value->qty, $value->price, 2);
+
+                    SalesDetail::create($data);
+
+                    $product->update([
+                        'store' => bcsub($product->store, $value->qty, 2)
+                    ]);
+                }
+
+                Cart::destroy();
+            });
+
+            $notification = [
+                'message' => 'Sale created successfully',
+                'alert-type' => 'success'
+            ];
+            return to_route('pos.index')->with($notification);
+        } catch (\Exception $e) {
+            $notification = [
+                'message' => $e->getMessage(),
+                'alert-type' => 'error'
+            ];
+
+            return to_route('pos.index')->with($notification);
         }
-
-        Cart::destroy();
-
-        $notification = [
-            'message' => 'Sale created successfully',
-            'alert-type' => 'success'
-        ];
-        return redirect()->route('pos.index')->with($notification);
     }
 
     /**

@@ -182,7 +182,7 @@ class ProductController extends Controller
                     'code' => 'P-001',
                     'garage' => 'A',
                     'image' => 'C:\images\file_name.jpg',
-                    'store' => 'A',
+                    'store' => '100',
                     'buying_date' => '2020-01-01',
                     'expire_date' => '2020-01-01',
                     'buying_price' => '100',

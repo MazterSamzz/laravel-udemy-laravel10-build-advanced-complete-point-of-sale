@@ -7,6 +7,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Backend\Customer;
 use App\Models\Backend\SalesDetail;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Backend\Sale>
@@ -37,7 +38,7 @@ class SaleFactory extends Factory
     {
         return $this->afterCreating(function ($sale) use ($detailCount) {
             $details = SalesDetail::factory()->count($detailCount)->create([
-                'sale_id' => $sale->id,
+                'sale_id' => Crypt::decryptString($sale->id),
             ]);
 
             // Recalculate total_products and total from SalesDetails

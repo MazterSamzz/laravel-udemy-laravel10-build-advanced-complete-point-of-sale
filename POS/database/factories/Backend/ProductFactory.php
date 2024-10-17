@@ -28,7 +28,7 @@ class ProductFactory extends Factory
             'supplier_id' => Supplier::inRandomOrder()->first()->id,
             'code' => $faker->unique()->optional()->regexify('[A-Z0-9]{10}'), // Kode produk acak
             'garage' => $faker->optional()->word(),
-            'store' => $faker->optional()->word(),
+            'store' => $faker->numberBetween(1, 100),
             'buying_date' => now(),
             'expire_date' => now(),
             'buying_price' => $faker->numberBetween(20, 2_000) * 500,

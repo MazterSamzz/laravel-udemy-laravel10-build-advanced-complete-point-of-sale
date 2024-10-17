@@ -232,6 +232,7 @@
     <script src="{{ asset('backend/assets/js/numberSeparator.js') }}"></script>
     <script type="text/javascript">
         imagePreview('#image', '#image-preview');
+        numberSeparatorByName('store');
         numberSeparatorByName('buying_price');
         numberSeparatorByName('selling_price');
     </script>
