@@ -15,10 +15,25 @@ entity "users" {
     + updated_at : timestamp
 }
 
+
+entity "warehouses" {
+    + id : unsigned smallInteger <<PK>>
+    --
+    + name : string (100)
+    + street : string(255) <<nullable: true>>
+    + city : string(50) <<nullable: true>>
+    + state : string(50) <<nullable: true>>
+    + country : string(50) <<nullable: true>>
+    + postal : string(10) <<nullable: true>>
+    + created_at : timestamp
+    + updated_at : timestamp
+}
+
 entity "employees" {
     + id : unsigned mediumInteger <<PK>>
     --
-    + user_id : unsigned mediumInteger <<nullable: true>>
+    + user_id : unsigned mediumInteger <<FK>>
+    + warehouse_id : unsigned smallInteger <<FK>> <<nullable: true>>
     --
     + name : string(100) <<nullable: false, unique: true>>
     + email : string(100) <<nullable: true, unique: true>>
@@ -148,18 +163,6 @@ entity "product_categories" {
     + updated_at : timestamp
 }
 
-entity "warehouse" {
-    + id : unsigned smallInteger <<PK>>
-    --
-    + name : string (100)
-    + street : string(255) <<nullable: true>>
-    + city : string(50) <<nullable: true>>
-    + state : string(50) <<nullable: true>>
-    + country : string(50) <<nullable: true>>
-    + postal : string(10) <<nullable: true>>
-    + created_at : timestamp
-    + updated_at : timestamp
-}
 
 entity "products" {
     + id : unsigned bigInteger <<PK>>
@@ -169,10 +172,20 @@ entity "products" {
     --
     + name : string (255)
     + code : string(255) <<nullable: true, unique: true>>
-    + Shelf : string(100) <<nullable: true>>
     + price : decimal(16,2) <<nullable: false, default: 0>>
     + created_at : timestamp
     + updated_at : timestamp
+}
+
+entity "stocks" {
+    + id : unsigned bigInteger
+    --
+    + product_id : unsigned bigInteger
+    + warehouse_id : unsigned smallInteger
+    --
+    + Shelf : string(100) <<nullable: true>>
+    + quantity : INT
+    + last_updated : TIMESTAMP
 }
 
 entity "expenses_categories" {
@@ -193,6 +206,8 @@ entity "expenses" {
     + payment_status : unsigned tinyInteger <<nullable: false, default: 1>>
     + paid : decimal(16,2) <<nullable: false, default: 0>>
     + recieveables : decimal(16,2) <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
 }
 
 entity "sales_categories" {
@@ -209,6 +224,8 @@ entity "delivery_status" {
     sales_id : unsignedBigInteger <<FK>>
     --
     + status : unsigned tinyInteger <<nullable: false>>
+    + from : string(50)
+    + to : string(50)
     + created_at : timestamp
     + updated_at : timestamp
 }
@@ -227,18 +244,27 @@ entity "sales" {
     + payment_status : unsigned tinyInteger <<nullable: false, default: 1>>
     + paid : decimal(16,2) <<nullable: false, default: 0>>
     + recieveables : decimal(16,2) <<nullable: false, default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
 }
 
 entity "salesDetails" {
     + id : unsigned bigInteger <<PK>>
     --
-    + sales_id : unsigned bigInteger <<FK>>
+    + sale_id : unsigned bigInteger <<FK>>
     + product_id : unsigned bigInteger <<FK>>
     --
-    + quantity : int
+    + quantity : int 
+    + cogs : decimal(16,2) <<nullable: false; default: 0>>
+    + price : decimal(16,2) <<nullable: false; default: 0>>
+    + total : decimal(16,2) <<nullable: false; default: 0>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    
 }
 
 users |o--o| employees : "access of"
+warehouses |o--o{ employees : "working at"
 employees |o--|{ advance_salaries : "receives"
 employees |o--|{ salaries : "earns"
 employees |o--|{ attendances : "records"
@@ -251,8 +277,9 @@ customer_categories |o--|{ customers : "contains"
 customers |o--|{ sales : "orders"
 
 product_categories |o--|{ products : "contains"
-products||--o{ warehouse : "stored at"
+products ||--o{ stocks : "has"
 products |o--|{ salesDetails : "is object of"
+warehouses ||--o{ stocks : "has"
 
 expenses_categories |o--|{ expenses : "contains"
 
