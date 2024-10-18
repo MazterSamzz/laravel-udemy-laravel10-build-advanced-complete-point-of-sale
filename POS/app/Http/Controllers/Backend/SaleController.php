@@ -9,6 +9,7 @@ use App\Http\Requests\Sale\StoreSaleRequest;
 use App\Http\Requests\Sale\UpdateSaleRequest;
 use App\Models\Backend\Product;
 use App\Models\Backend\SalesDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -181,5 +182,17 @@ class SaleController extends Controller
         }
 
         return redirect()->back()->with(['message' => 'Order Received', 'alert-type' => 'success']);
+    }
+
+    public function pdf(Sale $sale)
+    {
+        $salesDetails = SalesDetail::with('product')->where('sale_id', Crypt::decryptString($sale->id))->latest()->get();
+
+        $pdf = Pdf::loadView('backend.sales.pdf', compact('sale', 'salesDetails'))
+            ->setPaper('a4')->setOption([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+            ]);
+        return $pdf->download('invoice.pdf');
     }
 }

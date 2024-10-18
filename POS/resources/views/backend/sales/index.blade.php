@@ -141,7 +141,7 @@
                                                     class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-eye"></span></a>
                                             @elseif ($value->payment_status->value > App\Enums\PaymentStatus::Canceled->value)
-                                                <a href="{{ route('sales.show', ['sale' => $value->id]) }}"
+                                                <a href="{{ route('sales.pdf', ['sale' => $value->id]) }}"
                                                     class="btn btn-info rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-printer"></span></a>
                                             @elseif ($value->payment_status->value > App\Enums\PaymentStatus::Overdue->value)
