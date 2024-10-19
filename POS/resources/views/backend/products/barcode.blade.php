@@ -51,6 +51,12 @@
 
                             </form>
                         </div>
+                        <div class="btn btn-info rounded-pill waves-effect waves-light"><a
+                                href="{{ route('products.print.barcode', ['product' => $product->id]) }}">Print Barcode</a>
+                        </div>
+                        <div class="btn btn-warning rounded-pill waves-effect waves-light"><a
+                                href="{{ route('products.print.qrcode', ['product' => $product->id]) }}">Print QR Code</a>
+                        </div>
                     </div> <!-- end card-->
 
                 </div> <!-- end col -->

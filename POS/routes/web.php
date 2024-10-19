@@ -41,6 +41,8 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
         Route::post('import', 'import')->name('products.import');
     });
     Route::resource('products', ProductController::class);
+    Route::get('products/{product}/print/barcode', [ProductController::class, 'barcodeToPdf'])->name('products.print.barcode');
+    Route::get('products/{product}/print/qrcode', [ProductController::class, 'qrcodeToPdf'])->name('products.print.qrcode');
 
     Route::resource('expenses', ExpenseController::class);
     Route::get('/expenses/filter/{filter}', [ExpenseController::class, 'filter'])->name('expenses.filter');
