@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AdvanceSalaryController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PosController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\ExpenseController;
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
     Route::resource('sales', SaleController::class);
     Route::get('/sales/{sale}/pdf', [SaleController::class, 'pdf'])->name('sales.pdf');
     Route::patch('/sales/{sale}/complete', [SaleController::class, 'complete'])->name('sales.complete');
+
+    Route::resource('permissions', PermissionController::class);
 });
 
 

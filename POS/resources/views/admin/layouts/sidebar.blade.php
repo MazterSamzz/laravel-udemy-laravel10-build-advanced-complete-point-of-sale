@@ -151,6 +151,25 @@
                             </li>
                             <!-- ================ End of Employees ================ -->
 
+                            <!-- ================ Role and Permissions ================ -->
+                            <li>
+                                <a href="#sidebarRoleAndPermissions" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> Role and Permissions</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarRoleAndPermissions">
+                                    <ul class="nav-second-level">
+                                        <!-- ================ Role and Permissions ================ -->
+                                        <li>
+                                            <a href="{{ route('permissions.index') }}">Permission</a>
+                                        </li>
+                                        <!-- ================ End of Role and Permissions ================ -->
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- ================ End of Employees ================ -->
+
                             <!-- ================ Categories ================ -->
                             <li>
                                 <a href="#sidebarCategory" data-bs-toggle="collapse">
