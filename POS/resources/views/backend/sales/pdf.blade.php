@@ -42,11 +42,22 @@
 
         .thanks p {
             color: green;
-            ;
             font-size: 16px;
             font-weight: normal;
             font-family: serif;
             margin-top: 20px;
+        }
+
+        .text-end {
+            text-align: right;
+            padding-left: 1vw;
+            padding-right: 1vw;
+        }
+
+        .text-start {
+            text-align: left;
+            padding-left: 1vw;
+            padding-right: 1vw;
         }
     </style>
 
@@ -80,23 +91,23 @@
         <tr>
             <td>
                 <p class="font" style="margin-left: 20px;">
-                    <strong>Customer Name:</strong> <br>
-                    <strong>Customer Email:</strong> <br>
-                    <strong>Customer Phone:</strong> <br>
+                    <strong>Customer Name: {{ $sale->customer->name }}</strong> <br>
+                    <strong>Customer Email: {{ $sale->customer->email }}</strong> <br>
+                    <strong>Customer Phone: {{ $sale->customer->phone }}</strong> <br>
 
-                    <strong>Address:</strong>
-                    <strong>Shop Name:</strong>
+                    <strong>Address: {{ $sale->customer->address }}</strong>
+                    <strong>Shop Name: {{ $sale->customer->shopname }}</strong>
 
                 </p>
             </td>
             <td>
                 <p class="font">
                 <h3><span style="color: green;">Invoice:</span> # </h3>
-                Order Date: <br>
-                Order Status: <br>
-                Payment Status: <br>
-                Total Pay : <br>
-                Total Due : </span>
+                Order Date: {{ $sale->date }}<br>
+                Order Status: {{ $sale->status }}<br>
+                Payment Status: {{ $sale->payment_status }}<br>
+                Total Pay : Rp.{{ number_format($sale->total, 2, '.', ',') }}<br>
+                Total Due : Rp.{{ number_format($sale->due, 2, '.', ',') }}</span>
 
                 </p>
             </td>
@@ -112,7 +123,7 @@
                 <th>Image </th>
                 <th>Product Name</th>
                 <th>Product Code</th>
-                <th>Quantity</th>
+                <th>Qty</th>
                 <th>Price</th>
                 <th>Total(+Vat)</th>
             </tr>
@@ -122,35 +133,50 @@
             @foreach ($salesDetails as $item)
                 <tr class="font">
                     <td align="center">
-                        <img src=" " height="50px;" width="50px;" alt="">
+                        <img src="{{ asset($item->product->image) ?? 'images/no_image.jpg' }}" height="50px;"
+                            width="50px;" alt="">
                     </td>
-                    <td align="center"> </td>
+                    <td class="text-start"> {{ $item->product->name }} </td>
 
-                    <td align="center"> </td>
-                    <td align="center"> </td>
+                    <td align="center"> {{ $item->product->code }} </td>
+                    <td class="text-end"> {{ rtrim(rtrim(number_format($item->qty, 2, '.', ','), '0'), '.') }}
+                    </td>
 
-
-
-                    <td align="center">$ </td>
-                    <td align="center">$ </td>
+                    <td class="text-end">Rp.{{ number_format($item->price, 2, '.', ',') }} </td>
+                    <td class="text-end">Rp.{{ number_format($item->total_price, 2, '.', ',') }} </td>
                 </tr>
             @endforeach
+
+            <tr>
+                <td colspan="5" class="text-end" style="color: green;">
+                    <h2>Subtotal</h2>
+                </td>
+                <td>
+                    <h2>: Rp.{{ number_format($sale->total_products, 2, '.', ',') }}</h2>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-end" style="color: green;">
+                    <h2>VAT</h2>
+                </td>
+                <td>
+                    <h2>: Rp. {{ number_format($sale->vat, 2, '.', ',') }}</h2>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-end" style="color: green;">
+                    <h2>Total</h2>
+                </td>
+                <td>
+                    <h2>: Rp.{{ number_format($sale->total, 2, '.', ',') }}</h2>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <br>
-    <table width="100%" style=" padding:0 10px 0 10px;">
-        <tr>
-            <td align="right">
-                <h2><span style="color: green;">Subtotal:</span>$ </h2>
-                <h2><span style="color: green;">Total:</span> $ </h2>
-                {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
-            </td>
-        </tr>
-    </table>
-    <div class="thanks mt-3">
+    <div class="thanks">
         <p>Thanks For Buying Products..!!</p>
     </div>
-    <div class="authority float-right mt-5">
+    <div class="authority float-right">
         <p>-----------------------------------</p>
         <h5>Authority Signature:</h5>
     </div>

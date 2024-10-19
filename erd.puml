@@ -232,6 +232,7 @@ entity "delivery_status" {
 
 entity "sales" {
     + id : unsigned bigInteger <<PK>>
+    + invoice_no : string(25)
     --
     + sales_category_id : unsigned smallInteger <<FK>>
     + customer_id : unsigned bigInteger <<FK>>
