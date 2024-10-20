@@ -15,6 +15,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Milon\Barcode\Facades\DNS1DFacade;
 use Milon\Barcode\Facades\DNS2DFacade;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ProductController extends Controller
 {
     /**
@@ -60,7 +62,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $barcode = DNS1DFacade::getBarcodeHTML($product->code, 'C128');
+        if (isset($product->code))
+            $barcode = DNS1DFacade::getBarcodeHTML($product->code, 'C128');
+        else {
+            $barcode = "-";
+            $product->code = "-";
+        }
         return view('backend.products.barcode', compact('product', 'barcode'));
     }
 
@@ -202,28 +209,50 @@ class ProductController extends Controller
 
     public function barcodeToPdf(Product $product)
     {
-        // Menghasilkan barcode dan QR code dari kode produk
-        $barcode = DNS1DFacade::getBarcodeHTML($product->code, 'C128', 1.5, 30);
+        if (empty($product->code))
+            return redirect()->route('products.show', $product->id)->with([
+                'message' => 'Product code not found',
+                'alert-type' => 'error'
+            ]);
 
-        // Generate PDF dengan ukuran custom (7cm x 3cm)
+        // Menghasilkan barcode dan QR code dari kode produk
+        $barcode = DNS1DFacade::getBarcodeHTML($product->code, 'C128', 1, 60);
+
+        // Generate PDF dengan ukuran custom (5.7cm x 3cm)
         $pdf = Pdf::loadView('backend.products.print-barcode', compact('barcode', 'product'))
-            ->setPaper([0, 0, 198.4252, 85.0394], 'potrait')->setOption([
+            ->setPaper([0, 0, $this->cmToPt(4.8), $this->cmToPt(4.9)], 'potrait')
+            ->setOption([
                 'tempDir' => public_path(),
                 'chroot' => public_path(),
-            ]); // ukuran dalam poin: 7 cm (198.4252 pts) x 3 cm (85.0394 pts)
+            ]);
 
         // Unduh atau tampilkan PDF
-        return $pdf->stream('print-barcode.pdf');
+        return $pdf->stream('barcode_' . $product->name . '.pdf');
     }
 
     public function qrcodeToPdf(Product $product)
     {
-        $qrcode = DNS2DFacade::getBarcodeHTML($product->code, 'QRCODE', 3.5, 3.5);
-        // Generate PDF dengan ukuran custom (7cm x 3cm)
+        if (empty($product->code))
+            return redirect()->route('products.show', $product->id)->with([
+                'message' => 'Product code not found',
+                'alert-type' => 'error'
+            ]);
+
+        $qrcode = DNS2DFacade::getBarcodeHTML($product->code, 'QRCODE', 7, 7);
+        // Generate PDF dengan ukuran custom (5.7cm x 3cm)
         $pdf = Pdf::loadView('backend.products.print-qrcode', compact('qrcode', 'product'))
-            ->setPaper([0, 0, 198.4252, 85.0394], 'potrait'); // ukuran dalam poin: 7 cm (198.4252 pts) x 3 cm (85.0394 pts)
+            ->setPaper([0, 0, $this->cmToPt(4.8), $this->cmToPt(4.9)], 'potrait')
+            ->setOption([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+            ]);
 
         // Unduh atau tampilkan PDF
-        return $pdf->stream('qrcode.pdf');
+        return $pdf->stream('qrcode_' . $product->name . '.pdf');
+    }
+
+    function cmToPt($cm)
+    {
+        return $cm * 28.35;
     }
 }

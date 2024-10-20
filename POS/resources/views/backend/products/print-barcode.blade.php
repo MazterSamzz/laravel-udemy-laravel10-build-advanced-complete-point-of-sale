@@ -4,36 +4,26 @@
 <head>
     <title>Print Barcode & QR Code</title>
     <style>
-        .barcode {
-            text-align: center;
-            max-width: 7cm;
-            /* Atur lebar maksimum sesuai dengan ukuran kertas */
-            overflow: hidden;
-            /* Sembunyikan elemen yang meluap */
-            margin-top: -15px;
-            margin-bottom: -50px;
-            height: 80px;
-        }
-
-        .code-label {
+        html {
+            margin: 0;
+            padding: 0;
             text-align: center;
             font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 2;
         }
 
-        body {
-            font-size: 8px;
-            margin: 0px;
-            padding: 0;
-            width: 100%;
+        .barcode {
+            /* Sembunyikan elemen yang meluap */
+            margin-top: 15;
+            margin-left: 15;
         }
     </style>
 </head>
 
 <body>
-    <div class="barcode">
-        {!! $barcode !!} <br />
-        <div class="code-label">{{ $product->code }}</div>
-    </div>
+    <div class="barcode">{!! $barcode !!}</div>
+    <div>{{ $product->code }}</div>
 </body>
 
 </html>

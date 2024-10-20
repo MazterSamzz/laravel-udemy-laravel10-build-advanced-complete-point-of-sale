@@ -189,7 +189,7 @@ class SaleController extends Controller
         $salesDetails = SalesDetail::with('product')->where('sale_id', Crypt::decryptString($sale->id))->latest()->get();
 
         $pdf = Pdf::loadView('backend.sales.pdf', compact('sale', 'salesDetails'))
-            ->setPaper([0, 0, $this->cmToPx(21), $this->cmToPx(29.7)], 'portrait')->setOption([
+            ->setPaper([0, 0, $this->cmToPt(21), $this->cmToPt(29.7)], 'portrait')->setOption([
                 'tempDir' => public_path(),
                 'chroot' => public_path(),
             ]);
@@ -197,8 +197,8 @@ class SaleController extends Controller
         return $pdf->stream('invoice.pdf');
     }
 
-    function cmToPx($cm)
+    function cmToPt($cm)
     {
-        return $cm * 37.7952755906;
+        return $cm * 28.35;
     }
 }
