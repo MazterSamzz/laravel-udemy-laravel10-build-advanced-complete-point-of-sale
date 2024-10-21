@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\PermissionRequest;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use App\Models\Backend\Permission;
 use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
@@ -48,9 +48,9 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Permission $permission)
     {
-        //
+        return view('backend.permissions.edit', compact('permission'));
     }
 
     /**
