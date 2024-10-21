@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form method ="post"
-                                action="{{ route('permissions.update', ['permission' => $permission->id]) }}">
+                                action="{{ route('permissions.update', ['permission' => $permission->encrypted_id]) }}">
                                 @csrf
                                 @method('patch')
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-group me-1"></i>
@@ -60,38 +60,38 @@
                                                 <option {{ $permission->group_name == 'pos' ? 'selected' : '' }}
                                                     value="pos">POS
                                                 </option>
-                                                <option {{ $permission->group_name == 'employee' ? 'selected' : '' }}
-                                                    value="employee">Employee
+                                                <option {{ $permission->group_name == 'employees' ? 'selected' : '' }}
+                                                    value="employees">Employees
                                                 </option>
-                                                <option {{ $permission->group_name == 'customer' ? 'selected' : '' }}
-                                                    value="customer">Customer
+                                                <option {{ $permission->group_name == 'customers' ? 'selected' : '' }}
+                                                    value="customers">Customers
                                                 </option>
-                                                <option {{ $permission->group_name == 'supplier' ? 'selected' : '' }}
-                                                    value="supplier">Supplier
+                                                <option {{ $permission->group_name == 'suppliers' ? 'selected' : '' }}
+                                                    value="suppliers">Suppliers
                                                 </option>
-                                                <option {{ $permission->group_name == 'salary' ? 'selected' : '' }}
-                                                    value="salary">Salary
+                                                <option {{ $permission->group_name == 'salaries' ? 'selected' : '' }}
+                                                    value="salaries">Salaries
                                                 </option>
-                                                <option {{ $permission->group_name == 'attendance' ? 'selected' : '' }}
-                                                    value="attendance">
+                                                <option {{ $permission->group_name == 'attendances' ? 'selected' : '' }}
+                                                    value="attendances">
                                                     Attendance</option>
-                                                <option {{ $permission->group_name == 'category' ? 'selected' : '' }}
-                                                    value="category">Category
+                                                <option {{ $permission->group_name == 'categories' ? 'selected' : '' }}
+                                                    value="categories">Categories
                                                 </option>
-                                                <option {{ $permission->group_name == 'product' ? 'selected' : '' }}
-                                                    value="product">Product
+                                                <option {{ $permission->group_name == 'products' ? 'selected' : '' }}
+                                                    value="products">Products
                                                 </option>
-                                                <option {{ $permission->group_name == 'expense' ? 'selected' : '' }}
-                                                    value="expense">Expense
+                                                <option {{ $permission->group_name == 'expenses' ? 'selected' : '' }}
+                                                    value="expenses">Expenses
                                                 </option>
-                                                <option {{ $permission->group_name == 'order' ? 'selected' : '' }}
-                                                    value="order">Order
+                                                <option {{ $permission->group_name == 'sales' ? 'selected' : '' }}
+                                                    value="sales">Sales
                                                 </option>
-                                                <option {{ $permission->group_name == 'stock' ? 'selected' : '' }}
-                                                    value="stock">Stock
+                                                <option {{ $permission->group_name == 'stocks' ? 'selected' : '' }}
+                                                    value="stocks">Stocks
                                                 </option>
-                                                <option {{ $permission->group_name == 'role' ? 'selected' : '' }}
-                                                    value="role">Role
+                                                <option {{ $permission->group_name == 'roles' ? 'selected' : '' }}
+                                                    value="roles">Roles
                                                 </option>
                                             </select>
                                             @error('group_name')

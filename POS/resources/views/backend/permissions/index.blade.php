@@ -58,11 +58,11 @@
                                             <td class="align-middle">{{ $permission->name }}</td>
                                             <td class="align-middle">{{ $permission->group_name }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('permissions.edit', ['permission' => $permission->id]) }}"
+                                                <a href="{{ route('permissions.edit', ['permission' => $permission->encrypted_id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
                                                 <form
-                                                    action="{{ route('permissions.destroy', ['permission' => $permission->id]) }}"
+                                                    action="{{ route('permissions.destroy', ['permission' => $permission->encrypted_id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')

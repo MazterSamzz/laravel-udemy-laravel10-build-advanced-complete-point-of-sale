@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\PermissionRequest;
 use Illuminate\Http\Request;
 use App\Models\Backend\Permission;
+use Illuminate\Support\Facades\Crypt;
 use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
@@ -34,7 +35,7 @@ class PermissionController extends Controller
     {
         Permission::create($request->validated());
 
-        return to_route('permissions.index')->with(['mesage' => 'Permission created successfully.', 'alert-type' => 'success',]);
+        return to_route('permissions.index')->with(['message' => 'Permission created successfully.', 'alert-type' => 'success',]);
     }
 
     /**
@@ -56,16 +57,18 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PermissionRequest $request, Permission $permission)
     {
-        //
+        $permission->update($request->validated());
+        return to_route('permissions.index')->with(['message' => 'Permission updated successfully.', 'alert-type' => 'success',]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        return to_route('permissions.index')->with(['message' => 'Permission deleted successfully.', 'alert-type' => 'success',]);
     }
 }

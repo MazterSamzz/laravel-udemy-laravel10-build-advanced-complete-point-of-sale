@@ -10,9 +10,8 @@ class Permission extends SpatiePermission
 {
     use HasFactory;
 
-    // Accessor to encrypt the permission id when accessed
-    public function getIdAttribute($value)
+    public function getEncryptedIdAttribute()
     {
-        return Crypt::encryptString($value);
+        return Crypt::encryptString($this->attributes['id']);
     }
 }

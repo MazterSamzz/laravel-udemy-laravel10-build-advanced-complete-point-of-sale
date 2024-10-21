@@ -57,27 +57,31 @@
                                                 </option>
                                                 <option {{ old('group_name') ? 'selected' : '' }} value="pos">POS
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="employee">Employee
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="employees">
+                                                    Employees
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="customer">Customer
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="customers">
+                                                    Customers
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="supplier">Supplier
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="suppliers">
+                                                    Suppliers
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="salary">Salary
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="salaries">Salaries
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="attendance">
-                                                    Attendance</option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="category">Category
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="attendances">
+                                                    Attendances</option>
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="categories">
+                                                    Categories
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="product">Product
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="products">Products
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="expense">Expense
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="expenses">Expenses
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="order">Order
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="sales">Sales
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="stock">Stock
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="stocks">Stocks
                                                 </option>
-                                                <option {{ old('group_name') ? 'selected' : '' }} value="role">Role
+                                                <option {{ old('group_name') ? 'selected' : '' }} value="roles">Roles
                                                 </option>
                                             </select>
                                             @error('group_name')
