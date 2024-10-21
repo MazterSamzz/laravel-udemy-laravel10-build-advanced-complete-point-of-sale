@@ -55,13 +55,8 @@
                                     @foreach ($permissions as $key => $permission)
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
-                                            <td> <img class="avatar-md img-thumbnail modal-trigger" alt="Photo-Picture"
-                                                    data-bs-toggle="modal" data-bs-target="#photoModal{{ $key }}"
-                                                    src="{{ $permission->photo ?: 'images/no_image.jpg' }}">
-                                            </td>
-                                            <td class="align-middle">{{ $permission->email }}</td>
-                                            <td class="align-middle">{{ $permission->phone }}</td>
-                                            <td class="align-middle" name="shopname">{{ $permission->shopname }}</td>
+                                            <td class="align-middle">{{ $permission->name }}</td>
+                                            <td class="align-middle">{{ $permission->group_name }}</td>
                                             <td class="align-middle">
                                                 <a href="{{ route('permissions.edit', ['permission' => $permission->id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span

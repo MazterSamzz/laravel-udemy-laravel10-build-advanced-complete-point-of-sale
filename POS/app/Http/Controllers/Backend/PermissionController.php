@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Permission\PermissionRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -23,15 +24,17 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.permissions.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PermissionRequest $request)
     {
-        //
+        Permission::create($request->validated());
+
+        return to_route('permissions.index')->with(['mesage' => 'Permission created successfully.', 'alert-type' => 'success',]);
     }
 
     /**
