@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Backend\Permission;
+use App\Models\Backend\Role;
 use App\Models\Backend\Sale;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,22 @@ class RouteServiceProvider extends ServiceProvider
             } catch (\Exception $e) {
                 // Jika dekripsi gagal, atau Permission tidak ditemukan, redirect ke index
                 return redirect()->route('permission.index')->with([
+                    'messages' => 'Invalid permisson id',
+                    'type' => 'danger'
+                ]);
+            }
+        });
+
+        // Custom route binding untuk Role model
+        Route::bind('role', function ($id) {
+            try {
+                // Mencoba mendekripsi ID
+                $decryptId = Crypt::decryptString($id);
+                // Cari Role dengan ID yang sudah didekripsi
+                return Role::findOrFail($decryptId);
+            } catch (\Exception $e) {
+                // Jika dekripsi gagal, atau Role tidak ditemukan, redirect ke index
+                return redirect()->route('role.index')->with([
                     'messages' => 'Invalid permisson id',
                     'type' => 'danger'
                 ]);

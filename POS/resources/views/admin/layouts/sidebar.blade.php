@@ -155,20 +155,25 @@
                             <li>
                                 <a href="#sidebarRoleAndPermissions" data-bs-toggle="collapse">
                                     <i class="mdi mdi-account-group"></i>
-                                    <span> Role and Permissions</span>
+                                    <span> Roles & Permissions</span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarRoleAndPermissions">
                                     <ul class="nav-second-level">
-                                        <!-- ================ Role and Permissions ================ -->
+                                        <!-- ================ Permissions ================ -->
                                         <li>
-                                            <a href="{{ route('permissions.index') }}">Permission</a>
+                                            <a href="{{ route('permissions.index') }}">Permissions</a>
                                         </li>
-                                        <!-- ================ End of Role and Permissions ================ -->
+                                        <!-- ================ End of Permissions ================ -->
+                                        <!-- ================ Roles ================ -->
+                                        <li>
+                                            <a href="{{ route('roles.index') }}">Roles</a>
+                                        </li>
+                                        <!-- ================ End of Roles ================ -->
                                     </ul>
                                 </div>
                             </li>
-                            <!-- ================ End of Employees ================ -->
+                            <!-- ================ End of Role and Permissions ================ -->
 
                             <!-- ================ Categories ================ -->
                             <li>

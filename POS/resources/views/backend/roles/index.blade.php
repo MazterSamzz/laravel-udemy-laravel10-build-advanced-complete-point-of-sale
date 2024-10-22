@@ -25,10 +25,10 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <div class="page-title-right">
-                            <a href="{{ route('permissions.create') }}"
-                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Permission</a>
+                            <a href="{{ route('roles.create') }}"
+                                class="btn btn-primary rounded-pill waves-effect waves-light">Add Role</a>
                         </div>
-                        <h4 class="page-title">All Permissions</h4>
+                        <h4 class="page-title">All Roles</h4>
                     </div>
                 </div>
             </div>
@@ -38,31 +38,28 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Permission</h4>
+                            <h4 class="header-title">Role</h4>
 
                             <table id="basic-datatable" class="table dt-responsive table-hover nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Name</th>
-                                        <th>Group</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
-                                    @foreach ($permissions as $key => $permission)
+                                    @foreach ($roles as $key => $role)
                                         <tr>
                                             <td scope="row">{{ $key + 1 }}</td>
-                                            <td class="align-middle">{{ $permission->name }}</td>
-                                            <td class="align-middle">{{ $permission->group_name }}</td>
+                                            <td class="align-middle">{{ $role->name }}</td>
                                             <td class="align-middle">
-                                                <a href="{{ route('permissions.edit', ['permission' => $permission->encrypted_id]) }}"
+                                                <a href="{{ route('roles.edit', ['role' => $role->encrypted_id]) }}"
                                                     class="btn btn-blue rounded-pill waves-effect waves-light me-2"><span
                                                         class="mdi mdi-pencil"></span></a>
-                                                <form
-                                                    action="{{ route('permissions.destroy', ['permission' => $permission->encrypted_id]) }}"
+                                                <form action="{{ route('roles.destroy', ['role' => $role->encrypted_id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
