@@ -3,7 +3,9 @@ $(document).ready(function () {
     $("#light-mode-check").change(function () {
         if ($(this).is(":checked")) {
             // Hapus CSS dark mode jika light mode diaktifkan
-            $('link[href="' + select2DarkCss + '"]').remove();
+            $(
+                'link[href="/backend/assets/libs/select2/css/select2.dark.css"]'
+            ).remove();
         }
     });
 
@@ -11,11 +13,15 @@ $(document).ready(function () {
     $("#dark-mode-check").change(function () {
         if ($(this).is(":checked")) {
             // Tambahkan CSS dark mode jika dark mode diaktifkan
-            if (!$('link[href="' + select2DarkCss + '"]').length) {
+            if (
+                !$(
+                    'link[href="/backend/assets/libs/select2/css/select2.dark.css"]'
+                ).length
+            ) {
                 $("<link/>", {
                     rel: "stylesheet",
                     type: "text/css",
-                    href: select2DarkCss,
+                    href: "/backend/assets/libs/select2/css/select2.dark.css",
                 }).appendTo("head");
             }
             // Nonaktifkan light mode
@@ -28,7 +34,11 @@ $(document).ready(function () {
         $("<link/>", {
             rel: "stylesheet",
             type: "text/css",
-            href: select2DarkCss,
+            href: "/backend/assets/libs/select2/css/select2.dark.css",
         }).appendTo("head");
     }
 });
+
+function isSelect2(id) {
+    $(id).select2();
+}
