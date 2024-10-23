@@ -160,16 +160,10 @@
                                 </a>
                                 <div class="collapse" id="sidebarRoleAndPermissions">
                                     <ul class="nav-second-level">
-                                        <!-- ================ Permissions ================ -->
-                                        <li>
-                                            <a href="{{ route('permissions.index') }}">Permissions</a>
+                                        <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
+                                        <li><a href="{{ route('roles.index') }}">Roles</a></li>
+                                        <li><a href="{{ route('role-has-permissions.index') }}">Roles Permission</a>
                                         </li>
-                                        <!-- ================ End of Permissions ================ -->
-                                        <!-- ================ Roles ================ -->
-                                        <li>
-                                            <a href="{{ route('roles.index') }}">Roles</a>
-                                        </li>
-                                        <!-- ================ End of Roles ================ -->
                                     </ul>
                                 </div>
                             </li>

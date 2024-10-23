@@ -1,0 +1,37 @@
+/* Background dan border untuk Select2 */
+.select2-container--default .select2-selection--single {
+    background-color: #3c4752;
+    /* Warna latar belakang */
+    border: 1px solid #3c4752;
+    /* Warna border */
+    color: #3c4752;
+    /* Warna teks */
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+    color: #ffffff;
+    /* Warna teks yang ditampilkan */
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+    background-color: #3c4752;
+    /* Warna latar belakang panah */
+}
+
+.select2-container--default .select2-results__option {
+    background-color: #3c4752;
+    /* Warna latar belakang opsi */
+    color: #ffffff;
+    /* Warna teks opsi */
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: #444;
+    /* Warna latar belakang saat opsi disorot */
+    color: #fff;
+    /* Warna teks saat disorot */
+}

@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleHasPermissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'logUserActivity'])->group(function () {
 
     Route::resource('permissions', PermissionController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('role-has-permissions', RoleHasPermissionController::class);
 });
 
 
