@@ -24,7 +24,6 @@ class RoleHasPermissionController extends Controller
     public function create()
     {
         $roles = Role::all();
-        $permissionGroups = Permission::ByGroupName();
         return view('backend.role_has_permissions.create', compact('roles', 'permissionGroups'));
     }
 
